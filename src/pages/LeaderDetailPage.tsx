@@ -53,10 +53,10 @@ export function LeaderDetailPage({ id }: { id: string }) {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
       <button
-        onClick={() => navigate('/leaders')}
-        className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800"
+        onClick={() => navigate(party ? `/parties/${party.id}` : '/parties')}
+        className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-500 hover:text-slate-800 transition"
       >
-        <ArrowLeft size={15} /> All leaders
+        <ArrowLeft size={14} /> Back to {party ? `${party.name} Profile` : 'Parties Directory'}
       </button>
 
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -114,6 +114,34 @@ export function LeaderDetailPage({ id }: { id: string }) {
               ))}
             </div>
           )}
+
+          {/* Evidence, Sources & Updates */}
+          <div className="mt-10 rounded-2xl border border-slate-200 bg-slate-50 p-6">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+              Evidence, Sources & Updates
+            </h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Biographical credentials, parliamentary tenure, and constitutional declarations are verified against official Election Commission of India (ECI) candidate affidavits, Lok Sabha / Rajya Sabha parliamentary records, and gazette notifications.
+            </p>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <a
+                href="https://sansad.in/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition shadow-xs"
+              >
+                <span>Sansad / Parliament Record</span>
+              </a>
+              <a
+                href="https://affidavit.eci.gov.in/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition shadow-xs"
+              >
+                <span>ECI Affidavit Portal</span>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

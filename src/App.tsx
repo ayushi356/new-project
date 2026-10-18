@@ -11,6 +11,8 @@ import { WorkDetailPage } from '@/pages/WorkDetailPage';
 import { YojnasPage } from '@/pages/YojnasPage';
 import { PromisesPage } from '@/pages/PromisesPage';
 import { IncidentsPage } from '@/pages/IncidentsPage';
+import { PublicMoneyPage } from '@/pages/PublicMoneyPage';
+import { MediaFreedomPage } from '@/pages/MediaFreedomPage';
 
 function App() {
   const route = useRoute();
@@ -49,6 +51,12 @@ function App() {
       break;
     case 'incidents':
       page = <IncidentsPage />;
+      break;
+    case 'public-money':
+      page = <PublicMoneyPage initialSection={route.section} />;
+      break;
+    case 'press-freedom':
+      page = <MediaFreedomPage />;
       break;
     default:
       page = <HomePage />;

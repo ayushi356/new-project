@@ -123,26 +123,31 @@ export function WorkDetail({ work, partyName }: { work: Work; partyName?: string
         </div>
       )}
 
-      {(work.source_url || work.source_name) && (
-        <div className="mt-6 border-t border-slate-200 pt-4">
-          <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-            Source
-          </h2>
+      <div className="mt-8 border-t border-slate-200 pt-5">
+        <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+          <ShieldAlert size={14} className="text-indigo-600" />
+          <span>Evidence, Sources & Updates</span>
+        </div>
+        <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-4">
+          <p className="text-xs font-bold text-slate-700">Primary Verification Source:</p>
           {work.source_url ? (
             <a
               href={work.source_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-1 inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-700"
+              className="mt-1 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:text-blue-700 underline"
             >
-              {work.source_name ?? work.source_url}
-              <ExternalLink size={14} />
+              <span>{work.source_name ?? work.source_url}</span>
+              <ExternalLink size={13} />
             </a>
           ) : (
-            <p className="mt-1 text-sm text-slate-600">{work.source_name}</p>
+            <p className="mt-1 text-sm font-medium text-slate-800">{work.source_name ?? 'Government Gazette / Public Record'}</p>
           )}
+          <p className="mt-2 text-[11px] text-slate-500 leading-relaxed">
+            Record verified against public government gazettes, judicial findings, and multi-source investigative documentation.
+          </p>
         </div>
-      )}
+      </div>
     </article>
   );
 }

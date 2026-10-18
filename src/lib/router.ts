@@ -11,7 +11,9 @@ export type Route =
   | { name: 'work'; id: string }
   | { name: 'yojnas' }
   | { name: 'promises' }
-  | { name: 'incidents' };
+  | { name: 'incidents' }
+  | { name: 'public-money'; section?: string }
+  | { name: 'press-freedom' };
 
 function parseHash(): Route {
   const hash = window.location.hash.replace(/^#\/?/, '');
@@ -30,6 +32,8 @@ function parseHash(): Route {
   if (parts[0] === 'yojnas') return { name: 'yojnas' };
   if (parts[0] === 'promises') return { name: 'promises' };
   if (parts[0] === 'incidents') return { name: 'incidents' };
+  if (parts[0] === 'public-money') return { name: 'public-money', section: parts[1] };
+  if (parts[0] === 'press-freedom') return { name: 'press-freedom' };
   return { name: 'home' };
 }
 

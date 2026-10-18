@@ -1,16 +1,17 @@
-import { Landmark, Scale, Users, Info, Home, Menu, X, FileText, BadgeCheck, Flame } from 'lucide-react';
+import { Landmark, Scale, Info, Home, Menu, X, FileText, BadgeCheck, Flame, Coins, Newspaper } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate, useRoute } from '@/lib/router';
 
 const links = [
   { path: '/', label: 'Home', icon: Home },
-  { path: '/about', label: 'About', icon: Info },
   { path: '/parties', label: 'Parties', icon: Landmark },
-  { path: '/leaders', label: 'Leaders', icon: Users },
   { path: '/works', label: 'Works & Records', icon: Scale },
+  { path: '/public-money', label: 'Tax & Public Money', icon: Coins },
+  { path: '/press-freedom', label: 'Press Freedom', icon: Newspaper },
   { path: '/yojnas', label: 'Yojnas', icon: FileText },
   { path: '/promises', label: 'Promises', icon: BadgeCheck },
-  { path: '/incidents', label: 'Incidents & Cases', icon: Flame },
+  { path: '/incidents', label: 'Incidents & Protests', icon: Flame },
+  { path: '/about', label: 'About', icon: Info },
 ] as const;
 
 export function Navbar() {
@@ -49,7 +50,7 @@ export function Navbar() {
           </span>
         </button>
 
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center gap-0.5 md:flex xl:gap-1">
           {links.map((l) => {
             const Icon = l.icon;
             const active = isActive(l.path);
@@ -57,13 +58,13 @@ export function Navbar() {
               <button
                 key={l.path}
                 onClick={() => handleNav(l.path)}
-                className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                className={`flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-xs xl:px-2.5 xl:py-2 xl:text-sm font-medium transition-colors ${
                   active
                     ? 'bg-slate-900 text-white'
                     : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                 }`}
               >
-                <Icon size={16} />
+                <Icon size={15} />
                 {l.label}
               </button>
             );
