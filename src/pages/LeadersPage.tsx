@@ -107,12 +107,11 @@ export function LeadersPage() {
                 </div>
                 <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-slate-600">{l.bio}</p>
                 {party && (
-                  <div className="mt-4 flex items-center gap-2 border-t border-slate-100 pt-3">
-                    <span
-                      className="h-2.5 w-2.5 rounded-full"
-                      style={{ backgroundColor: party.color_hex ?? '#1f2937' }}
-                    />
-                    <span className="text-xs font-medium text-slate-600">{party.name}</span>
+                  <div className="mt-4 flex items-center gap-2 border-t border-[#E5E0D8] pt-3">
+                    <span className="rounded-md border border-[#E5E0D8] bg-[#F5F2EB] px-1.5 py-0.5 text-[10px] font-bold text-[#181A19]">
+                      {party.abbreviation}
+                    </span>
+                    <span className="text-xs font-medium text-[#5C6460]">{party.name}</span>
                   </div>
                 )}
               </button>

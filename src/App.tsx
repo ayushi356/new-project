@@ -13,6 +13,7 @@ import { PromisesPage } from '@/pages/PromisesPage';
 import { IncidentsPage } from '@/pages/IncidentsPage';
 import { PublicMoneyPage } from '@/pages/PublicMoneyPage';
 import { MediaFreedomPage } from '@/pages/MediaFreedomPage';
+import { EnvironmentPage } from '@/pages/EnvironmentPage';
 
 function App() {
   const route = useRoute();
@@ -58,12 +59,15 @@ function App() {
     case 'press-freedom':
       page = <MediaFreedomPage />;
       break;
+    case 'environment':
+      page = <EnvironmentPage />;
+      break;
     default:
       page = <HomePage />;
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-white text-slate-900">
+    <div className="flex min-h-screen flex-col bg-[#FAF8F5] text-[#181A19]">
       <Navbar />
       <main className="flex-1">{page}</main>
       <Footer />

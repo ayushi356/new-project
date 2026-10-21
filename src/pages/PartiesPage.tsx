@@ -13,6 +13,7 @@ import {
   MapPin,
   ExternalLink,
   ShieldCheck,
+  Search,
 } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import { supabase, type Leader } from '@/lib/supabase';
@@ -100,50 +101,48 @@ export function PartiesPage() {
 
   if (loading)
     return (
-      <div className="flex justify-center py-24 text-slate-400">
-        <Loader className="h-8 w-8 animate-spin" />
+      <div className="flex justify-center py-24 text-[#717A74]">
+        <Loader className="h-8 w-8 animate-spin text-[#1A3D2F]" />
       </div>
     );
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-slate-200 pb-5 gap-4">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-[#E5E0D8] pb-5 gap-4">
         <div>
-          <div className="flex items-center gap-2 text-slate-500 font-semibold text-xs tracking-wider uppercase">
-            <Landmark size={16} />
-            <span>Political Dossiers & Leadership</span>
+          <div className="text-[#1A3D2F] font-bold text-xs tracking-wider uppercase">
+            Political Dossiers & Leadership Profiles
           </div>
-          <h1 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+          <h1 className="mt-2 font-serif text-3xl sm:text-4xl font-extrabold tracking-tight text-[#181A19]">
             Browse by Political Parties
           </h1>
-          <p className="mt-2 max-w-2xl text-sm sm:text-base text-slate-600 leading-relaxed">
-            Explore major national and regional political parties, their tracked governance tenures, policy records, and prominent leadership figures.
+          <p className="mt-2 max-w-2xl text-sm sm:text-base text-[#4A524D] leading-relaxed">
+            Explore major national and regional political parties, their tracked governance tenures, policy records, and prominent leadership figures through 2026.
           </p>
         </div>
 
         {/* View Switcher: Parties vs Leaders under Parties */}
-        <div className="flex items-center gap-1 rounded-xl bg-slate-100 p-1 self-start sm:self-auto shrink-0 border border-slate-200">
+        <div className="flex items-center gap-1 rounded-xl bg-[#F4F1EA] p-1 self-start sm:self-auto shrink-0 border border-[#E5E0D8]">
           <button
             onClick={() => setViewMode('parties')}
-            className={`rounded-lg px-3.5 py-2 text-xs font-bold transition flex items-center gap-1.5 ${
+            className={`rounded-lg px-3.5 py-2 text-xs font-bold transition cursor-pointer ${
               viewMode === 'parties'
-                ? 'bg-white text-slate-900 shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-[#1A3D2F] text-white shadow-2xs'
+                : 'text-[#4A524D] hover:text-[#181A19]'
             }`}
           >
-            <Landmark size={14} />
-            <span>Party Dossiers ({parties.length})</span>
+            Party Dossiers ({parties.length})
           </button>
           <button
             onClick={() => setViewMode('leaders')}
-            className={`rounded-lg px-3.5 py-2 text-xs font-bold transition flex items-center gap-1.5 ${
+            className={`rounded-lg px-3.5 py-2 text-xs font-bold transition cursor-pointer ${
               viewMode === 'leaders'
-                ? 'bg-white text-slate-900 shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-[#1A3D2F] text-white shadow-2xs'
+                : 'text-[#4A524D] hover:text-[#181A19]'
             }`}
           >
-            <UsersIcon size={14} />
-            <span>Leaders by Party ({leaders.length})</span>
+            Leaders by Party ({leaders.length})
           </button>
         </div>
       </div>
@@ -160,26 +159,23 @@ export function PartiesPage() {
             return (
               <div
                 key={p.id}
-                className="flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md hover:border-slate-300"
+                className="flex flex-col justify-between rounded-2xl border border-[#E5E0D8] bg-white p-6 shadow-2xs transition hover:shadow-md hover:border-[#C8C2B5]"
               >
                 <div>
                   {/* Header */}
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-3">
-                      <span
-                        className="flex h-12 w-12 items-center justify-center rounded-xl text-base font-bold text-white shadow-xs"
-                        style={{ backgroundColor: p.color_hex ?? '#1f2937' }}
-                      >
+                      <span className="flex h-11 w-11 items-center justify-center rounded-lg border border-[#E5E0D8] bg-[#F5F2EB] text-sm font-bold text-[#181A19]">
                         {p.abbreviation.slice(0, 4)}
                       </span>
                       <div>
                         <h2
-                          className="text-lg font-bold text-slate-900 hover:text-blue-600 transition cursor-pointer"
+                          className="font-serif text-xl font-bold text-[#181A19] hover:text-[#1A3D2F] transition cursor-pointer"
                           onClick={() => navigate(`/parties/${p.id}`)}
                         >
                           {p.name}
                         </h2>
-                        <span className="inline-block mt-0.5 text-xs font-semibold text-slate-500">
+                        <span className="inline-block mt-0.5 text-xs font-semibold text-[#717A74]">
                           Founded {p.founded_year ?? '—'} • {p.abbreviation}
                         </span>
                       </div>
@@ -187,35 +183,32 @@ export function PartiesPage() {
 
                     <button
                       onClick={() => navigate(`/parties/${p.id}`)}
-                      className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition shrink-0"
+                      className="inline-flex items-center gap-1 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] px-3 py-1.5 text-xs font-bold text-[#1A3D2F] hover:bg-[#E8F0EC] transition shrink-0 cursor-pointer"
                     >
                       <span>View Dossier</span>
                       <ArrowRight size={13} />
                     </button>
                   </div>
 
-                  <p className="mt-4 text-sm leading-relaxed text-slate-600 line-clamp-3">
+                  <p className="mt-4 text-xs sm:text-sm leading-relaxed text-[#4A524D] line-clamp-3">
                     {p.description}
                   </p>
 
                   {p.ideology && (
                     <div className="mt-3">
-                      <span className="inline-block rounded-md bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">
+                      <span className="inline-block rounded-md bg-[#FAF8F5] border border-[#E5E0D8] px-2.5 py-1 text-xs font-semibold text-[#4A524D]">
                         {p.ideology}
                       </span>
                     </div>
                   )}
 
                   {/* Prominent Leaders Visible under this Party */}
-                  <div className="mt-5 rounded-xl border border-slate-100 bg-slate-50/70 p-3.5">
-                    <div className="flex items-center justify-between text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
-                      <span className="flex items-center gap-1.5">
-                        <UsersIcon size={12} className="text-slate-400" />
-                        <span>Key Leaders & Representatives</span>
-                      </span>
+                  <div className="mt-5 rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-3.5">
+                    <div className="flex items-center justify-between text-[11px] font-bold text-[#717A74] uppercase tracking-wider mb-2">
+                      <span>Key Leaders & Representatives</span>
                       <button
                         onClick={() => navigate(`/parties/${p.id}#leaders`)}
-                        className="text-blue-600 hover:underline lowercase font-semibold"
+                        className="text-[#1A3D2F] hover:underline lowercase font-semibold cursor-pointer"
                       >
                         view all ({partyLeadersList.length}) &rarr;
                       </button>
@@ -226,17 +219,14 @@ export function PartiesPage() {
                         <button
                           key={l.id}
                           onClick={() => navigate(`/leaders/${l.id}`)}
-                          className="group/btn inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-800 hover:border-blue-400 hover:text-blue-600 transition shadow-2xs"
+                          className="group/btn inline-flex items-center gap-1.5 rounded-lg border border-[#E5E0D8] bg-white px-2.5 py-1.5 text-xs font-semibold text-[#181A19] hover:border-[#1A3D2F] hover:text-[#1A3D2F] transition shadow-2xs cursor-pointer"
                         >
-                          <span
-                            className="flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold text-white"
-                            style={{ backgroundColor: p.color_hex ?? '#334155' }}
-                          >
+                          <span className="flex h-5 w-5 items-center justify-center rounded-full border border-[#E5E0D8] bg-[#F5F2EB] text-[10px] font-bold text-[#181A19]">
                             {l.name.charAt(0)}
                           </span>
                           <span>{l.name}</span>
-                          <span className="text-[10px] text-slate-400 group-hover/btn:text-blue-500">
-                            ({l.role.split('(')[0].trim().slice(0, 24)}...)
+                          <span className="text-[10px] text-[#717A74] group-hover/btn:text-[#1A3D2F]">
+                            ({(l.role ?? 'Leader').split('(')[0].trim().slice(0, 22)}...)
                           </span>
                         </button>
                       ))}
@@ -245,23 +235,23 @@ export function PartiesPage() {
                 </div>
 
                 {/* Multi-pillar Stats Bar */}
-                <div className="mt-6 border-t border-slate-100 pt-4">
+                <div className="mt-6 border-t border-[#F0ECE1] pt-4">
                   <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 text-center">
                     <div
                       onClick={() => navigate(`/parties/${p.id}#leaders`)}
-                      className="rounded-lg bg-slate-50 p-2 hover:bg-slate-100 transition cursor-pointer"
+                      className="rounded-lg bg-[#FAF8F5] p-2 hover:bg-[#E8F0EC] transition cursor-pointer"
                     >
-                      <p className="text-sm font-bold text-slate-900">{c?.leader_count ?? 0}</p>
-                      <p className="text-[10px] uppercase tracking-wide text-slate-500 flex items-center justify-center gap-1 mt-0.5">
+                      <p className="text-sm font-bold text-[#181A19]">{c?.leader_count ?? 0}</p>
+                      <p className="text-[10px] uppercase tracking-wide text-[#717A74] flex items-center justify-center gap-1 mt-0.5">
                         <UsersIcon size={10} /> Leaders
                       </p>
                     </div>
                     <div
                       onClick={() => navigate(`/parties/${p.id}#works`)}
-                      className="rounded-lg bg-slate-50 p-2 hover:bg-slate-100 transition cursor-pointer"
+                      className="rounded-lg bg-[#FAF8F5] p-2 hover:bg-[#E8F0EC] transition cursor-pointer"
                     >
-                      <p className="text-sm font-bold text-slate-900">{c?.work_count ?? 0}</p>
-                      <p className="text-[10px] uppercase tracking-wide text-slate-500 flex items-center justify-center gap-1 mt-0.5">
+                      <p className="text-sm font-bold text-[#181A19]">{c?.work_count ?? 0}</p>
+                      <p className="text-[10px] uppercase tracking-wide text-[#717A74] flex items-center justify-center gap-1 mt-0.5">
                         Works
                       </p>
                     </div>
@@ -276,19 +266,19 @@ export function PartiesPage() {
                     </div>
                     <div
                       onClick={() => navigate(`/parties/${p.id}#promises-schemes`)}
-                      className="rounded-lg bg-slate-50 p-2 hover:bg-slate-100 transition cursor-pointer"
+                      className="rounded-lg bg-[#FAF8F5] p-2 hover:bg-[#E8F0EC] transition cursor-pointer"
                     >
-                      <p className="text-sm font-bold text-slate-900">{c?.yojna_count ?? 0}</p>
-                      <p className="text-[10px] uppercase tracking-wide text-slate-500 flex items-center justify-center gap-1 mt-0.5">
+                      <p className="text-sm font-bold text-[#181A19]">{c?.yojna_count ?? 0}</p>
+                      <p className="text-[10px] uppercase tracking-wide text-[#717A74] flex items-center justify-center gap-1 mt-0.5">
                         <FileText size={10} /> Yojnas
                       </p>
                     </div>
                     <div
                       onClick={() => navigate(`/parties/${p.id}#promises-schemes`)}
-                      className="rounded-lg bg-slate-50 p-2 hover:bg-slate-100 transition cursor-pointer"
+                      className="rounded-lg bg-[#FAF8F5] p-2 hover:bg-[#E8F0EC] transition cursor-pointer"
                     >
-                      <p className="text-sm font-bold text-slate-900">{c?.promise_count ?? 0}</p>
-                      <p className="text-[10px] uppercase tracking-wide text-slate-500 flex items-center justify-center gap-1 mt-0.5">
+                      <p className="text-sm font-bold text-[#181A19]">{c?.promise_count ?? 0}</p>
+                      <p className="text-[10px] uppercase tracking-wide text-[#717A74] flex items-center justify-center gap-1 mt-0.5">
                         <BadgeCheck size={10} /> Promises
                       </p>
                     </div>
@@ -305,17 +295,20 @@ export function PartiesPage() {
           ======================================================== */}
       {viewMode === 'leaders' && (
         <div className="mt-8 space-y-10">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-xs">
-            <p className="text-xs text-slate-600">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-[#E5E0D8] bg-white p-4 shadow-2xs">
+            <p className="text-xs text-[#4A524D]">
               Showing key party leaders organized under each respective political party. Click any leader to view their complete dossier, verified works, and parliamentary records.
             </p>
-            <input
-              type="text"
-              placeholder="Search leader by name, constituency, role..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-hidden min-w-[280px]"
-            />
+            <div className="relative">
+              <Search size={14} className="absolute left-3 top-3 text-[#717A74]" />
+              <input
+                type="text"
+                placeholder="Search leader by name, constituency, role..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] pl-8 pr-3.5 py-2 text-xs text-[#181A19] placeholder-[#717A74] focus:bg-white focus:outline-hidden min-w-[280px]"
+              />
+            </div>
           </div>
 
           {parties.map((p) => {
@@ -325,76 +318,70 @@ export function PartiesPage() {
             return (
               <div
                 key={p.id}
-                className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs space-y-5"
+                className="rounded-2xl border border-[#E5E0D8] bg-white p-6 shadow-2xs space-y-5"
               >
                 {/* Party Section Banner */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#F0ECE1] pb-4 gap-3">
                   <div className="flex items-center gap-3">
-                    <span
-                      className="flex h-11 w-11 items-center justify-center rounded-xl text-sm font-bold text-white shadow-xs"
-                      style={{ backgroundColor: p.color_hex ?? '#1f2937' }}
-                    >
+                    <span className="flex h-11 w-11 items-center justify-center rounded-lg border border-[#E5E0D8] bg-[#F5F2EB] text-sm font-bold text-[#181A19]">
                       {p.abbreviation.slice(0, 4)}
                     </span>
                     <div>
-                      <h2 className="text-xl font-bold text-slate-900">{p.name}</h2>
-                      <p className="text-xs text-slate-500">{p.ideology ?? 'National Party'}</p>
+                      <h2 className="font-serif text-xl font-bold text-[#181A19]">{p.name}</h2>
+                      <p className="text-xs text-[#717A74]">
+                        {partyLeaders.length} leader{partyLeaders.length !== 1 ? 's' : ''} tracked under this party
+                      </p>
                     </div>
                   </div>
 
                   <button
                     onClick={() => navigate(`/parties/${p.id}`)}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-700"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] px-3.5 py-2 text-xs font-bold text-[#1A3D2F] hover:bg-[#E8F0EC] transition self-start sm:self-auto cursor-pointer"
                   >
-                    <span>Explore {p.abbreviation} Full Party Profile (7 Pillars)</span>
+                    <span>View Full Party Dossier</span>
                     <ArrowRight size={13} />
                   </button>
                 </div>
 
-                {/* Leaders Grid for this Party */}
+                {/* Leaders Grid under this party */}
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {partyLeaders.map((l) => (
                     <div
                       key={l.id}
                       onClick={() => navigate(`/leaders/${l.id}`)}
-                      className="group flex flex-col justify-between rounded-xl border border-slate-200 bg-slate-50/50 p-4 transition hover:-translate-y-0.5 hover:bg-white hover:border-slate-300 hover:shadow-md cursor-pointer"
+                      className="group flex flex-col justify-between rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-4 transition hover:bg-white hover:border-[#1A3D2F] hover:shadow-xs cursor-pointer"
                     >
                       <div>
-                        <div className="flex items-start gap-3">
-                          <span
-                            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-base font-bold text-white shadow-xs"
-                            style={{ backgroundColor: p.color_hex ?? '#334155' }}
-                          >
-                            {l.name.charAt(0)}
+                        <div className="flex items-start justify-between gap-2">
+                          <h3 className="font-serif text-base font-bold text-[#181A19] group-hover:text-[#1A3D2F] transition">
+                            {l.name}
+                          </h3>
+                          <span className="rounded-md border border-[#E5E0D8] bg-[#F5F2EB] px-2 py-0.5 text-[10px] font-bold text-[#181A19] shrink-0">
+                            {p.abbreviation}
                           </span>
-                          <div className="min-w-0">
-                            <h3 className="font-bold text-slate-900 text-sm group-hover:text-blue-600 transition truncate">
-                              {l.name}
-                            </h3>
-                            <p className="text-xs text-slate-600 mt-0.5 line-clamp-1">{l.role}</p>
-                            {l.represents && (
-                              <p className="text-[11px] text-slate-400 mt-1 flex items-center gap-1 truncate">
-                                <MapPin size={10} /> {l.represents}
-                              </p>
-                            )}
-                          </div>
                         </div>
 
+                        <p className="mt-1 text-xs font-semibold text-[#1A3D2F]">
+                          {l.role}
+                        </p>
+
+                        {l.represents && (
+                          <div className="mt-2 flex items-center gap-1 text-[11px] text-[#717A74]">
+                            <MapPin size={11} className="shrink-0 text-[#1A3D2F]" />
+                            <span className="truncate">{l.represents}</span>
+                          </div>
+                        )}
+
                         {l.bio && (
-                          <p className="mt-3 text-xs leading-relaxed text-slate-600 line-clamp-2">
+                          <p className="mt-2 text-xs text-[#4A524D] line-clamp-2 leading-relaxed">
                             {l.bio}
                           </p>
                         )}
                       </div>
 
-                      <div className="mt-4 pt-2.5 border-t border-slate-200/60 flex items-center justify-between text-[11px]">
-                        <span className="font-semibold text-slate-500 flex items-center gap-1">
-                          <ShieldCheck size={12} className="text-indigo-600" />
-                          Individual Dossier
-                        </span>
-                        <span className="font-semibold text-blue-600 group-hover:underline">
-                          View Record &rarr;
-                        </span>
+                      <div className="mt-4 pt-2.5 border-t border-[#E5E0D8] flex items-center justify-between text-xs font-bold text-[#1A3D2F]">
+                        <span>View complete dossier</span>
+                        <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
                       </div>
                     </div>
                   ))}

@@ -62,21 +62,26 @@ export function WorksPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-      <div className="flex items-center gap-2 text-slate-500">
-        <Scale size={18} />
-        <span className="text-sm font-medium">Works & records</span>
-      </div>
-      <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
-        The works — good and bad
-      </h1>
-      <p className="mt-2 max-w-2xl text-slate-600">
-        Every major action, scheme, reform, scam and misstep, with the impact
-        on the economy and a link to the source. Filter to compare.
-      </p>
+      <div className="flex flex-col gap-2 border-b border-[#E5E0D8] pb-5">
+        <div className="flex items-center gap-2 text-[#1A3D2F] font-bold text-xs tracking-wider uppercase">
+          <Scale size={16} />
+          <span>Works, Projects & Policy Reforms</span>
+        </div>
+        <h1 className="font-serif text-3xl sm:text-4xl font-extrabold tracking-tight text-[#181A19]">
+          The Works — Achievements & Critical Scrutiny
+        </h1>
+        <p className="mt-1 max-w-2xl text-sm sm:text-base text-[#4A524D] leading-relaxed">
+          Every major legislative reform, national infrastructure project, welfare rollout, and documented concern — complete with measured impact and direct citations to official primary sources through 2026.
+        </p>
 
-      <div className="mt-4 flex gap-4 text-sm">
-        <span><strong className="text-emerald-700">{counts.good}</strong> positive</span>
-        <span><strong className="text-red-700">{counts.bad}</strong> concerns</span>
+        <div className="mt-3 flex gap-4 text-xs font-semibold">
+          <span className="rounded-md bg-emerald-50 border border-emerald-200 px-2.5 py-1 text-emerald-800">
+            <strong>{counts.good}</strong> Documented Achievements
+          </span>
+          <span className="rounded-md bg-rose-50 border border-rose-200 px-2.5 py-1 text-rose-800">
+            <strong>{counts.bad}</strong> Areas of Concern / Scrutiny
+          </span>
+        </div>
       </div>
 
       {/* Filters */}

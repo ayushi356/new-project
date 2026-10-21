@@ -13,7 +13,8 @@ export type Route =
   | { name: 'promises' }
   | { name: 'incidents' }
   | { name: 'public-money'; section?: string }
-  | { name: 'press-freedom' };
+  | { name: 'press-freedom' }
+  | { name: 'environment' };
 
 function parseHash(): Route {
   const hash = window.location.hash.replace(/^#\/?/, '');
@@ -34,6 +35,7 @@ function parseHash(): Route {
   if (parts[0] === 'incidents') return { name: 'incidents' };
   if (parts[0] === 'public-money') return { name: 'public-money', section: parts[1] };
   if (parts[0] === 'press-freedom') return { name: 'press-freedom' };
+  if (parts[0] === 'environment') return { name: 'environment' };
   return { name: 'home' };
 }
 

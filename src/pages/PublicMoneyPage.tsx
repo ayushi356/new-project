@@ -40,6 +40,17 @@ import type {
   GovLevel,
 } from '@/types/finance';
 import { useNavigate } from '@/lib/router';
+import { AccessibleChart } from '@/components/AccessibleChart';
+
+const CAPEX_TREND_DATA = [
+  { label: '2014-15', value: 1.96, note: '₹1.96L Cr (11.8% of Total Budget)', color: '#1A3D2F' },
+  { label: '2016-17', value: 2.84, note: '₹2.84L Cr (14.4% of Total Budget)', color: '#1A3D2F' },
+  { label: '2018-19', value: 3.03, note: '₹3.03L Cr (13.1% of Total Budget)', color: '#1A3D2F' },
+  { label: '2020-21', value: 4.12, note: '₹4.12L Cr (11.7% - Pandemic Relief)', color: '#1A3D2F' },
+  { label: '2022-23', value: 7.36, note: '₹7.36L Cr (17.6% of Total Budget)', color: '#1A3D2F' },
+  { label: '2024-25', value: 11.11, note: '₹11.11L Cr RE (23.0% of Total Budget)', color: '#1A3D2F' },
+  { label: '2025-26', value: 11.90, note: '₹11.90L Cr BE (23.3% of Total Budget)', color: '#1A3D2F' },
+];
 
 // Icon resolver for sections
 function getSectionIcon(iconName: string) {
@@ -85,35 +96,35 @@ function getFigureTypeBadge(type: FigureType) {
       return {
         label: 'Budget Estimate (BE)',
         short: 'BE',
-        className: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+        className: 'bg-[#FAF8F5] text-[#181A19] border-[#E5E0D8]',
         hint: 'Legislative ceiling authorized by Parliament',
       };
     case 'revised_estimate':
       return {
         label: 'Revised Estimate (RE)',
         short: 'RE',
-        className: 'bg-amber-50 text-amber-700 border-amber-200',
+        className: 'bg-[#FAF8F5] text-[#181A19] border-[#E5E0D8]',
         hint: 'Mid-year recalibration based on actual inflows',
       };
     case 'actual':
       return {
         label: 'Audited Actual Spend',
         short: 'Actual',
-        className: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+        className: 'bg-[#F5F2EB] text-[#1A3D2F] border-[#D5CFBF] font-semibold',
         hint: 'Audited cash disbursements recorded through CGA',
       };
     case 'reported_finding':
       return {
         label: 'CAG / PAC Audit Observation',
         short: 'CAG Finding',
-        className: 'bg-rose-50 text-rose-700 border-rose-200',
+        className: 'bg-[#FAF8F5] text-[#B45309] border-[#D5CFBF] font-semibold',
         hint: 'Documented observation table-laid in Parliament',
       };
     case 'calculated_metric':
       return {
         label: 'Calculated Fiscal Metric',
         short: 'Derived Ratio',
-        className: 'bg-sky-50 text-sky-700 border-sky-200',
+        className: 'bg-[#FAF8F5] text-[#5C645E] border-[#E5E0D8]',
         hint: 'Derived metric (e.g. % of GDP or growth rate)',
       };
   }
@@ -267,31 +278,21 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
   }, [activeSection]);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 pb-20">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#181A19] pb-20">
       {/* 1. Hero Section */}
-      <section className="relative overflow-hidden bg-slate-900 text-white">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950" />
-        <div
-          className="absolute inset-0 opacity-[0.08]"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle at 15% 25%, white 1.5px, transparent 1.5px), radial-gradient(circle at 75% 75%, white 1.5px, transparent 1.5px)',
-            backgroundSize: '36px 36px, 48px 48px',
-          }}
-        />
-
-        <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
+      <section className="relative overflow-hidden bg-[#F4F1EA] border-b border-[#E5E0D8] text-[#181A19] py-12 sm:py-16">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3.5 py-1 text-xs font-semibold text-emerald-300">
-              <Coins size={14} className="text-emerald-400" />
-              <span>Public Treasury & Citizen Accountability</span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#1A3D2F]/20 bg-[#1A3D2F]/5 px-3.5 py-1 text-xs font-semibold text-[#1A3D2F]">
+              <Coins size={14} className="text-[#1A3D2F]" />
+              <span>Public Treasury & Citizen Accountability · Article 112 & 151</span>
             </div>
 
-            <h1 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
+            <h1 className="mt-4 font-serif text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl text-[#181A19]">
               Tax & Public Money
             </h1>
 
-            <p className="mt-4 text-base leading-relaxed text-slate-300 sm:text-lg">
+            <p className="mt-4 text-base leading-relaxed text-[#4A524D] sm:text-lg">
               Public money belongs to the people of India. Explore how national revenues are
               collected, allocated to ministries, spent on infrastructure, reviewed by independent
               auditors (CAG), and devolved to states — with clear distinctions between budget
@@ -301,7 +302,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <button
                 onClick={() => setShowGlossary((v) => !v)}
-                className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-xs font-semibold text-white backdrop-blur-sm transition hover:bg-white/20 border border-white/15"
+                className="inline-flex items-center gap-2 rounded-xl bg-[#1A3D2F] px-4 py-2 text-xs font-bold text-white shadow-2xs transition hover:bg-[#143025] cursor-pointer"
               >
                 <HelpCircle size={15} />
                 <span>{showGlossary ? 'Hide Budget Guide' : 'Citizen Budget Primer'}</span>
@@ -310,19 +311,19 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 href="https://www.indiabudget.gov.in/"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-slate-200 transition"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-[#D5CFBF] bg-white px-3.5 py-2 text-xs font-semibold text-[#181A19] shadow-2xs hover:bg-[#FAF8F5] transition"
               >
                 <span>Union Budget Official Portal</span>
-                <ExternalLink size={12} />
+                <ExternalLink size={12} className="text-[#1A3D2F]" />
               </a>
               <a
                 href="https://cag.gov.in/"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-slate-200 transition"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-[#D5CFBF] bg-white px-3.5 py-2 text-xs font-semibold text-[#181A19] shadow-2xs hover:bg-[#FAF8F5] transition"
               >
                 <span>CAG Official Reports</span>
-                <ExternalLink size={12} />
+                <ExternalLink size={12} className="text-[#1A3D2F]" />
               </a>
             </div>
           </div>
@@ -553,6 +554,72 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Visual Storytelling: Capital Spending Trend Chart */}
+      <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
+        <AccessibleChart
+          title="Union Capital Outlay (Infrastructure & Asset Creation) Trend: 2014 to 2026"
+          unit="₹ Lakh Crore"
+          referencePeriod="FY 2014-15 to FY 2025-26 (BE)"
+          takeaway="Central Capital Expenditure (railways, highways, defence equipment, port infrastructure) grew more than 6-fold from ₹1.96 Lakh Crore (11.8% of total budget) in 2014-15 to ₹11.90 Lakh Crore (23.3% of total budget) in 2025-26, reflecting a structural shift from routine administrative consumption toward productive national physical assets."
+          sourceName="Union Budget Receipts and Disbursements Statements & Controller General of Accounts (CGA) Audited Actuals"
+          sourceUrl="https://www.indiabudget.gov.in/"
+          limitations="FY 2024-25 figures represent Revised Estimates (RE) and FY 2025-26 represent Budget Estimates (BE) approved by Parliament; final audited actuals are confirmed by CGA 18-24 months after financial year conclusion."
+          data={CAPEX_TREND_DATA}
+        />
+      </section>
+
+      {/* Visual Storytelling: How Public Money Moves Through Government */}
+      <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-indigo-600">
+            <Coins size={14} />
+            <span>Civic Literacy: The 5-Stage Life of Public Money</span>
+          </div>
+          <h2 className="mt-1 text-xl font-bold text-slate-900">How Tax Money Moves Through Indian Government</h2>
+          <p className="mt-1 text-xs text-slate-600">
+            Understand how citizen taxes move from revenue collection to parliamentary authorization, actual ground release, and final constitutional audit.
+          </p>
+
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            <div className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-4 relative">
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#181A19] text-xs font-bold text-white mb-2">1</span>
+              <h3 className="font-serif font-bold text-[#181A19] text-xs">Revenue Inflow</h3>
+              <p className="text-[11px] text-[#5C645E] mt-1 leading-relaxed">
+                Taxes (GST, Income Tax, Corporate Tax) and non-tax receipts enter the Consolidated Fund of India (Article 266).
+              </p>
+            </div>
+            <div className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-4 relative">
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#1A3D2F] text-xs font-bold text-white mb-2">2</span>
+              <h3 className="font-serif font-bold text-[#181A19] text-xs">Budget Ceiling (BE)</h3>
+              <p className="text-[11px] text-[#5C645E] mt-1 leading-relaxed">
+                Parliament passes the Appropriation Bill in March. This authorizes maximum permissible spending, not cash spent.
+              </p>
+            </div>
+            <div className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-4 relative">
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#181A19] text-xs font-bold text-white mb-2">3</span>
+              <h3 className="font-serif font-bold text-[#181A19] text-xs">Mid-Year Review (RE)</h3>
+              <p className="text-[11px] text-[#5C645E] mt-1 leading-relaxed">
+                Ministries adjust targets in December based on ground pace, monsoon variations, and supplementary demand grants.
+              </p>
+            </div>
+            <div className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-4 relative">
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#1A3D2F] text-xs font-bold text-white mb-2">4</span>
+              <h3 className="font-serif font-bold text-[#181A19] text-xs">Actual Outflow</h3>
+              <p className="text-[11px] text-[#5C645E] mt-1 leading-relaxed">
+                Ministries release funds to contractors, states, and DBT bank accounts via CGA and PFMS accounting systems.
+              </p>
+            </div>
+            <div className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-4 relative">
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#B45309] text-xs font-bold text-white mb-2">5</span>
+              <h3 className="font-serif font-bold text-[#181A19] text-xs">CAG Constitutional Audit</h3>
+              <p className="text-[11px] text-[#5C645E] mt-1 leading-relaxed">
+                The Comptroller & Auditor General examines accounts for waste, delays, or unauthorized diversions, tabled before PAC.
+              </p>
+            </div>
           </div>
         </div>
       </section>

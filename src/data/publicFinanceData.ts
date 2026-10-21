@@ -109,25 +109,25 @@ export const FINANCIAL_SECTIONS: SectionMeta[] = [
 export const CITIZEN_RUPEE_BREAKDOWN = {
   financialYear: 'FY 2024-25 (Budget Estimates)',
   where1RupeeComesFrom: [
-    { source: 'Borrowings & Other Liabilities', paise: 27, color: '#f97316' },
-    { source: 'Goods & Services Tax (GST)', paise: 18, color: '#3b82f6' },
-    { source: 'Income Tax', paise: 19, color: '#10b981' },
-    { source: 'Corporation Tax', paise: 17, color: '#6366f1' },
-    { source: 'Non-Tax Receipts (RBI / PSUs)', paise: 9, color: '#8b5cf6' },
-    { source: 'Union Excise Duties', paise: 5, color: '#ec4899' },
-    { source: 'Customs Duties', paise: 4, color: '#eab308' },
-    { source: 'Non-Debt Capital Receipts', paise: 1, color: '#64748b' },
+    { source: 'Borrowings & Other Liabilities', paise: 27, color: '#B45309' }, // Muted Saffron for deficit liability
+    { source: 'Income Tax', paise: 19, color: '#1A3D2F' }, // Primary Forest Green
+    { source: 'Goods & Services Tax (GST)', paise: 18, color: '#275240' },
+    { source: 'Corporation Tax', paise: 17, color: '#366852' },
+    { source: 'Non-Tax Receipts (RBI / PSUs)', paise: 9, color: '#4B7F67' },
+    { source: 'Union Excise Duties', paise: 5, color: '#689880' },
+    { source: 'Customs Duties', paise: 4, color: '#87B09B' },
+    { source: 'Non-Debt Capital Receipts', paise: 1, color: '#A7C8B6' },
   ],
   where1RupeeGoes: [
-    { destination: 'Interest Payments on Past Debt', paise: 19, color: '#ef4444' },
-    { destination: 'States’ Share of Taxes & Duties', paise: 21, color: '#3b82f6' },
-    { destination: 'Central Sector Schemes (Full Central Funding)', paise: 16, color: '#10b981' },
-    { destination: 'Centrally Sponsored Schemes (Centre-State Sharing)', paise: 8, color: '#6366f1' },
-    { destination: 'Defence Outlay', paise: 8, color: '#14b8a6' },
-    { destination: 'Finance Commission & Other Transfers', paise: 9, color: '#8b5cf6' },
-    { destination: 'Subsidies (Food, Fertilizer, Fuel)', paise: 6, color: '#f59e0b' },
-    { destination: 'Pensions', paise: 4, color: '#64748b' },
-    { destination: 'Other Operational Expenditure', paise: 9, color: '#94a3b8' },
+    { destination: 'Interest Payments on Past Debt', paise: 19, color: '#B45309' }, // Muted Saffron for past debt servicing
+    { destination: 'States’ Share of Taxes & Duties', paise: 21, color: '#1A3D2F' }, // Primary Forest Green
+    { destination: 'Central Sector Schemes (Full Central Funding)', paise: 16, color: '#275240' },
+    { destination: 'Finance Commission & Other Transfers', paise: 9, color: '#366852' },
+    { destination: 'Centrally Sponsored Schemes (Centre-State Sharing)', paise: 8, color: '#4B7F67' },
+    { destination: 'Defence Outlay', paise: 8, color: '#5C9078' },
+    { destination: 'Subsidies (Food, Fertilizer, Fuel)', paise: 6, color: '#73A58D' },
+    { destination: 'Pensions', paise: 4, color: '#8EBBA5' },
+    { destination: 'Other Operational Expenditure', paise: 9, color: '#ABD1BD' },
   ],
   macroTotals: {
     totalBudgetOutlayCr: 4820512, // ₹48.21 Lakh Crore

@@ -17,7 +17,10 @@ import {
   Shield,
   Target,
   Sparkles,
+  Clock,
 } from 'lucide-react';
+import { InteractiveTimeline } from '@/components/InteractiveTimeline';
+import { LegalExplainerCards } from '@/components/LegalExplainerCards';
 
 const SEVERITY_META: Record<Incident['severity'], { label: string; icon: typeof ShieldAlert; tint: string }> = {
   extreme: { label: 'Extreme Severity', icon: ShieldAlert, tint: 'bg-red-50 text-red-700 border-red-200' },
@@ -33,7 +36,7 @@ export function IncidentsPage() {
   const [severityFilter, setSeverityFilter] = useState<string>('all');
   const [partyFilter, setPartyFilter] = useState<string>('all');
   const [categoryFilter, setCategoryFilter] = useState<'all' | 'protest' | 'violence' | 'crisis'>('all');
-  const [viewMode, setViewMode] = useState<'grouped' | 'list'>('grouped');
+  const [viewMode, setViewMode] = useState<'timeline' | 'grouped' | 'list'>('timeline');
 
   useEffect(() => {
     Promise.all([
@@ -127,17 +130,17 @@ export function IncidentsPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
       {/* Header */}
-      <div className="flex flex-col gap-2">
-        <div className="inline-flex items-center gap-2 text-rose-600 font-semibold text-xs tracking-wider uppercase">
+      <div className="flex flex-col gap-2 border-b border-[#E5E0D8] pb-5">
+        <div className="inline-flex items-center gap-2 text-rose-700 font-bold text-xs tracking-wider uppercase">
           <Flame size={16} />
-          <span>National Record of Crises & Protests</span>
+          <span>National Record of Crises & Public Accountability</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+        <h1 className="font-serif text-3xl sm:text-4xl font-extrabold tracking-tight text-[#181A19]">
           Major Incidents, Protests & Cases (Party-Wise)
         </h1>
-        <p className="mt-1 max-w-3xl text-base text-slate-600 leading-relaxed">
-          Chronological reporting of latest mass protests, civil agitations, violent riots, and state action crises across India.
-          Each record includes specific citizen demands, law-enforcement/state response, civilian impact, and court/police reportings, organized by the governing political party.
+        <p className="mt-1 max-w-3xl text-sm sm:text-base text-[#4A524D] leading-relaxed">
+          Chronological reporting of latest mass protests, civil agitations, violent crises, and institutional responses across India through 2026.
+          Each record details verified citizen demands, state/police action, casualty reporting, and judicial status, organized by governing party.
         </p>
       </div>
 
@@ -215,6 +218,17 @@ export function IncidentsPage() {
         {/* View Mode Toggle */}
         <div className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-0.5 text-xs font-medium">
           <button
+            onClick={() => setViewMode('timeline')}
+            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 transition ${
+              viewMode === 'timeline'
+                ? 'bg-white text-slate-900 shadow-sm font-semibold'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <Clock size={13} />
+            <span>Interactive Timeline</span>
+          </button>
+          <button
             onClick={() => setViewMode('grouped')}
             className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 transition ${
               viewMode === 'grouped'
@@ -259,23 +273,16 @@ export function IncidentsPage() {
               <button
                 key={p.id}
                 onClick={() => setPartyFilter(isSelected ? 'all' : p.id)}
-                className={`flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold transition border ${
+                className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-semibold transition border cursor-pointer ${
                   isSelected
-                    ? 'text-white border-transparent shadow-sm'
-                    : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                    ? 'bg-[#1A3D2F] text-white border-[#1A3D2F] shadow-xs'
+                    : 'bg-white text-[#181A19] border-[#E5E0D8] hover:bg-[#FAF8F5]'
                 }`}
-                style={{
-                  backgroundColor: isSelected ? p.color_hex ?? '#1f2937' : undefined,
-                }}
               >
-                <span
-                  className="h-2 w-2 rounded-full"
-                  style={{ backgroundColor: isSelected ? '#ffffff' : p.color_hex ?? '#1f2937' }}
-                />
                 <span>{p.abbreviation}</span>
                 <span
                   className={`rounded-full px-1.5 py-0.2 text-[10px] ${
-                    isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'
+                    isSelected ? 'bg-white/20 text-white' : 'bg-[#F5F2EB] text-[#5C6460]'
                   }`}
                 >
                   {count}
@@ -347,6 +354,11 @@ export function IncidentsPage() {
             Reset Filters
           </button>
         </div>
+      ) : viewMode === 'timeline' ? (
+        /* Interactive Timeline View */
+        <div className="mt-8">
+          <InteractiveTimeline incidents={filtered} partyMap={partyMap} />
+        </div>
       ) : viewMode === 'grouped' ? (
         /* Party-wise Grouped View */
         <div className="mt-8 space-y-12">
@@ -361,17 +373,13 @@ export function IncidentsPage() {
                 {/* Party Section Banner */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
                   <div className="flex items-center gap-3">
-                    <span
-                      className="h-4 w-4 rounded-full shadow-sm"
-                      style={{ backgroundColor: party?.color_hex ?? '#475569' }}
-                    />
                     <div>
                       <div className="flex items-center gap-2">
                         <h2 className="text-xl font-bold text-slate-900">
                           {party ? party.name : 'Other / Non-Partisan Records'}
                         </h2>
                         {party && (
-                          <span className="rounded-md bg-slate-200/70 px-2 py-0.5 text-xs font-semibold text-slate-700">
+                          <span className="rounded-md border border-[#E5E0D8] bg-[#F5F2EB] px-2 py-0.5 text-xs font-bold text-[#181A19]">
                             {party.abbreviation}
                           </span>
                         )}
@@ -426,6 +434,11 @@ export function IncidentsPage() {
           })}
         </div>
       )}
+
+      {/* Explainer Cards for Legal & Judicial Concepts */}
+      <div className="mt-14 pt-8 border-t border-slate-200">
+        <LegalExplainerCards />
+      </div>
     </div>
   );
 }
@@ -452,12 +465,8 @@ function IncidentCard({
             {party && (
               <button
                 onClick={() => onNavigate(`/parties/${party.id}`)}
-                className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition"
+                className="inline-flex items-center rounded-md border border-[#E5E0D8] bg-[#F5F2EB] px-2 py-0.5 text-xs font-bold text-[#181A19] hover:bg-[#E8F0EC] transition"
               >
-                <span
-                  className="h-2 w-2 rounded-full"
-                  style={{ backgroundColor: party.color_hex ?? '#1f2937' }}
-                />
                 <span>{party.abbreviation}</span>
               </button>
             )}

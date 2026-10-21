@@ -1,3 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-padding-top: 5rem;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #FAF8F5;
+    color: #181A19;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, .font-editorial {
+    font-family: 'Newsreader', Georgia, serif;
+    letter-spacing: -0.015em;
+  }
+}
+
+/* Subtle editorial scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAF8F5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D5CEBF;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1A3D2F;
+}

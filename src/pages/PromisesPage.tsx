@@ -62,18 +62,18 @@ export function PromisesPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-      <div className="flex items-center gap-2 text-slate-500">
-        <BadgeCheck size={18} />
-        <span className="text-sm font-medium">Election Promises</span>
+      <div className="flex flex-col gap-2 border-b border-[#E5E0D8] pb-5">
+        <div className="flex items-center gap-2 text-[#1A3D2F] font-bold text-xs tracking-wider uppercase">
+          <BadgeCheck size={16} />
+          <span>Election Manifesto Delivery Tracker</span>
+        </div>
+        <h1 className="font-serif text-3xl sm:text-4xl font-extrabold tracking-tight text-[#181A19]">
+          Promises Made — What Was Delivered vs Abandoned
+        </h1>
+        <p className="mt-1 max-w-2xl text-sm sm:text-base text-[#4A524D] leading-relaxed">
+          Every election campaign sees massive promises. This tracker records whether each manifesto pledge was kept, partially enacted, stalled, or quietly abandoned once in office through 2026.
+        </p>
       </div>
-      <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
-        Promises made — and what happened
-      </h1>
-      <p className="mt-2 max-w-2xl text-slate-600">
-        Politicians make big promises during elections. Here we track whether
-        each promise was kept, broken, partially fulfilled, or quietly
-        abandoned once in power.
-      </p>
 
       {/* Summary */}
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -148,9 +148,9 @@ export function PromisesPage() {
                   </span>
                 </div>
                 {party && (
-                  <button onClick={() => navigate(`/parties/${party.id}`)} className="mt-1 flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-700">
-                    <span className="h-2 w-2 rounded-full" style={{ backgroundColor: party.color_hex ?? '#1f2937' }} />
-                    {party.name}
+                  <button onClick={() => navigate(`/parties/${party.id}`)} className="mt-1 flex items-center gap-1.5 text-xs text-[#5C6460] hover:text-[#181A19]">
+                    <span className="rounded-md border border-[#E5E0D8] bg-[#F5F2EB] px-1.5 py-0.2 text-[10px] font-bold text-[#181A19]">{party.abbreviation}</span>
+                    <span>{party.name}</span>
                   </button>
                 )}
                 <p className="mt-3 text-sm leading-relaxed text-slate-600">{pr.description}</p>
