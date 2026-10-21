@@ -79,24 +79,24 @@ export function AccessibleChart({
         <div className="inline-flex rounded-lg border border-[#E5E0D8] bg-[#F5F2EB] p-0.5 text-xs font-semibold shrink-0">
           <button
             onClick={() => setViewMode('chart')}
-            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 transition ${
+            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 transition cursor-pointer ${
               viewMode === 'chart'
                 ? 'bg-white text-[#181A19] shadow-xs font-bold'
                 : 'text-[#5C6460] hover:text-[#181A19]'
             }`}
           >
-            <BarChart3 size={14} />
+            <BarChart3 size={14} strokeWidth={1.5} />
             <span>Chart</span>
           </button>
           <button
             onClick={() => setViewMode('table')}
-            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 transition ${
+            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 transition cursor-pointer ${
               viewMode === 'table'
                 ? 'bg-white text-[#181A19] shadow-xs font-bold'
                 : 'text-[#5C6460] hover:text-[#181A19]'
             }`}
           >
-            <TableIcon size={14} />
+            <TableIcon size={14} strokeWidth={1.5} />
             <span>Data Table</span>
           </button>
         </div>
@@ -106,7 +106,7 @@ export function AccessibleChart({
       <div className="my-5">
         {!hasData ? (
           <div className="rounded-xl border border-dashed border-[#E5E0D8] bg-[#FAF8F5] p-8 text-center">
-            <AlertCircle className="mx-auto h-8 w-8 text-[#8C8275]" />
+            <AlertCircle className="mx-auto h-8 w-8 text-[#8C8275]" strokeWidth={1.5} />
             <p className="mt-2 text-sm font-semibold text-[#181A19]">No Verified Data Available</p>
             <p className="mt-1 text-xs text-[#5C6460] max-w-md mx-auto">{emptyStateText}</p>
           </div>
@@ -219,7 +219,7 @@ export function AccessibleChart({
       {/* Citizen Key Takeaway Callout */}
       <div className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-3.5 text-xs">
         <div className="flex items-start gap-2">
-          <CheckCircle2 size={16} className="mt-0.5 text-[#1A3D2F] shrink-0" />
+          <CheckCircle2 size={16} strokeWidth={1.5} className="mt-0.5 text-[#1A3D2F] shrink-0" />
           <div>
             <span className="font-bold text-[#181A19]">Key Takeaway for Citizens: </span>
             <span className="text-[#333835] leading-relaxed">{takeaway}</span>
@@ -240,7 +240,7 @@ export function AccessibleChart({
                 className="text-[#1A3D2F] font-medium hover:underline inline-flex items-center gap-0.5"
               >
                 <span>{sourceName}</span>
-                <ExternalLink size={10} />
+                <ExternalLink size={10} strokeWidth={1.5} />
               </a>
             ) : (
               <span className="text-[#181A19]">{sourceName}</span>
@@ -251,7 +251,7 @@ export function AccessibleChart({
 
         {limitations && (
           <div className="flex items-start gap-1 text-[#8C8275] italic">
-            <Info size={11} className="mt-0.5 shrink-0" />
+            <Info size={11} strokeWidth={1.5} className="mt-0.5 shrink-0" />
             <span>Limitations: {limitations}</span>
           </div>
         )}

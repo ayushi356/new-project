@@ -3,20 +3,19 @@ import { supabase, type Incident, type Party } from '@/lib/supabase';
 import { useNavigate } from '@/lib/router';
 import {
   Loader,
-  Flame,
   Search,
   ExternalLink,
   Calendar,
   MapPin,
   ShieldAlert,
   AlertTriangle,
+  AlertCircle,
   Users,
   Layers,
   LayoutGrid,
   Megaphone,
   Shield,
   Target,
-  Sparkles,
   Clock,
 } from 'lucide-react';
 import { InteractiveTimeline } from '@/components/InteractiveTimeline';
@@ -131,8 +130,8 @@ export function IncidentsPage() {
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
       {/* Header */}
       <div className="flex flex-col gap-2 border-b border-[#E5E0D8] pb-5">
-        <div className="inline-flex items-center gap-2 text-rose-700 font-bold text-xs tracking-wider uppercase">
-          <Flame size={16} />
+        <div className="inline-flex items-center gap-2 text-[#991B1B] font-bold text-xs tracking-wider uppercase">
+          <ShieldAlert size={16} strokeWidth={1.5} />
           <span>National Record of Crises & Public Accountability</span>
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl font-extrabold tracking-tight text-[#181A19]">
@@ -153,7 +152,7 @@ export function IncidentsPage() {
         <div className="rounded-xl border border-amber-200 bg-amber-50/50 p-5 shadow-sm">
           <div className="flex items-center justify-between">
             <p className="text-2xl font-black text-amber-700">{totalProtests}</p>
-            <Megaphone size={18} className="text-amber-600" />
+            <Megaphone size={18} strokeWidth={1.5} className="text-amber-700" />
           </div>
           <p className="mt-1 text-xs font-semibold text-amber-800 uppercase tracking-wide">Latest Mass Protests</p>
         </div>
@@ -162,7 +161,7 @@ export function IncidentsPage() {
           <p className="mt-1 text-xs font-medium text-rose-600 uppercase tracking-wide">Reported Casualties</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-2xl font-black text-indigo-600">{parties.length}</p>
+          <p className="text-2xl font-black text-[#1A3D2F]">{parties.length}</p>
           <p className="mt-1 text-xs font-medium text-slate-500 uppercase tracking-wide">Governing Parties Tracked</p>
         </div>
       </div>
@@ -188,7 +187,7 @@ export function IncidentsPage() {
                 : 'bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100'
             }`}
           >
-            <Megaphone size={13} />
+            <Megaphone size={13} strokeWidth={1.5} />
             <span>Latest Protests & Agitations ({totalProtests})</span>
           </button>
           <button
@@ -199,18 +198,18 @@ export function IncidentsPage() {
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
-            <Flame size={13} />
+            <ShieldAlert size={13} strokeWidth={1.5} />
             <span>Riots, Terror & Violence</span>
           </button>
           <button
             onClick={() => setCategoryFilter('crisis')}
             className={`flex items-center gap-1.5 rounded-lg px-3.5 py-2 transition ${
               categoryFilter === 'crisis'
-                ? 'bg-indigo-600 text-white shadow-xs'
+                ? 'bg-[#1A3D2F] text-white shadow-xs'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
-            <Sparkles size={13} />
+            <AlertCircle size={13} strokeWidth={1.5} />
             <span>Governance Scandals & Crises</span>
           </button>
         </div>
@@ -225,7 +224,7 @@ export function IncidentsPage() {
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            <Clock size={13} />
+            <Clock size={13} strokeWidth={1.5} />
             <span>Interactive Timeline</span>
           </button>
           <button
@@ -236,7 +235,7 @@ export function IncidentsPage() {
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            <Layers size={13} />
+            <Layers size={13} strokeWidth={1.5} />
             <span>Group by Party</span>
           </button>
           <button
@@ -247,7 +246,7 @@ export function IncidentsPage() {
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            <LayoutGrid size={13} />
+            <LayoutGrid size={13} strokeWidth={1.5} />
             <span>Unified Stream</span>
           </button>
         </div>
@@ -297,7 +296,7 @@ export function IncidentsPage() {
       <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <div className="relative flex-1">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search size={16} strokeWidth={1.5} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -339,7 +338,7 @@ export function IncidentsPage() {
       {/* Main Content Area */}
       {filtered.length === 0 ? (
         <div className="mt-8 rounded-2xl border border-dashed border-slate-300 p-12 text-center bg-slate-50/50">
-          <Megaphone size={32} className="mx-auto text-slate-300" />
+          <Megaphone size={32} strokeWidth={1.5} className="mx-auto text-slate-300" />
           <h3 className="mt-3 text-sm font-semibold text-slate-700">No records match your filter criteria</h3>
           <p className="mt-1 text-xs text-slate-500">Try broadening your search term or switching the category/party filter.</p>
           <button
@@ -396,7 +395,7 @@ export function IncidentsPage() {
                     </span>
                     {partyProtests > 0 && (
                       <span className="rounded-lg bg-amber-50 border border-amber-200 px-3 py-1 text-xs font-semibold text-amber-800 shadow-xs flex items-center gap-1">
-                        <Megaphone size={12} /> {partyProtests} Protests
+                        <Megaphone size={12} strokeWidth={1.5} /> {partyProtests} Protests
                       </span>
                     )}
                     {partyDeaths > 0 && (
@@ -473,11 +472,11 @@ function IncidentCard({
 
             {isProtest ? (
               <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 border border-amber-200 px-2.5 py-0.5 text-xs font-bold text-amber-800">
-                <Megaphone size={11} /> Mass Agitation & Protest
+                <Megaphone size={11} strokeWidth={1.5} /> Mass Agitation & Protest
               </span>
             ) : inc.category === 'terror' ? (
               <span className="inline-flex items-center gap-1 rounded-full bg-red-100 border border-red-300 px-2.5 py-0.5 text-xs font-bold text-red-900">
-                <Flame size={11} /> Terror Attack
+                <ShieldAlert size={11} strokeWidth={1.5} /> Terror Attack
               </span>
             ) : inc.category === 'scandal' ? (
               <span className="inline-flex items-center gap-1 rounded-full bg-purple-50 border border-purple-200 px-2.5 py-0.5 text-xs font-bold text-purple-800">
@@ -487,13 +486,13 @@ function IncidentCard({
 
             {inc.deaths_reported != null && inc.deaths_reported > 0 && (
               <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 border border-rose-200 px-2.5 py-0.5 text-xs font-bold text-rose-700">
-                <Users size={11} /> ~{inc.deaths_reported.toLocaleString('en-IN')} casualties
+                <Users size={11} strokeWidth={1.5} /> ~{inc.deaths_reported.toLocaleString('en-IN')} casualties
               </span>
             )}
           </div>
 
           <span className={`inline-flex shrink-0 items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-semibold ${meta.tint}`}>
-            <Icon size={12} /> {meta.label}
+            <Icon size={12} strokeWidth={1.5} /> {meta.label}
           </span>
         </div>
 
@@ -506,12 +505,12 @@ function IncidentCard({
         <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-slate-500">
           {inc.date_year && (
             <span className="flex items-center gap-1 font-medium text-slate-600">
-              <Calendar size={12} /> {inc.date_year}
+              <Calendar size={12} strokeWidth={1.5} /> {inc.date_year}
             </span>
           )}
           {inc.location && (
             <span className="flex items-center gap-1 text-slate-600">
-              <MapPin size={12} /> {inc.location}
+              <MapPin size={12} strokeWidth={1.5} /> {inc.location}
             </span>
           )}
         </div>
@@ -523,9 +522,9 @@ function IncidentCard({
 
         {/* Specific Box for Protesters' Demands */}
         {inc.demands && (
-          <div className="mt-3.5 rounded-lg border border-indigo-100 bg-indigo-50/70 p-3.5">
-            <div className="flex items-center gap-1.5 text-indigo-900 font-bold text-[11px] uppercase tracking-wider">
-              <Target size={13} className="text-indigo-600" />
+          <div className="mt-3.5 rounded-lg border border-[#E5E0D8] bg-[#FAF8F5] p-3.5">
+            <div className="flex items-center gap-1.5 text-[#1A3D2F] font-bold text-[11px] uppercase tracking-wider">
+              <Target size={13} strokeWidth={1.5} className="text-[#1A3D2F]" />
               <span>Protesters' Core Demands</span>
             </div>
             <p className="mt-1 text-xs leading-relaxed text-slate-700">
@@ -538,7 +537,7 @@ function IncidentCard({
         {inc.state_response && (
           <div className="mt-3 rounded-lg border border-amber-200/80 bg-amber-50/60 p-3.5">
             <div className="flex items-center gap-1.5 text-amber-900 font-bold text-[11px] uppercase tracking-wider">
-              <Shield size={13} className="text-amber-700" />
+              <Shield size={13} strokeWidth={1.5} className="text-amber-700" />
               <span>State & Law Enforcement Response</span>
             </div>
             <p className="mt-1 text-xs leading-relaxed text-slate-700">
@@ -572,7 +571,7 @@ function IncidentCard({
               className="inline-flex items-center gap-1 font-semibold text-blue-600 hover:text-blue-700"
             >
               <span>{inc.source_name ?? 'Official Record / Court Order'}</span>
-              <ExternalLink size={12} />
+              <ExternalLink size={12} strokeWidth={1.5} />
             </a>
           ) : (
             <span className="font-medium text-slate-600">{inc.source_name}</span>

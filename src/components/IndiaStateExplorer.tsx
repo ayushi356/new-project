@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   MapPin,
   Landmark,
-  Flame,
+  AlertTriangle,
   FileText,
   Users,
   Search,
@@ -10,7 +10,7 @@ import {
   ExternalLink,
   ShieldAlert,
   Coins,
-  Radio,
+  Newspaper,
   CheckCircle2,
 } from 'lucide-react';
 import { useNavigate } from '@/lib/router';
@@ -342,15 +342,15 @@ export function IndiaStateExplorer() {
                   Capital: {activeState.capital}
                 </span>
               </div>
-              <h4 className="text-2xl font-black text-slate-900 mt-1">
+              <h4 className="font-serif text-2xl font-bold text-[#181A19] mt-1">
                 {activeState.name}
               </h4>
-              <p className="mt-1 text-xs text-slate-600 font-medium flex items-center gap-1.5">
-                <Landmark size={13} className="text-slate-400" />
-                <span>Governing Body: <strong>{activeState.governingParty}</strong></span>
+              <p className="mt-1 text-xs text-[#5C6460] font-medium flex items-center gap-1.5">
+                <Landmark size={13} strokeWidth={1.5} className="text-[#717A74]" />
+                <span>Governing Body: <strong className="text-[#181A19]">{activeState.governingParty}</strong></span>
               </p>
-              <p className="text-xs text-slate-500 flex items-center gap-1.5 mt-0.5">
-                <Users size={13} className="text-slate-400" />
+              <p className="text-xs text-[#717A74] flex items-center gap-1.5 mt-0.5">
+                <Users size={13} strokeWidth={1.5} className="text-[#717A74]" />
                 <span>Executive Leadership: {activeState.chiefMinister}</span>
               </p>
             </div>
@@ -358,10 +358,10 @@ export function IndiaStateExplorer() {
             <div className="flex flex-wrap gap-2 shrink-0">
               <button
                 onClick={() => navigate('/incidents')}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-[#1A3D2F] hover:bg-[#143025] px-3.5 py-2 text-xs font-bold text-white transition shadow-xs cursor-pointer"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-[#1A3D2F] hover:bg-[#143025] px-3.5 py-2 text-xs font-bold text-white transition shadow-2xs cursor-pointer"
               >
                 <span>Explore {activeState.name} Incidents</span>
-                <ArrowRight size={12} />
+                <ArrowRight size={12} strokeWidth={1.5} />
               </button>
             </div>
           </div>
@@ -369,7 +369,7 @@ export function IndiaStateExplorer() {
           {/* 3-Column Content Breakdown */}
           <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-3 text-xs">
             {/* Column 1: Documented Incidents & Protests */}
-            <div className="rounded-xl border border-[#E5E0D8] bg-white p-4 shadow-xs">
+            <div className="rounded-xl border border-[#E5E0D8] bg-white p-4 shadow-2xs">
               <div className="flex items-center justify-between pb-2 border-b border-[#E5E0D8] mb-2.5">
                 <span className="font-bold text-[#181A19] uppercase tracking-wide text-[11px]">
                   Documented Incidents ({activeState.majorDocumentedIncidents.length})
@@ -382,14 +382,14 @@ export function IndiaStateExplorer() {
                       <span className="font-semibold text-[#181A19] uppercase">{inc.category}</span>
                       <span>{inc.year}</span>
                     </div>
-                    <p className="font-bold text-[#181A19] leading-snug">{inc.title}</p>
+                    <p className="font-serif font-bold text-[#181A19] leading-snug">{inc.title}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Column 2: Flagship State Welfare Schemes */}
-            <div className="rounded-xl border border-[#E5E0D8] bg-white p-4 shadow-xs">
+            <div className="rounded-xl border border-[#E5E0D8] bg-white p-4 shadow-2xs">
               <div className="flex items-center justify-between pb-2 border-b border-[#E5E0D8] mb-2.5">
                 <span className="font-bold text-[#181A19] uppercase tracking-wide text-[11px]">
                   Flagship Schemes ({activeState.flagshipSchemes.length})
@@ -397,41 +397,41 @@ export function IndiaStateExplorer() {
               </div>
               <div className="space-y-2.5">
                 {activeState.flagshipSchemes.map((sch, i) => (
-                  <div key={i} className="rounded-lg bg-blue-50/50 p-2.5 border border-blue-100/60">
-                    <div className="flex items-center justify-between text-[10px] text-slate-400 mb-0.5">
-                      <span className="font-semibold text-blue-700">{sch.name}</span>
-                      <span className="rounded-sm bg-emerald-100 text-emerald-800 px-1 py-0.2 text-[9px] font-bold uppercase">
+                  <div key={i} className="rounded-lg bg-[#FAF8F5] p-2.5 border border-[#E5E0D8]">
+                    <div className="flex items-center justify-between text-[10px] text-[#5C6460] mb-0.5">
+                      <span className="font-semibold text-[#1A3D2F]">{sch.name}</span>
+                      <span className="rounded-md border border-emerald-200 bg-emerald-50 text-emerald-800 px-1.5 py-0.2 text-[9px] font-bold uppercase">
                         {sch.status}
                       </span>
                     </div>
-                    <p className="text-slate-600 leading-snug">{sch.target}</p>
+                    <p className="text-[#4A524D] leading-snug">{sch.target}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Column 3: Press Freedom & Citizen Context */}
-            <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-xs flex flex-col justify-between">
+            <div className="rounded-xl border border-[#E5E0D8] bg-white p-4 shadow-2xs flex flex-col justify-between">
               <div>
-                <span className="font-bold text-slate-800 flex items-center gap-1.5 uppercase tracking-wide text-[11px] pb-2 border-b border-slate-100 mb-2.5">
-                  <Radio size={14} className="text-indigo-600" />
+                <span className="font-bold text-[#181A19] flex items-center gap-1.5 uppercase tracking-wide text-[11px] pb-2 border-b border-[#E5E0D8] mb-2.5">
+                  <Newspaper size={14} strokeWidth={1.5} className="text-[#1A3D2F]" />
                   <span>Press & Civil Space</span>
                 </span>
-                <p className="text-slate-600 leading-relaxed mb-3">
+                <p className="text-[#4A524D] leading-relaxed mb-3">
                   {activeState.pressFreedomNote}
                 </p>
-                <div className="rounded-lg bg-amber-50 p-2.5 border border-amber-200/70 text-[11px] text-amber-900 leading-relaxed">
-                  <strong className="block text-amber-950 font-bold mb-0.5">Citizen Reality Note:</strong>
+                <div className="rounded-lg bg-[#FAF8F5] p-2.5 border border-[#E5E0D8] text-[11px] text-[#4A524D] leading-relaxed">
+                  <strong className="block text-[#181A19] font-bold mb-0.5">Citizen Reality Note:</strong>
                   {activeState.citizenFocusNote}
                 </div>
               </div>
 
               <button
                 onClick={() => navigate(activeState.governingPartyId ? `/parties/${activeState.governingPartyId}` : '/parties')}
-                className="mt-3 pt-2 border-t border-slate-100 inline-flex items-center gap-1 text-[11px] font-bold text-blue-600 hover:text-blue-800"
+                className="mt-3 pt-2 border-t border-[#E5E0D8] inline-flex items-center gap-1 text-[11px] font-bold text-[#1A3D2F] hover:text-[#143025] cursor-pointer"
               >
                 <span>View {activeState.governingParty.split('(')[0].trim()} Governance Dossier</span>
-                <ArrowRight size={12} />
+                <ArrowRight size={12} strokeWidth={1.5} />
               </button>
             </div>
           </div>

@@ -5,6 +5,7 @@ import {
   Search,
   ChevronDown,
   ChevronUp,
+  Newspaper,
 } from 'lucide-react';
 import {
   MEDIA_INCIDENTS,
@@ -134,6 +135,7 @@ export function MediaFreedomPage() {
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full bg-[#1A3D2F]/10 border border-[#1A3D2F]/20 px-3.5 py-1 text-xs font-medium text-[#1A3D2F] uppercase tracking-wider">
+              <Newspaper size={14} strokeWidth={1.5} />
               <span>Public Accountability & Fourth Estate · Freedom of Expression</span>
             </div>
             <h1 className="mt-4 font-serif text-3xl sm:text-5xl font-bold tracking-tight text-[#181A19]">
@@ -406,7 +408,7 @@ export function MediaFreedomPage() {
                       className="font-medium text-[#1A3D2F] hover:underline flex items-center gap-1"
                     >
                       <span>{isExpanded ? 'Hide Records' : 'Inspect Records'}</span>
-                      {isExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+                      {isExpanded ? <ChevronUp size={12} strokeWidth={1.5} /> : <ChevronDown size={12} strokeWidth={1.5} />}
                     </button>
 
                     <button
@@ -471,7 +473,7 @@ export function MediaFreedomPage() {
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
               {/* Search Query */}
               <div className="relative lg:col-span-2">
-                <Search size={14} className="absolute left-3.5 top-3 text-[#5C645E]" />
+                <Search size={14} strokeWidth={1.5} className="absolute left-3.5 top-3 text-[#5C645E]" />
                 <input
                   type="text"
                   placeholder="Search journalist, case, law, agency..."
@@ -643,7 +645,7 @@ export function MediaFreedomPage() {
                           className="inline-flex items-center gap-1 font-medium text-[#1A3D2F] hover:underline text-xs"
                         >
                           <span>Inspect Source</span>
-                          <ExternalLink size={11} />
+                          <ExternalLink size={11} strokeWidth={1.5} />
                         </a>
                       )}
                     </div>
@@ -799,7 +801,7 @@ export function MediaFreedomPage() {
                       className="mt-2 inline-flex items-center gap-1 text-[11px] font-medium text-[#1A3D2F] hover:underline"
                     >
                       <span>Inspect Official Record</span>
-                      <ExternalLink size={10} />
+                      <ExternalLink size={10} strokeWidth={1.5} />
                     </a>
                   </div>
                 ))}

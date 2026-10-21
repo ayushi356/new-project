@@ -48,22 +48,23 @@ export function LeadersPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-      <div className="flex items-center gap-2 text-slate-500">
-        <Users size={18} />
-        <span className="text-sm font-medium">Leaders</span>
+      <div className="flex flex-col gap-2 border-b border-[#E5E0D8] pb-5">
+        <div className="flex items-center gap-2 text-[#1A3D2F] font-bold text-xs tracking-wider uppercase">
+          <Users size={16} strokeWidth={1.5} />
+          <span>Elected Representatives & Executive Leadership</span>
+        </div>
+        <h1 className="font-serif text-3xl sm:text-4xl font-extrabold tracking-tight text-[#181A19]">
+          Key Figures of Indian Politics
+        </h1>
+        <p className="mt-1 max-w-2xl text-sm sm:text-base text-[#4A524D] leading-relaxed">
+          The people who shape party policy, legislative votes, and cabinet ministries — their constitutional roles, parliamentary constituencies, and individual dossiers through 2026.
+        </p>
       </div>
-      <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
-        Main figures of Indian politics
-      </h1>
-      <p className="mt-2 max-w-2xl text-slate-600">
-        The people who shape party policy and public life — their roles, the
-        groups they represent, and their personal political stances.
-      </p>
 
       {/* Filters */}
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative flex-1">
-          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search size={16} strokeWidth={1.5} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}

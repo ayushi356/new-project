@@ -49,7 +49,7 @@ export function WorkDetailPage({ id }: { id: string }) {
         onClick={() => navigate('/works')}
         className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800"
       >
-        <ArrowLeft size={15} /> All works
+        <ArrowLeft size={15} strokeWidth={1.5} /> All works
       </button>
       <div className="mt-5">
         <WorkDetail work={work} partyName={party?.name} />

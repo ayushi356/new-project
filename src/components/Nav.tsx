@@ -63,14 +63,14 @@ export function Navbar() {
   const isPartiesActive = route.name === 'parties' || route.name === 'party';
   const isGovernanceActive = ['works', 'work', 'yojnas', 'promises', 'leaders', 'leader'].includes(route.name);
   const isPublicMoneyActive = route.name === 'public-money';
-  const isSocietyActive = ['environment', 'press-freedom', 'incidents'].includes(route.name);
+  const isSocietyActive = ['society', 'environment', 'press-freedom', 'incidents'].includes(route.name);
   const isAboutActive = route.name === 'about';
 
   const governanceItems: NavDropdownItem[] = [
     { path: '/works', label: 'Works & Records', description: 'Policy reforms, major milestones and documented scrutiny' },
     { path: '/yojnas', label: 'Welfare Schemes (Yojnas)', description: 'Claimed launch targets vs ground delivery data' },
     { path: '/promises', label: 'Manifesto Promises', description: 'Tracking campaign pledges: delivered, partial, or stalled' },
-    { path: '/parties', label: 'Ministers & Portfolios', description: 'Executive accountability, cabinet tenures and decisions' },
+    { path: '/leaders', label: 'Ministers & Council', description: 'Executive accountability, cabinet tenures and decisions' },
   ];
 
   const publicMoneyItems: NavDropdownItem[] = [
@@ -83,6 +83,7 @@ export function Navbar() {
   ];
 
   const societyItems: NavDropdownItem[] = [
+    { path: '/society', label: 'Rights, Society & Governance', description: 'Women’s safety governance, Nirbhaya fund & constitutional rulings' },
     { path: '/environment', label: 'Environment, Forests & Land', description: 'Statutory clearances, forest diversion & Supreme Court stays' },
     { path: '/press-freedom', label: 'Media & Press Freedom', description: 'Journalist safety, ownership concentration & press conferences' },
     { path: '/incidents', label: 'Crises, Protests & Inquiries', description: 'Documented national incidents, student agitations & riots' },
@@ -153,6 +154,7 @@ export function Navbar() {
               <span>Governance</span>
               <ChevronDown
                 size={13}
+                strokeWidth={1.5}
                 className={`transition-transform duration-200 ${
                   openDropdown === 'governance' ? 'rotate-180 text-white' : 'text-[#717A74]'
                 }`}
@@ -199,6 +201,7 @@ export function Navbar() {
               <span>Public Money</span>
               <ChevronDown
                 size={13}
+                strokeWidth={1.5}
                 className={`transition-transform duration-200 ${
                   openDropdown === 'public-money' ? 'rotate-180 text-white' : 'text-[#717A74]'
                 }`}
@@ -245,6 +248,7 @@ export function Navbar() {
               <span>Society & Environment</span>
               <ChevronDown
                 size={13}
+                strokeWidth={1.5}
                 className={`transition-transform duration-200 ${
                   openDropdown === 'society' ? 'rotate-180 text-white' : 'text-[#717A74]'
                 }`}
@@ -252,7 +256,7 @@ export function Navbar() {
             </button>
 
             {openDropdown === 'society' && (
-              <div className="absolute right-0 top-full mt-1.5 w-80 rounded-xl border border-[#E5E0D8] bg-white p-2 shadow-lg animate-in fade-in-50 zoom-in-95 duration-100 z-50">
+              <div className="absolute left-0 top-full mt-1.5 w-80 rounded-xl border border-[#E5E0D8] bg-white p-2 shadow-lg animate-in fade-in-50 zoom-in-95 duration-100 z-50">
                 {societyItems.map((item) => (
                   <button
                     key={item.path}
@@ -293,7 +297,7 @@ export function Navbar() {
           aria-label="Toggle navigation menu"
           aria-expanded={mobileOpen}
         >
-          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+          {mobileOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
         </button>
       </nav>
 
@@ -429,7 +433,12 @@ export function Footer() {
             <ul className="space-y-2 text-xs">
               <li>
                 <button onClick={() => navigate('/parties')} className="hover:text-[#1A3D2F] hover:underline cursor-pointer">
-                  Political Parties & Leaders
+                  Political Parties & Leadership
+                </button>
+              </li>
+              <li>
+                <button onClick={() => navigate('/leaders')} className="hover:text-[#1A3D2F] hover:underline cursor-pointer">
+                  Ministers & Executive Council
                 </button>
               </li>
               <li>
@@ -438,18 +447,18 @@ export function Footer() {
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/environment')} className="hover:text-[#1A3D2F] hover:underline cursor-pointer">
-                  Forests, Ecology & Land Rights
+                <button onClick={() => navigate('/works')} className="hover:text-[#1A3D2F] hover:underline cursor-pointer">
+                  Works & Infrastructure Records
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/press-freedom')} className="hover:text-[#1A3D2F] hover:underline cursor-pointer">
-                  Media Freedom & Press Conferences
+                <button onClick={() => navigate('/promises')} className="hover:text-[#1A3D2F] hover:underline cursor-pointer">
+                  Promises & Manifesto Status
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/incidents')} className="hover:text-[#1A3D2F] hover:underline cursor-pointer">
-                  Major Protests & Inquiries
+                <button onClick={() => navigate('/society')} className="hover:text-[#1A3D2F] hover:underline cursor-pointer">
+                  Rights, Society & Institutions
                 </button>
               </li>
             </ul>
@@ -467,12 +476,12 @@ export function Footer() {
               </li>
               <li>
                 <button onClick={() => navigate('/about')} className="hover:text-[#1A3D2F] hover:underline cursor-pointer">
-                  Creator Note & Non-Partisanship
+                  Sources, Verification & Disclaimers
                 </button>
               </li>
               <li>
                 <button onClick={() => navigate('/about')} className="hover:text-[#1A3D2F] hover:underline cursor-pointer">
-                  Submit Document Corrections
+                  Contact & Public Corrections Protocol
                 </button>
               </li>
               <li>

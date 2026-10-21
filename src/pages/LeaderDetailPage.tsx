@@ -5,19 +5,19 @@ import { WorkCard } from '@/components/Work';
 import {
   ArrowLeft,
   Loader,
-  Flag,
+  Building2,
   Users as UsersIcon,
   Compass,
   Calendar,
-  Radio,
-  Mic,
+  Newspaper,
   CheckCircle2,
   AlertTriangle,
   ExternalLink,
   Building,
   Award,
-  Scale,
+  FileCheck2,
   ShieldCheck,
+  type LucideIcon,
 } from 'lucide-react';
 import { LEADER_INTERVIEW_RECORDS } from '@/data/mediaFreedomData';
 
@@ -358,7 +358,7 @@ export function LeaderDetailPage({ id }: { id: string }) {
         onClick={() => navigate(party ? `/parties/${party.id}` : '/parties')}
         className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-500 hover:text-slate-800 transition"
       >
-        <ArrowLeft size={14} /> Back to {party ? `${party.name} Profile` : 'Parties Directory'}
+        <ArrowLeft size={14} strokeWidth={1.5} /> Back to {party ? `${party.name} Profile` : 'Parties Directory'}
       </button>
 
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -389,12 +389,12 @@ export function LeaderDetailPage({ id }: { id: string }) {
                     <span className="text-[10px] text-slate-400">View Party Dossier & Tenures</span>
                   </div>
                 </div>
-                <ArrowLeft size={12} className="rotate-180 text-slate-400" />
+                <ArrowLeft size={12} strokeWidth={1.5} className="rotate-180 text-slate-400" />
               </button>
             )}
 
             <dl className="mt-5 space-y-3.5 text-xs border-t border-slate-100 pt-4">
-              <Info icon={Flag} label="Executive Mandate" value={leader.role} />
+              <Info icon={Building2} label="Executive Mandate" value={leader.role} />
               <Info icon={UsersIcon} label="Electoral Footprint" value={leader.represents} />
               <Info icon={Compass} label="Ideological Orientation" value={leader.ideology} />
             </dl>
@@ -402,10 +402,10 @@ export function LeaderDetailPage({ id }: { id: string }) {
 
           {/* Verified Press Freedom & Public Accountability Card */}
           {interviewRecord && (
-            <div className="rounded-2xl border border-indigo-200 bg-indigo-50/50 p-5 shadow-xs">
-              <div className="flex items-center justify-between pb-3 border-b border-indigo-100">
-                <span className="font-bold text-indigo-900 flex items-center gap-1.5 text-xs uppercase tracking-wider">
-                  <Radio size={14} className="text-indigo-600" />
+            <div className="rounded-2xl border border-[#E5E0D8] bg-[#FAF8F5] p-5 shadow-xs">
+              <div className="flex items-center justify-between pb-3 border-b border-[#E5E0D8]">
+                <span className="font-bold text-[#181A19] flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                  <Newspaper size={14} strokeWidth={1.5} className="text-[#1A3D2F]" />
                   <span>Press Access & Interviews</span>
                 </span>
                 <span
@@ -422,8 +422,8 @@ export function LeaderDetailPage({ id }: { id: string }) {
               </div>
 
               <div className="mt-3.5 grid grid-cols-2 gap-3 text-center">
-                <div className="rounded-xl bg-white p-3 border border-indigo-100 shadow-2xs">
-                  <p className="text-xl font-black text-indigo-700">
+                <div className="rounded-xl bg-white p-3 border border-[#E5E0D8] shadow-2xs">
+                  <p className="text-xl font-black text-[#1A3D2F]">
                     {interviewRecord.independentUnscriptedInterviews}
                   </p>
                   <p className="mt-0.5 text-[10px] font-bold uppercase text-slate-500">
@@ -431,7 +431,7 @@ export function LeaderDetailPage({ id }: { id: string }) {
                   </p>
                 </div>
 
-                <div className="rounded-xl bg-white p-3 border border-indigo-100 shadow-2xs">
+                <div className="rounded-xl bg-white p-3 border border-[#E5E0D8] shadow-2xs">
                   <p className="text-xl font-black text-slate-900">
                     {interviewRecord.openPressConferences}
                   </p>
@@ -442,7 +442,7 @@ export function LeaderDetailPage({ id }: { id: string }) {
               </div>
 
               <div className="mt-3.5 space-y-2 text-xs text-slate-700">
-                <div className="rounded-lg bg-white/70 p-2.5 border border-indigo-100/70">
+                <div className="rounded-lg bg-white/70 p-2.5 border border-[#E5E0D8]">
                   <strong className="block text-[11px] text-slate-800 font-bold mb-0.5">
                     Recorded Media Policy:
                   </strong>
@@ -461,18 +461,18 @@ export function LeaderDetailPage({ id }: { id: string }) {
 
               <button
                 onClick={() => navigate('/press-freedom')}
-                className="mt-3.5 pt-2 border-t border-indigo-100 w-full text-center inline-flex items-center justify-center gap-1 text-[11px] font-bold text-indigo-600 hover:text-indigo-800"
+                className="mt-3.5 pt-2 border-t border-[#E5E0D8] w-full text-center inline-flex items-center justify-center gap-1 text-[11px] font-bold text-[#1A3D2F] hover:text-[#143025]"
               >
                 <span>View Full National Press Freedom Tally</span>
-                <ExternalLink size={11} />
+                <ExternalLink size={11} strokeWidth={1.5} />
               </button>
             </div>
           )}
 
           {/* Verification & ECI Portal Links */}
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-xs text-slate-600">
-            <h3 className="font-bold uppercase tracking-wider text-slate-500 text-[10px] mb-1.5 flex items-center gap-1">
-              <ShieldCheck size={13} className="text-emerald-600" />
+            <h3 className="font-bold uppercase tracking-wider text-slate-500 text-[10px] mb-1.5 flex items-center gap-1.5">
+              <ShieldCheck size={14} strokeWidth={1.5} className="text-[#1A3D2F]" />
               <span>Official Public Declarations</span>
             </h3>
             <p className="text-[11px] leading-relaxed">
@@ -486,7 +486,7 @@ export function LeaderDetailPage({ id }: { id: string }) {
                 className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-semibold text-slate-700 hover:bg-slate-100 transition shadow-xs"
               >
                 <span>ECI Affidavit Portal</span>
-                <ExternalLink size={10} />
+                <ExternalLink size={10} strokeWidth={1.5} />
               </a>
               <a
                 href="https://sansad.in/"
@@ -495,7 +495,7 @@ export function LeaderDetailPage({ id }: { id: string }) {
                 className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-semibold text-slate-700 hover:bg-slate-100 transition shadow-xs"
               >
                 <span>Parliament Debates (Sansad)</span>
-                <ExternalLink size={10} />
+                <ExternalLink size={10} strokeWidth={1.5} />
               </a>
             </div>
           </div>
@@ -516,26 +516,26 @@ export function LeaderDetailPage({ id }: { id: string }) {
             <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-2">
-                  <Calendar size={18} className="text-blue-600" />
+                  <Calendar size={18} strokeWidth={1.5} className="text-[#1A3D2F]" />
                   <h2 className="text-lg font-bold text-slate-900">
                     Tenure Milestones & Ministerial Responsibilities
                   </h2>
                 </div>
               </div>
 
-              <div className="mt-5 relative border-l-2 border-slate-200 pl-6 ml-2 space-y-6">
+              <div className="mt-5 relative border-l-2 border-[#E5E0D8] pl-6 ml-2 space-y-6">
                 {milestones.map((m, idx) => (
                   <div key={idx} className="relative group">
-                    <span className="absolute -left-[31px] top-1.5 flex h-4 w-4 items-center justify-center rounded-full border-2 border-white bg-blue-600 shadow-xs" />
+                    <span className="absolute -left-[31px] top-1.5 flex h-4 w-4 items-center justify-center rounded-full border-2 border-white bg-[#1A3D2F] shadow-xs" />
                     <div>
                       <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[10px] font-bold text-slate-700 uppercase tracking-wider">
                         {m.period}
                       </span>
                       <h3 className="text-sm font-bold text-slate-900 mt-1">{m.roleTitle}</h3>
-                      <p className="text-xs text-slate-500 font-medium flex items-center gap-1 mt-0.5">
-                        <Building size={12} /> {m.institution}
+                      <p className="text-xs text-slate-500 font-medium flex items-center gap-1.5 mt-0.5">
+                        <Building size={12} strokeWidth={1.5} /> {m.institution}
                       </p>
-                      <div className="mt-2 rounded-lg bg-slate-50 border border-slate-100 p-2.5 text-xs text-slate-600 leading-relaxed">
+                      <div className="mt-2 rounded-lg bg-[#FAF8F5] border border-[#E5E0D8] p-2.5 text-xs text-slate-600 leading-relaxed">
                         <strong className="text-slate-800">Key Policies & Decisions: </strong>
                         {m.keyDecisions}
                       </div>
@@ -550,7 +550,7 @@ export function LeaderDetailPage({ id }: { id: string }) {
           <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div className="flex items-center gap-2">
-                <Scale size={18} className="text-slate-800" />
+                <FileCheck2 size={18} strokeWidth={1.5} className="text-[#1A3D2F]" />
                 <h2 className="text-lg font-bold text-slate-900">
                   Documented Works & Policy Actions ({works.length})
                 </h2>
@@ -580,13 +580,13 @@ function Info({
   label,
   value,
 }: {
-  icon: typeof Flag;
+  icon: LucideIcon;
   label: string;
   value: string | null;
 }) {
   return (
     <div className="flex items-start gap-2.5">
-      <Icon size={15} className="mt-0.5 shrink-0 text-slate-400" />
+      <Icon size={15} strokeWidth={1.5} className="mt-0.5 shrink-0 text-[#1A3D2F]" />
       <div>
         <dt className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{label}</dt>
         <dd className="mt-0.5 font-semibold text-slate-800 leading-snug">{value ?? '—'}</dd>

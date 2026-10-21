@@ -64,7 +64,7 @@ export function PromisesPage() {
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
       <div className="flex flex-col gap-2 border-b border-[#E5E0D8] pb-5">
         <div className="flex items-center gap-2 text-[#1A3D2F] font-bold text-xs tracking-wider uppercase">
-          <BadgeCheck size={16} />
+          <BadgeCheck size={16} strokeWidth={1.5} />
           <span>Election Manifesto Delivery Tracker</span>
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl font-extrabold tracking-tight text-[#181A19]">
@@ -83,7 +83,7 @@ export function PromisesPage() {
           return (
             <div key={s} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
               <div className={`mb-2 inline-flex rounded-lg px-2 py-1 text-xs font-semibold ${meta.tint}`}>
-                <Icon size={14} className="mr-1" /> {meta.label}
+                <Icon size={14} strokeWidth={1.5} className="mr-1" /> {meta.label}
               </div>
               <p className="text-2xl font-bold text-slate-900">{counts[s]}</p>
             </div>
@@ -95,7 +95,7 @@ export function PromisesPage() {
       <div className="mt-6 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
           <div className="relative flex-1">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search size={16} strokeWidth={1.5} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -144,7 +144,7 @@ export function PromisesPage() {
                 <div className="flex items-start justify-between gap-3">
                   <h3 className="font-bold text-slate-900">{pr.title}</h3>
                   <span className={`flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold ${meta.tint}`}>
-                    <Icon size={13} /> {meta.label}
+                    <Icon size={13} strokeWidth={1.5} /> {meta.label}
                   </span>
                 </div>
                 {party && (
@@ -156,7 +156,7 @@ export function PromisesPage() {
                 <p className="mt-3 text-sm leading-relaxed text-slate-600">{pr.description}</p>
 
                 <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-slate-500">
-                  {pr.election_year && <span className="flex items-center gap-1"><Calendar size={12} /> {pr.election_year}</span>}
+                  {pr.election_year && <span className="flex items-center gap-1"><Calendar size={12} strokeWidth={1.5} /> {pr.election_year}</span>}
                   {pr.election_context && <span className="rounded-full bg-slate-100 px-2 py-0.5 font-medium">{pr.election_context}</span>}
                 </div>
 
@@ -171,7 +171,7 @@ export function PromisesPage() {
                   <div className="mt-3 border-t border-slate-100 pt-3">
                     {pr.source_url ? (
                       <a href={pr.source_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-700">
-                        {pr.source_name ?? 'Source'} <ExternalLink size={12} />
+                        {pr.source_name ?? 'Source'} <ExternalLink size={12} strokeWidth={1.5} />
                       </a>
                     ) : (
                       <span className="text-xs text-slate-600">{pr.source_name}</span>

@@ -11,9 +11,10 @@ import {
   Info,
   ExternalLink,
   HelpCircle,
-  Sparkles,
+  BadgeCheck,
 } from 'lucide-react';
 import { useNavigate } from '@/lib/router';
+import { EditorialIconContainer } from '@/components/EditorialIcon';
 
 export function GovernanceProcessDiagram() {
   const navigate = useNavigate();
@@ -24,8 +25,7 @@ export function GovernanceProcessDiagram() {
       stepNumber: 1,
       title: 'Election Manifesto / Promise',
       shortTitle: '1. Promise',
-      icon: Sparkles,
-      iconColor: 'bg-amber-500 text-white',
+      icon: BadgeCheck,
       whatHappens:
         'A political party announces a pledge during general or state elections (e.g. 2 crore jobs/year, farm loan waivers, ₹2,000 monthly cash transfers, free electricity). At this stage, it has NO legal or financial backing.',
       citizenCheck:
@@ -39,7 +39,6 @@ export function GovernanceProcessDiagram() {
       title: 'Cabinet Sanction / Legislative Bill',
       shortTitle: '2. Law & Policy',
       icon: Building,
-      iconColor: 'bg-blue-600 text-white',
       whatHappens:
         'Upon forming government, the cabinet drafts a bill or executive order. For welfare schemes (e.g. PM-KISAN, MGNREGA, Kanyashree), guidelines and eligibility rules are notified in the official Gazette of India or State Gazette.',
       citizenCheck:
@@ -53,7 +52,6 @@ export function GovernanceProcessDiagram() {
       title: 'Budget Allocation (BE)',
       shortTitle: '3. Allocation (BE)',
       icon: Coins,
-      iconColor: 'bg-indigo-600 text-white',
       whatHappens:
         'The Finance Minister presents the annual budget. Parliament votes on Demands for Grants, establishing the Budget Estimate (BE)—the legal ceiling of what the ministry can spend in that financial year.',
       citizenCheck:
@@ -67,7 +65,6 @@ export function GovernanceProcessDiagram() {
       title: 'Public Expenditure & Procurement',
       shortTitle: '4. Cash Spend',
       icon: Send,
-      iconColor: 'bg-emerald-600 text-white',
       whatHappens:
         'Treasury releases funds to central and state implementing agencies. Contracts and tenders are awarded via GeM (Government e-Marketplace), or direct cash transfers (DBT) are initiated to bank accounts.',
       citizenCheck:
@@ -81,7 +78,6 @@ export function GovernanceProcessDiagram() {
       title: 'Ground Delivery & Beneficiary Impact',
       shortTitle: '5. Ground Reality',
       icon: CheckCircle2,
-      iconColor: 'bg-teal-600 text-white',
       whatHappens:
         'Citizens receive the service (e.g. tap water connection, gas cylinder, hospital treatment, school upgrade). Ground outcomes are evaluated through independent surveys (NFHS, NSSO, PLFS).',
       citizenCheck:
@@ -95,7 +91,6 @@ export function GovernanceProcessDiagram() {
       title: 'Audit & Independent Scrutiny',
       shortTitle: '6. CAG Audit',
       icon: ShieldAlert,
-      iconColor: 'bg-rose-600 text-white',
       whatHappens:
         'The Comptroller & Auditor General (CAG) conducts independent performance audits, examining whether public money was spent economically, efficiently, and effectively. Investigative press and courts review violations.',
       citizenCheck:
@@ -110,18 +105,18 @@ export function GovernanceProcessDiagram() {
   const CurrentIcon = current.icon;
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs sm:p-7">
+    <div className="rounded-2xl border border-[#E5E0D8] bg-white p-5 shadow-2xs sm:p-7">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-slate-100 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-[#E5E0D8] pb-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-indigo-600">
-            <Info size={14} />
+          <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#1A3D2F]">
+            <Info size={14} strokeWidth={1.5} />
             <span>Civic Literacy Diagram</span>
           </div>
-          <h3 className="text-xl font-extrabold text-slate-900 sm:text-2xl mt-0.5">
+          <h3 className="text-xl font-serif font-bold text-[#181A19] sm:text-2xl mt-0.5">
             How a Policy Moves from Campaign to Reality
           </h3>
-          <p className="mt-1 text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
+          <p className="mt-1 text-xs sm:text-sm text-[#4A524D] max-w-2xl leading-relaxed">
             Follow the 6 stages of public governance. Click any step to see what happens, what citizens should inspect, and where to track it across this platform.
           </p>
         </div>
@@ -138,20 +133,22 @@ export function GovernanceProcessDiagram() {
             <React.Fragment key={st.stepNumber}>
               <button
                 onClick={() => setActiveStep(idx)}
-                className={`group flex flex-col items-center gap-1.5 rounded-xl px-2.5 py-2 transition min-w-[95px] text-center shrink-0 ${
+                className={`group flex flex-col items-center gap-1.5 rounded-xl px-2.5 py-2 transition min-w-[95px] text-center shrink-0 cursor-pointer border ${
                   isActive
-                    ? 'bg-slate-900 text-white shadow-sm'
+                    ? 'border-[#1A3D2F] bg-[#1A3D2F] text-white shadow-2xs'
                     : isPassed
-                    ? 'bg-slate-100 text-slate-800 hover:bg-slate-200'
-                    : 'text-slate-500 hover:bg-slate-50'
+                    ? 'border-[#E5E0D8] bg-[#F5F2EB] text-[#181A19] hover:bg-[#FAF8F5]'
+                    : 'border-transparent text-[#717A74] hover:bg-[#FAF8F5]'
                 }`}
               >
                 <span
                   className={`flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold transition ${
-                    isActive ? st.iconColor : 'bg-slate-200 text-slate-700 group-hover:bg-slate-300'
+                    isActive
+                      ? 'bg-white/20 text-white'
+                      : 'border border-[#E5E0D8] bg-[#FAF8F5] text-[#1A3D2F] group-hover:bg-[#F5F2EB]'
                   }`}
                 >
-                  <Icon size={16} />
+                  <Icon size={15} strokeWidth={1.5} />
                 </span>
                 <span className="text-[11px] font-bold leading-tight line-clamp-1">
                   {st.shortTitle}
@@ -159,7 +156,7 @@ export function GovernanceProcessDiagram() {
               </button>
 
               {idx < steps.length - 1 && (
-                <ArrowRight size={14} className="text-slate-300 shrink-0 hidden sm:block" />
+                <ArrowRight size={13} strokeWidth={1.5} className="text-[#C8C2B5] shrink-0 hidden sm:block" />
               )}
             </React.Fragment>
           );
@@ -167,24 +164,25 @@ export function GovernanceProcessDiagram() {
       </div>
 
       {/* Active Step Detailed Card */}
-      <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50/70 p-5 sm:p-6 transition">
+      <div className="mt-6 rounded-2xl border border-[#E5E0D8] bg-[#FAF8F5]/70 p-5 sm:p-6 transition">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
           <div className="flex items-start gap-3.5">
-            <span
-              className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-white shadow-xs ${current.iconColor}`}
-            >
-              <CurrentIcon size={24} />
-            </span>
+            <EditorialIconContainer
+              icon={CurrentIcon}
+              size="lg"
+              variant="active"
+              className="mt-0.5"
+            />
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#5C6460]">
                   Stage {current.stepNumber} of 6
                 </span>
               </div>
-              <h4 className="text-lg font-black text-slate-900 sm:text-xl mt-0.5">
+              <h4 className="font-serif text-lg font-bold text-[#181A19] sm:text-xl mt-0.5">
                 {current.title}
               </h4>
-              <p className="mt-2 text-xs sm:text-sm text-slate-700 leading-relaxed">
+              <p className="mt-2 text-xs sm:text-sm text-[#4A524D] leading-relaxed">
                 {current.whatHappens}
               </p>
             </div>
@@ -192,31 +190,31 @@ export function GovernanceProcessDiagram() {
 
           <button
             onClick={() => navigate(current.navPath)}
-            className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-4 py-2 text-xs font-bold text-white transition hover:bg-slate-800 shrink-0 shadow-xs self-start"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-[#1A3D2F] hover:bg-[#143025] px-4 py-2 text-xs font-bold text-white transition shrink-0 shadow-2xs self-start cursor-pointer"
           >
             <span>Track in {current.whereToTrack}</span>
-            <ArrowRight size={13} />
+            <ArrowRight size={13} strokeWidth={1.5} />
           </button>
         </div>
 
         {/* 2-Column Citizen Checklist & Red Flag */}
-        <div className="mt-5 grid grid-cols-1 gap-3.5 pt-4 border-t border-slate-200 sm:grid-cols-2 text-xs">
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50/60 p-3.5">
-            <p className="font-bold text-emerald-900 flex items-center gap-1.5">
-              <CheckCircle2 size={15} className="text-emerald-600 shrink-0" />
+        <div className="mt-5 grid grid-cols-1 gap-3.5 pt-4 border-t border-[#E5E0D8] sm:grid-cols-2 text-xs">
+          <div className="rounded-xl border border-emerald-200/80 bg-emerald-50/60 p-3.5">
+            <p className="font-bold text-emerald-950 flex items-center gap-1.5">
+              <CheckCircle2 size={15} strokeWidth={1.5} className="text-emerald-700 shrink-0" />
               <span>What Citizens Should Check:</span>
             </p>
-            <p className="mt-1 text-emerald-800 leading-relaxed pl-5">
+            <p className="mt-1 text-emerald-900 leading-relaxed pl-5">
               {current.citizenCheck}
             </p>
           </div>
 
-          <div className="rounded-xl border border-rose-200 bg-rose-50/60 p-3.5">
-            <p className="font-bold text-rose-900 flex items-center gap-1.5">
-              <ShieldAlert size={15} className="text-rose-600 shrink-0" />
+          <div className="rounded-xl border border-amber-200/80 bg-amber-50/60 p-3.5">
+            <p className="font-bold text-amber-950 flex items-center gap-1.5">
+              <ShieldAlert size={15} strokeWidth={1.5} className="text-amber-700 shrink-0" />
               <span>Red Flag to Watch For:</span>
             </p>
-            <p className="mt-1 text-rose-800 leading-relaxed pl-5">
+            <p className="mt-1 text-amber-900 leading-relaxed pl-5">
               {current.redFlag}
             </p>
           </div>

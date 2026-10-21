@@ -3,7 +3,7 @@ import {
   Calendar,
   MapPin,
   ExternalLink,
-  Flame,
+  AlertTriangle,
   Megaphone,
   ShieldAlert,
   ChevronDown,
@@ -67,45 +67,45 @@ export function InteractiveTimeline({
   return (
     <div className="space-y-6">
       {/* Timeline Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-3.5 shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-[#E5E0D8] bg-white p-3.5 shadow-2xs">
         {/* Category Filters */}
         <div className="flex flex-wrap gap-1.5 text-xs font-semibold">
           <button
             onClick={() => setSelectedCategory('all')}
-            className={`rounded-lg px-3 py-1.5 transition ${
+            className={`rounded-lg px-3 py-1.5 transition cursor-pointer border ${
               selectedCategory === 'all'
-                ? 'bg-slate-900 text-white'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                ? 'bg-[#1A3D2F] border-[#1A3D2F] text-white shadow-2xs font-bold'
+                : 'bg-[#FAF8F5] border-[#E5E0D8] text-[#181A19] hover:bg-[#F5F2EB]'
             }`}
           >
             All Events ({incidents.length})
           </button>
           <button
             onClick={() => setSelectedCategory('protest')}
-            className={`rounded-lg px-3 py-1.5 transition ${
+            className={`rounded-lg px-3 py-1.5 transition cursor-pointer border ${
               selectedCategory === 'protest'
-                ? 'bg-amber-600 text-white'
-                : 'bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100'
+                ? 'bg-[#1A3D2F] border-[#1A3D2F] text-white shadow-2xs font-bold'
+                : 'bg-[#FAF8F5] border-[#E5E0D8] text-[#181A19] hover:bg-[#F5F2EB]'
             }`}
           >
             Mass Protests
           </button>
           <button
             onClick={() => setSelectedCategory('violence')}
-            className={`rounded-lg px-3 py-1.5 transition ${
+            className={`rounded-lg px-3 py-1.5 transition cursor-pointer border ${
               selectedCategory === 'violence'
-                ? 'bg-red-700 text-white'
-                : 'bg-red-50 text-red-800 border border-red-200 hover:bg-red-100'
+                ? 'bg-[#1A3D2F] border-[#1A3D2F] text-white shadow-2xs font-bold'
+                : 'bg-[#FAF8F5] border-[#E5E0D8] text-[#181A19] hover:bg-[#F5F2EB]'
             }`}
           >
             Violent Incidents
           </button>
           <button
             onClick={() => setSelectedCategory('crisis')}
-            className={`rounded-lg px-3 py-1.5 transition ${
+            className={`rounded-lg px-3 py-1.5 transition cursor-pointer border ${
               selectedCategory === 'crisis'
-                ? 'bg-indigo-600 text-white'
-                : 'bg-indigo-50 text-indigo-800 border border-indigo-200 hover:bg-indigo-100'
+                ? 'bg-[#1A3D2F] border-[#1A3D2F] text-white shadow-2xs font-bold'
+                : 'bg-[#FAF8F5] border-[#E5E0D8] text-[#181A19] hover:bg-[#F5F2EB]'
             }`}
           >
             Governance Crises
@@ -114,13 +114,13 @@ export function InteractiveTimeline({
 
         {/* Year Filter Chips */}
         <div className="flex items-center gap-1 overflow-x-auto text-xs font-medium">
-          <span className="text-slate-400 text-[11px] font-bold uppercase mr-1">Year:</span>
+          <span className="text-[#717A74] text-[11px] font-bold uppercase mr-1">Year:</span>
           <button
             onClick={() => setSelectedYear('all')}
-            className={`rounded-md px-2.5 py-1 transition ${
+            className={`rounded-md px-2.5 py-1 transition cursor-pointer ${
               selectedYear === 'all'
-                ? 'bg-slate-800 text-white font-bold'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                ? 'bg-[#1A3D2F] text-white font-bold'
+                : 'bg-[#FAF8F5] text-[#5C6460] hover:bg-[#F5F2EB]'
             }`}
           >
             All
@@ -129,10 +129,10 @@ export function InteractiveTimeline({
             <button
               key={yr}
               onClick={() => setSelectedYear(String(yr))}
-              className={`rounded-md px-2 py-1 transition ${
+              className={`rounded-md px-2 py-1 transition cursor-pointer ${
                 selectedYear === String(yr)
-                  ? 'bg-slate-800 text-white font-bold'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  ? 'bg-[#1A3D2F] text-white font-bold'
+                  : 'bg-[#FAF8F5] text-[#5C6460] hover:bg-[#F5F2EB]'
               }`}
             >
               {yr}
@@ -142,7 +142,7 @@ export function InteractiveTimeline({
       </div>
 
       {/* Visual Timeline Track */}
-      <div className="relative border-l-2 border-slate-200 pl-6 sm:pl-8 ml-3 sm:ml-4 space-y-8 my-6">
+      <div className="relative border-l-2 border-[#E5E0D8] pl-6 sm:pl-8 ml-3 sm:ml-4 space-y-8 my-6">
         {timelineItems.map((item) => {
           const party = item.party_id ? partyMap[item.party_id] : null;
           const isExpanded = expandedId === item.id;
@@ -152,29 +152,31 @@ export function InteractiveTimeline({
             <div key={item.id} className="relative group">
               {/* Timeline Node Bullet */}
               <div
-                className={`absolute -left-[31px] sm:-left-[39px] top-1.5 flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full border-2 border-white text-white shadow-xs transition group-hover:scale-110 ${
-                  isExtreme ? 'bg-red-600' : 'bg-slate-700'
+                className={`absolute -left-[31px] sm:-left-[39px] top-1.5 flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full border-2 border-white text-white shadow-2xs transition group-hover:scale-110 ${
+                  isExtreme ? 'bg-[#991B1B]' : 'bg-[#1A3D2F]'
                 }`}
               >
                 {item.category === 'protest' ? (
-                  <Megaphone size={12} />
+                  <Megaphone size={12} strokeWidth={1.5} />
+                ) : isExtreme ? (
+                  <ShieldAlert size={12} strokeWidth={1.5} />
                 ) : (
-                  <Flame size={12} />
+                  <AlertTriangle size={12} strokeWidth={1.5} />
                 )}
               </div>
 
               {/* Event Card */}
-              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs transition hover:border-slate-300 hover:shadow-md">
+              <div className="rounded-2xl border border-[#E5E0D8] bg-white p-5 shadow-2xs transition hover:border-[#C8C2B5] hover:shadow-xs">
                 {/* Meta row */}
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="flex items-center gap-1 rounded-full bg-slate-900 px-2.5 py-0.5 text-[11px] font-bold text-white">
-                      <Calendar size={11} /> {item.date_year ?? 'Undated'}
+                    <span className="flex items-center gap-1 rounded-full bg-[#1A3D2F] px-2.5 py-0.5 text-[11px] font-bold text-white">
+                      <Calendar size={11} strokeWidth={1.5} /> {item.date_year ?? 'Undated'}
                     </span>
 
                     {item.location && (
-                      <span className="flex items-center gap-1 text-xs text-slate-500 font-medium">
-                        <MapPin size={12} /> {item.location}
+                      <span className="flex items-center gap-1 text-xs text-[#5C6460] font-medium">
+                        <MapPin size={12} strokeWidth={1.5} /> {item.location}
                       </span>
                     )}
                   </div>

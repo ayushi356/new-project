@@ -14,6 +14,7 @@ import { IncidentsPage } from '@/pages/IncidentsPage';
 import { PublicMoneyPage } from '@/pages/PublicMoneyPage';
 import { MediaFreedomPage } from '@/pages/MediaFreedomPage';
 import { EnvironmentPage } from '@/pages/EnvironmentPage';
+import { SocietyPage } from '@/pages/SocietyPage';
 
 function App() {
   const route = useRoute();
@@ -61,6 +62,9 @@ function App() {
       break;
     case 'environment':
       page = <EnvironmentPage />;
+      break;
+    case 'society':
+      page = <SocietyPage />;
       break;
     default:
       page = <HomePage />;

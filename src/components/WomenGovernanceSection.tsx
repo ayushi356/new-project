@@ -131,50 +131,50 @@ export function WomenGovernanceSection() {
   ];
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs sm:p-7">
+    <div className="rounded-2xl border border-[#E5E0D8] bg-white p-5 shadow-2xs sm:p-7">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-slate-100 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-[#E5E0D8] pb-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-rose-600">
-            <HeartHandshake size={14} />
+          <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#1A3D2F]">
+            <HeartHandshake size={14} strokeWidth={1.5} />
             <span>Special Governance Track</span>
           </div>
-          <h3 className="text-xl font-extrabold text-slate-900 sm:text-2xl mt-0.5">
+          <h3 className="font-serif text-xl font-bold text-[#181A19] sm:text-2xl mt-0.5">
             Women, Society & Governance
           </h3>
-          <p className="mt-1 text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
+          <p className="mt-1 text-xs sm:text-sm text-[#4A524D] max-w-2xl leading-relaxed">
             Examining women’s safety, welfare cash transfers, judicial accountability, and public resource utilization across different governing parties and eras.
           </p>
         </div>
 
         {/* Tab Switcher */}
-        <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-0.5 text-xs font-semibold shrink-0">
+        <div className="inline-flex rounded-lg border border-[#E5E0D8] bg-[#F5F2EB] p-0.5 text-xs font-semibold shrink-0">
           <button
             onClick={() => setActiveTab('schemes')}
-            className={`rounded-md px-3 py-1.5 transition ${
+            className={`rounded-md px-3 py-1.5 transition cursor-pointer ${
               activeTab === 'schemes'
-                ? 'bg-white text-slate-900 shadow-xs font-bold'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-[#1A3D2F] text-white shadow-2xs font-bold'
+                : 'text-[#4A524D] hover:text-[#181A19]'
             }`}
           >
             Welfare Models
           </button>
           <button
             onClick={() => setActiveTab('justice')}
-            className={`rounded-md px-3 py-1.5 transition ${
+            className={`rounded-md px-3 py-1.5 transition cursor-pointer ${
               activeTab === 'justice'
-                ? 'bg-white text-slate-900 shadow-xs font-bold'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-[#1A3D2F] text-white shadow-2xs font-bold'
+                : 'text-[#4A524D] hover:text-[#181A19]'
             }`}
           >
             Crises & Judicial Actions
           </button>
           <button
             onClick={() => setActiveTab('nirbhaya_fund')}
-            className={`rounded-md px-3 py-1.5 transition ${
+            className={`rounded-md px-3 py-1.5 transition cursor-pointer ${
               activeTab === 'nirbhaya_fund'
-                ? 'bg-white text-slate-900 shadow-xs font-bold'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-[#1A3D2F] text-white shadow-2xs font-bold'
+                : 'text-[#4A524D] hover:text-[#181A19]'
             }`}
           >
             Nirbhaya Fund Audit
@@ -185,15 +185,15 @@ export function WomenGovernanceSection() {
       {/* Tab 1: Cross-Party Welfare Models */}
       {activeTab === 'schemes' && (
         <div className="mt-6 space-y-4">
-          <div className="rounded-xl bg-slate-50 border border-slate-200 p-4 text-xs text-slate-600">
-            <strong className="text-slate-800">The Rise of Direct Cash Safety Nets:</strong> Across both national and regional parties, direct benefit transfers (DBT) deposited directly into women's bank accounts have become the primary instrument of welfare delivery. Below is an evidence-based comparison of flagship programs across governing parties.
+          <div className="rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] p-4 text-xs text-[#4A524D]">
+            <strong className="text-[#181A19]">The Rise of Direct Cash Safety Nets:</strong> Across both national and regional parties, direct benefit transfers (DBT) deposited directly into women's bank accounts have become the primary instrument of welfare delivery. Below is an evidence-based comparison of flagship programs across governing parties.
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {welfareSchemes.map((w, idx) => (
               <div
                 key={idx}
-                className="rounded-xl border border-slate-200 bg-white p-5 shadow-xs flex flex-col justify-between"
+                className="rounded-xl border border-[#E5E0D8] bg-white p-5 shadow-2xs flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between pb-2 border-b border-[#E5E0D8]">
@@ -202,18 +202,18 @@ export function WomenGovernanceSection() {
                     </span>
                   </div>
 
-                  <h4 className="text-base font-bold text-slate-900 mt-2.5">{w.schemeName}</h4>
-                  <p className="mt-1 text-xs font-semibold text-slate-500">Reach: {w.coverage}</p>
+                  <h4 className="font-serif text-base font-bold text-[#181A19] mt-2.5">{w.schemeName}</h4>
+                  <p className="mt-1 text-xs font-semibold text-[#5C6460]">Reach: {w.coverage}</p>
 
                   <div className="mt-3.5 space-y-2 text-xs">
-                    <div className="rounded-lg bg-emerald-50/70 border border-emerald-100 p-2.5">
-                      <strong className="text-emerald-900 block font-bold mb-0.5">Established Positive Ground Impact:</strong>
-                      <span className="text-emerald-800">{w.impactEstablished}</span>
+                    <div className="rounded-lg bg-emerald-50/60 border border-emerald-200/70 p-2.5">
+                      <strong className="text-emerald-950 block font-bold mb-0.5">Established Positive Ground Impact:</strong>
+                      <span className="text-emerald-900 leading-relaxed">{w.impactEstablished}</span>
                     </div>
 
-                    <div className="rounded-lg bg-amber-50/70 border border-amber-100 p-2.5">
-                      <strong className="text-amber-900 block font-bold mb-0.5">Documented Scrutiny & Gaps:</strong>
-                      <span className="text-amber-800">{w.scrutinyDisputed}</span>
+                    <div className="rounded-lg bg-amber-50/60 border border-amber-200/70 p-2.5">
+                      <strong className="text-amber-950 block font-bold mb-0.5">Documented Scrutiny & Gaps:</strong>
+                      <span className="text-amber-900 leading-relaxed">{w.scrutinyDisputed}</span>
                     </div>
                   </div>
                 </div>
@@ -226,33 +226,33 @@ export function WomenGovernanceSection() {
       {/* Tab 2: Documented Crises & Judicial Actions */}
       {activeTab === 'justice' && (
         <div className="mt-6 space-y-3.5">
-          <div className="rounded-xl bg-rose-50 border border-rose-200 p-4 text-xs text-rose-900">
-            <strong className="text-rose-950">Judicial Accountability & State Action:</strong> Records below track high-profile sexual violence crises, citizen agitations, and judicial interventions, highlighting the response of state law-enforcement vs constitutional court rulings.
+          <div className="rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] p-4 text-xs text-[#4A524D]">
+            <strong className="text-[#181A19]">Judicial Accountability & State Action:</strong> Records below track high-profile sexual violence crises, citizen agitations, and judicial interventions, highlighting the response of state law-enforcement vs constitutional court rulings.
           </div>
 
           <div className="space-y-3">
             {safetyRecords.map((r, idx) => (
               <div
                 key={idx}
-                className="rounded-xl border border-slate-200 bg-white p-4 shadow-xs transition hover:border-slate-300"
+                className="rounded-xl border border-[#E5E0D8] bg-white p-4 shadow-2xs transition hover:border-[#C8C2B5]"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="rounded-full bg-rose-100 text-rose-800 px-2 py-0.5 text-[10px] font-bold">
+                    <span className="rounded-md border border-[#E5E0D8] bg-[#FAF8F5] px-2 py-0.5 text-[10px] font-bold text-[#181A19]">
                       {r.state}
                     </span>
-                    <span className="text-xs text-slate-400">· {r.year}</span>
+                    <span className="text-xs text-[#717A74]">· {r.year}</span>
                   </div>
-                  <span className="rounded-sm bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-slate-600">
+                  <span className="rounded-md border border-[#E5E0D8] bg-[#F5F2EB] px-2 py-0.5 text-[10px] font-medium text-[#5C6460]">
                     {r.status}
                   </span>
                 </div>
 
-                <h4 className="text-sm sm:text-base font-bold text-slate-900 mt-2">{r.title}</h4>
-                <p className="mt-1 text-xs text-slate-600 leading-relaxed">{r.whatHappened}</p>
+                <h4 className="font-serif text-sm sm:text-base font-bold text-[#181A19] mt-2.5">{r.title}</h4>
+                <p className="mt-1 text-xs text-[#4A524D] leading-relaxed">{r.whatHappened}</p>
 
-                <div className="mt-3 rounded-lg bg-slate-50 border border-slate-200 p-2.5 text-xs text-slate-700">
-                  <strong className="text-slate-900">Judicial / Investigative Action: </strong>
+                <div className="mt-3 rounded-lg bg-[#FAF8F5] border border-[#E5E0D8] p-2.5 text-xs text-[#4A524D]">
+                  <strong className="text-[#181A19]">Judicial / Investigative Action: </strong>
                   <span>{r.judicialOutcome}</span>
                 </div>
               </div>
@@ -279,16 +279,16 @@ export function WomenGovernanceSection() {
       )}
 
       {/* Footer Nav Link */}
-      <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-        <span className="text-slate-500">
+      <div className="mt-6 pt-4 border-t border-[#E5E0D8] flex items-center justify-between text-xs">
+        <span className="text-[#717A74]">
           Source: Sansad records, Supreme Court & High Court judgments, and CAG audits.
         </span>
         <button
           onClick={() => navigate('/incidents')}
-          className="font-bold text-rose-600 hover:text-rose-700 inline-flex items-center gap-1"
+          className="font-bold text-[#1A3D2F] hover:text-[#143025] inline-flex items-center gap-1 cursor-pointer"
         >
           <span>Explore all incident records</span>
-          <ArrowRight size={13} />
+          <ArrowRight size={13} strokeWidth={1.5} />
         </button>
       </div>
     </div>

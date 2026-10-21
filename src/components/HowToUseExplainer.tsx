@@ -126,20 +126,20 @@ export function HowToUseExplainer({ defaultOpen = false }: HowToUseExplainerProp
   return (
     <div className="w-full">
       {/* Inline Onboarding Banner (Visible on Home and Pages) */}
-      <div className="rounded-2xl border border-indigo-100 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-5 text-white shadow-md sm:p-6">
+      <div className="rounded-2xl border border-[#E5E0D8] bg-[#F5F2EB] p-5 text-[#181A19] shadow-2xs sm:p-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-start gap-3.5">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
-              <Compass size={22} />
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] text-[#1A3D2F]">
+              <Compass size={22} strokeWidth={1.5} />
             </span>
             <div>
-              <div className="inline-flex items-center gap-1.5 rounded-full bg-indigo-500/20 px-2.5 py-0.5 text-[11px] font-bold text-indigo-200 uppercase tracking-wider">
-                <HelpCircle size={12} /> First Time Visitor Guide
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-[#1A3D2F]/20 bg-[#1A3D2F]/5 px-2.5 py-0.5 text-[11px] font-bold text-[#1A3D2F] uppercase tracking-wider">
+                <HelpCircle size={12} strokeWidth={1.5} /> First Time Visitor Guide
               </div>
-              <h2 className="mt-1 text-lg font-bold sm:text-xl text-white">
+              <h2 className="mt-1 font-serif text-lg font-bold sm:text-xl text-[#181A19]">
                 How to Use the Bharat Governance Tracker
               </h2>
-              <p className="mt-1 text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
+              <p className="mt-1 text-xs sm:text-sm text-[#4A524D] max-w-2xl leading-relaxed">
                 Learn what this platform investigates, how to separate official claims from established facts, and why tenure does not equal causation.
               </p>
             </div>
@@ -148,43 +148,43 @@ export function HowToUseExplainer({ defaultOpen = false }: HowToUseExplainerProp
           <div className="flex items-center gap-2.5 shrink-0">
             <button
               onClick={() => setIsOpen(true)}
-              className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2.5 text-xs font-bold text-white transition shadow-sm"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#1A3D2F] hover:bg-[#143025] px-4 py-2.5 text-xs font-bold text-white transition shadow-2xs cursor-pointer"
             >
               <span>Open 5-Minute Citizen Guide</span>
-              <ChevronRight size={14} />
+              <ChevronRight size={14} strokeWidth={1.5} />
             </button>
           </div>
         </div>
 
         {/* Quick 4-Pill Highlights */}
-        <div className="mt-5 grid grid-cols-2 gap-2.5 pt-4 border-t border-white/10 sm:grid-cols-4 text-xs">
+        <div className="mt-5 grid grid-cols-2 gap-2.5 pt-4 border-t border-[#E5E0D8] sm:grid-cols-4 text-xs">
           <button
             onClick={() => { setActiveTab('what'); setIsOpen(true); }}
-            className="flex items-center gap-2 rounded-lg bg-white/5 hover:bg-white/10 p-2 text-left transition border border-white/5"
+            className="flex items-center gap-2 rounded-lg bg-white hover:bg-[#FAF8F5] p-2 text-left transition border border-[#E5E0D8] cursor-pointer"
           >
-            <CheckCircle2 size={15} className="text-emerald-400 shrink-0" />
-            <span className="font-medium text-slate-200 truncate">1. Scope & Coverage</span>
+            <CheckCircle2 size={15} strokeWidth={1.5} className="text-[#1A3D2F] shrink-0" />
+            <span className="font-medium text-[#181A19] truncate">1. Scope & Coverage</span>
           </button>
           <button
             onClick={() => { setActiveTab('explore'); setIsOpen(true); }}
-            className="flex items-center gap-2 rounded-lg bg-white/5 hover:bg-white/10 p-2 text-left transition border border-white/5"
+            className="flex items-center gap-2 rounded-lg bg-white hover:bg-[#FAF8F5] p-2 text-left transition border border-[#E5E0D8] cursor-pointer"
           >
-            <Search size={15} className="text-blue-400 shrink-0" />
-            <span className="font-medium text-slate-200 truncate">2. How to Explore</span>
+            <Search size={15} strokeWidth={1.5} className="text-[#1A3D2F] shrink-0" />
+            <span className="font-medium text-[#181A19] truncate">2. How to Explore</span>
           </button>
           <button
             onClick={() => { setActiveTab('evidence'); setIsOpen(true); }}
-            className="flex items-center gap-2 rounded-lg bg-white/5 hover:bg-white/10 p-2 text-left transition border border-white/5"
+            className="flex items-center gap-2 rounded-lg bg-white hover:bg-[#FAF8F5] p-2 text-left transition border border-[#E5E0D8] cursor-pointer"
           >
-            <Scale size={15} className="text-amber-400 shrink-0" />
-            <span className="font-medium text-slate-200 truncate">3. Evidentiary Tiers</span>
+            <Scale size={15} strokeWidth={1.5} className="text-[#1A3D2F] shrink-0" />
+            <span className="font-medium text-[#181A19] truncate">3. Evidentiary Tiers</span>
           </button>
           <button
             onClick={() => { setActiveTab('tenure'); setIsOpen(true); }}
-            className="flex items-center gap-2 rounded-lg bg-white/5 hover:bg-white/10 p-2 text-left transition border border-white/5"
+            className="flex items-center gap-2 rounded-lg bg-white hover:bg-[#FAF8F5] p-2 text-left transition border border-[#E5E0D8] cursor-pointer"
           >
-            <AlertTriangle size={15} className="text-rose-400 shrink-0" />
-            <span className="font-medium text-slate-200 truncate">4. Tenure ≠ Causation</span>
+            <AlertTriangle size={15} strokeWidth={1.5} className="text-[#B45309] shrink-0" />
+            <span className="font-medium text-[#181A19] truncate">4. Tenure ≠ Causation</span>
           </button>
         </div>
       </div>
@@ -194,31 +194,31 @@ export function HowToUseExplainer({ defaultOpen = false }: HowToUseExplainerProp
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-xs">
           <div className="flex max-h-[90vh] w-full max-w-4xl flex-col rounded-2xl bg-white shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
             {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-slate-200 bg-slate-900 px-6 py-4 text-white">
+            <div className="flex items-center justify-between border-b border-[#1A3D2F] bg-[#1A3D2F] px-6 py-4 text-white">
               <div className="flex items-center gap-2.5">
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-500/20 text-indigo-300">
-                  <Compass size={18} />
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-white">
+                  <Compass size={18} strokeWidth={1.5} />
                 </span>
                 <div>
-                  <h3 className="text-base font-bold text-white">
+                  <h3 className="font-serif text-base font-bold text-white">
                     Citizen Guide: Navigating Governance & Public Accountability
                   </h3>
-                  <p className="text-xs text-slate-300">
+                  <p className="text-xs text-[#D2DFD8]">
                     5 Essential principles for reading and verifying civic records
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="rounded-lg p-1.5 text-slate-400 hover:bg-white/10 hover:text-white transition"
+                className="rounded-lg p-1.5 text-white/80 hover:bg-white/10 hover:text-white transition cursor-pointer"
                 aria-label="Close modal"
               >
-                <X size={20} />
+                <X size={20} strokeWidth={1.5} />
               </button>
             </div>
 
             {/* Modal Tabs */}
-            <div className="flex overflow-x-auto border-b border-slate-200 bg-slate-50 px-4 py-2 gap-1 text-xs font-semibold">
+            <div className="flex overflow-x-auto border-b border-[#E5E0D8] bg-[#F5F2EB] px-4 py-2 gap-1 text-xs font-semibold">
               {guideSections.map((sec) => {
                 const Icon = sec.icon;
                 const active = activeTab === sec.id;
@@ -226,13 +226,13 @@ export function HowToUseExplainer({ defaultOpen = false }: HowToUseExplainerProp
                   <button
                     key={sec.id}
                     onClick={() => setActiveTab(sec.id)}
-                    className={`flex items-center gap-1.5 rounded-lg px-3 py-2 whitespace-nowrap transition ${
+                    className={`flex items-center gap-1.5 rounded-lg px-3 py-2 whitespace-nowrap transition cursor-pointer ${
                       active
-                        ? 'bg-slate-900 text-white shadow-xs'
-                        : 'text-slate-600 hover:bg-slate-200/70'
+                        ? 'bg-[#1A3D2F] text-white shadow-2xs font-bold'
+                        : 'text-[#4A524D] hover:bg-white/80'
                     }`}
                   >
-                    <Icon size={14} />
+                    <Icon size={14} strokeWidth={1.5} />
                     <span>{sec.shortTitle}</span>
                   </button>
                 );
@@ -242,13 +242,13 @@ export function HowToUseExplainer({ defaultOpen = false }: HowToUseExplainerProp
             {/* Modal Content */}
             <div className="overflow-y-auto p-6 space-y-5 flex-1">
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-indigo-600">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#1A3D2F]">
                   {currentSection.title}
                 </span>
-                <h4 className="text-xl font-extrabold text-slate-900 mt-0.5">
+                <h4 className="font-serif text-xl font-bold text-[#181A19] mt-0.5">
                   {currentSection.headline}
                 </h4>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                <p className="mt-2 text-sm leading-relaxed text-[#4A524D]">
                   {currentSection.description}
                 </p>
               </div>
@@ -257,15 +257,15 @@ export function HowToUseExplainer({ defaultOpen = false }: HowToUseExplainerProp
                 {currentSection.points.map((pt, idx) => (
                   <div
                     key={idx}
-                    className="rounded-xl border border-slate-200 bg-slate-50/60 p-4 transition hover:bg-white hover:border-slate-300"
+                    className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5]/60 p-4 transition hover:bg-white hover:border-[#C8C2B5]"
                   >
-                    <p className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-slate-900 text-[10px] font-bold text-white">
+                    <p className="text-sm font-serif font-bold text-[#181A19] flex items-center gap-2">
+                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#1A3D2F] text-[10px] font-bold text-white">
                         {idx + 1}
                       </span>
                       {pt.label}
                     </p>
-                    <p className="mt-1.5 text-xs text-slate-600 leading-relaxed pl-7">
+                    <p className="mt-1.5 text-xs text-[#4A524D] leading-relaxed pl-7">
                       {pt.text}
                     </p>
                   </div>
@@ -274,13 +274,13 @@ export function HowToUseExplainer({ defaultOpen = false }: HowToUseExplainerProp
             </div>
 
             {/* Modal Footer */}
-            <div className="flex items-center justify-between border-t border-slate-200 bg-slate-50 px-6 py-3.5 text-xs">
-              <span className="text-slate-500">
+            <div className="flex items-center justify-between border-t border-[#E5E0D8] bg-[#FAF8F5] px-6 py-3.5 text-xs">
+              <span className="text-[#5C6460]">
                 Independent, evidence-based, citizen-focused.
               </span>
               <button
                 onClick={() => setIsOpen(false)}
-                className="rounded-lg bg-slate-900 px-4 py-2 font-semibold text-white hover:bg-slate-800 transition"
+                className="rounded-lg bg-[#1A3D2F] px-4 py-2 font-semibold text-white hover:bg-[#143025] transition cursor-pointer"
               >
                 Close & Start Exploring
               </button>

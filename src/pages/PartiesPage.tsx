@@ -5,7 +5,7 @@ import {
   Landmark,
   Calendar,
   Users as UsersIcon,
-  Flame,
+  AlertTriangle,
   FileText,
   BadgeCheck,
   ArrowRight,
@@ -186,7 +186,7 @@ export function PartiesPage() {
                       className="inline-flex items-center gap-1 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] px-3 py-1.5 text-xs font-bold text-[#1A3D2F] hover:bg-[#E8F0EC] transition shrink-0 cursor-pointer"
                     >
                       <span>View Dossier</span>
-                      <ArrowRight size={13} />
+                      <ArrowRight size={13} strokeWidth={1.5} />
                     </button>
                   </div>
 
@@ -243,7 +243,7 @@ export function PartiesPage() {
                     >
                       <p className="text-sm font-bold text-[#181A19]">{c?.leader_count ?? 0}</p>
                       <p className="text-[10px] uppercase tracking-wide text-[#717A74] flex items-center justify-center gap-1 mt-0.5">
-                        <UsersIcon size={10} /> Leaders
+                        <UsersIcon size={10} strokeWidth={1.5} /> Leaders
                       </p>
                     </div>
                     <div
@@ -261,7 +261,7 @@ export function PartiesPage() {
                     >
                       <p className="text-sm font-bold text-rose-700">{c?.incident_count ?? 0}</p>
                       <p className="text-[10px] uppercase tracking-wide text-rose-600 flex items-center justify-center gap-1 mt-0.5">
-                        <Flame size={10} /> Incidents
+                        <AlertTriangle size={10} strokeWidth={1.5} /> Incidents
                       </p>
                     </div>
                     <div
@@ -270,7 +270,7 @@ export function PartiesPage() {
                     >
                       <p className="text-sm font-bold text-[#181A19]">{c?.yojna_count ?? 0}</p>
                       <p className="text-[10px] uppercase tracking-wide text-[#717A74] flex items-center justify-center gap-1 mt-0.5">
-                        <FileText size={10} /> Yojnas
+                        <FileText size={10} strokeWidth={1.5} /> Yojnas
                       </p>
                     </div>
                     <div
@@ -279,7 +279,7 @@ export function PartiesPage() {
                     >
                       <p className="text-sm font-bold text-[#181A19]">{c?.promise_count ?? 0}</p>
                       <p className="text-[10px] uppercase tracking-wide text-[#717A74] flex items-center justify-center gap-1 mt-0.5">
-                        <BadgeCheck size={10} /> Promises
+                        <BadgeCheck size={10} strokeWidth={1.5} /> Promises
                       </p>
                     </div>
                   </div>
@@ -300,7 +300,7 @@ export function PartiesPage() {
               Showing key party leaders organized under each respective political party. Click any leader to view their complete dossier, verified works, and parliamentary records.
             </p>
             <div className="relative">
-              <Search size={14} className="absolute left-3 top-3 text-[#717A74]" />
+              <Search size={14} strokeWidth={1.5} className="absolute left-3 top-3 text-[#717A74]" />
               <input
                 type="text"
                 placeholder="Search leader by name, constituency, role..."
@@ -339,7 +339,7 @@ export function PartiesPage() {
                     className="inline-flex items-center gap-1.5 rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] px-3.5 py-2 text-xs font-bold text-[#1A3D2F] hover:bg-[#E8F0EC] transition self-start sm:self-auto cursor-pointer"
                   >
                     <span>View Full Party Dossier</span>
-                    <ArrowRight size={13} />
+                    <ArrowRight size={13} strokeWidth={1.5} />
                   </button>
                 </div>
 
@@ -367,7 +367,7 @@ export function PartiesPage() {
 
                         {l.represents && (
                           <div className="mt-2 flex items-center gap-1 text-[11px] text-[#717A74]">
-                            <MapPin size={11} className="shrink-0 text-[#1A3D2F]" />
+                            <MapPin size={11} strokeWidth={1.5} className="shrink-0 text-[#1A3D2F]" />
                             <span className="truncate">{l.represents}</span>
                           </div>
                         )}
@@ -381,7 +381,7 @@ export function PartiesPage() {
 
                       <div className="mt-4 pt-2.5 border-t border-[#E5E0D8] flex items-center justify-between text-xs font-bold text-[#1A3D2F]">
                         <span>View complete dossier</span>
-                        <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
+                        <ArrowRight size={13} strokeWidth={1.5} className="transition-transform group-hover:translate-x-0.5" />
                       </div>
                     </div>
                   ))}

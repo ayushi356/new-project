@@ -284,7 +284,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-[#1A3D2F]/20 bg-[#1A3D2F]/5 px-3.5 py-1 text-xs font-semibold text-[#1A3D2F]">
-              <Coins size={14} className="text-[#1A3D2F]" />
+              <Coins size={14} strokeWidth={1.5} className="text-[#1A3D2F]" />
               <span>Public Treasury & Citizen Accountability · Article 112 & 151</span>
             </div>
 
@@ -304,7 +304,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 onClick={() => setShowGlossary((v) => !v)}
                 className="inline-flex items-center gap-2 rounded-xl bg-[#1A3D2F] px-4 py-2 text-xs font-bold text-white shadow-2xs transition hover:bg-[#143025] cursor-pointer"
               >
-                <HelpCircle size={15} />
+                <HelpCircle size={15} strokeWidth={1.5} />
                 <span>{showGlossary ? 'Hide Budget Guide' : 'Citizen Budget Primer'}</span>
               </button>
               <a
@@ -314,7 +314,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 className="inline-flex items-center gap-1.5 rounded-xl border border-[#D5CFBF] bg-white px-3.5 py-2 text-xs font-semibold text-[#181A19] shadow-2xs hover:bg-[#FAF8F5] transition"
               >
                 <span>Union Budget Official Portal</span>
-                <ExternalLink size={12} className="text-[#1A3D2F]" />
+                <ExternalLink size={12} strokeWidth={1.5} className="text-[#1A3D2F]" />
               </a>
               <a
                 href="https://cag.gov.in/"
@@ -323,7 +323,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 className="inline-flex items-center gap-1.5 rounded-xl border border-[#D5CFBF] bg-white px-3.5 py-2 text-xs font-semibold text-[#181A19] shadow-2xs hover:bg-[#FAF8F5] transition"
               >
                 <span>CAG Official Reports</span>
-                <ExternalLink size={12} className="text-[#1A3D2F]" />
+                <ExternalLink size={12} strokeWidth={1.5} className="text-[#1A3D2F]" />
               </a>
             </div>
           </div>
@@ -333,7 +333,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
       {/* 2. Sample Data Disclaimer Banner */}
       <div className="border-b border-amber-200 bg-amber-50">
         <div className="mx-auto flex max-w-7xl items-start gap-3 px-4 py-3 sm:px-6">
-          <AlertCircle size={20} className="mt-0.5 shrink-0 text-amber-700" />
+          <AlertCircle size={20} strokeWidth={1.5} className="mt-0.5 shrink-0 text-amber-700" />
           <div className="text-xs leading-relaxed text-amber-900 sm:text-sm">
             <span className="font-bold uppercase tracking-wide text-amber-800">
               Demonstration & Verification Notice:
@@ -353,7 +353,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
           <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div className="flex items-center gap-2">
-                <HelpCircle size={18} className="text-indigo-600" />
+                <HelpCircle size={18} strokeWidth={1.5} className="text-[#1A3D2F]" />
                 <h2 className="text-base font-bold text-slate-900 sm:text-lg">
                   Citizen Primer: Key Public Finance Concepts
                 </h2>
@@ -367,8 +367,8 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
             </div>
 
             <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="rounded-xl border border-indigo-100 bg-indigo-50/50 p-4">
-                <span className="inline-block rounded-md bg-indigo-100 px-2 py-0.5 text-[11px] font-bold text-indigo-800">
+              <div className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-4">
+                <span className="inline-block rounded-md bg-[#1A3D2F]/10 px-2 py-0.5 text-[11px] font-bold text-[#1A3D2F]">
                   BE · Budget Estimate
                 </span>
                 <h3 className="mt-2 text-sm font-bold text-slate-900">
@@ -430,8 +430,8 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-indigo-600">
-                <PieChart size={15} />
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1A3D2F]">
+                <PieChart size={15} strokeWidth={1.5} />
                 <span>Macro Overview · {CITIZEN_RUPEE_BREAKDOWN.financialYear}</span>
               </div>
               <h2 className="mt-1 text-xl font-extrabold text-slate-900 sm:text-2xl">
@@ -493,7 +493,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
             </div>
             <div>
               <p className="text-xs font-medium text-slate-500">Fiscal Deficit Target</p>
-              <p className="mt-0.5 text-lg font-extrabold text-indigo-600 sm:text-xl">
+              <p className="mt-0.5 text-lg font-extrabold text-[#1A3D2F] sm:text-xl">
                 {CITIZEN_RUPEE_BREAKDOWN.macroTotals.fiscalDeficitTargetPct}% of GDP
               </p>
               <span className="text-[11px] text-slate-400">FRBM statutory glide path</span>
@@ -575,8 +575,8 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
       {/* Visual Storytelling: How Public Money Moves Through Government */}
       <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
         <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-indigo-600">
-            <Coins size={14} />
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1A3D2F]">
+            <Coins size={14} strokeWidth={1.5} />
             <span>Civic Literacy: The 5-Stage Life of Public Money</span>
           </div>
           <h2 className="mt-1 text-xl font-bold text-slate-900">How Tax Money Moves Through Indian Government</h2>
@@ -649,7 +649,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                     : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50'
                 }`}
               >
-                <Icon size={16} className={active ? 'text-emerald-400' : 'text-slate-500'} />
+                <Icon size={16} strokeWidth={1.5} className={active ? 'text-emerald-400' : 'text-slate-500'} />
                 <span>{sec.shortLabel}</span>
                 <span
                   className={`rounded-full px-1.5 py-0.2 text-[10px] font-extrabold ${
@@ -670,13 +670,13 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
           <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
             <div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500">
-                <Layers size={14} />
+                <Layers size={14} strokeWidth={1.5} />
                 <span>Pillar Details</span>
               </div>
               <h2 className="mt-1 text-2xl font-black text-slate-900">
                 {activeSectionMeta.label}
               </h2>
-              <p className="mt-1 text-sm font-semibold text-indigo-700">
+              <p className="mt-1 text-sm font-semibold text-[#1A3D2F]">
                 {activeSectionMeta.plainQuestion}
               </p>
               <p className="mt-1.5 max-w-3xl text-xs leading-relaxed text-slate-600 sm:text-sm">
@@ -719,6 +719,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
             <div className="relative md:col-span-4">
               <Search
                 size={16}
+                strokeWidth={1.5}
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
               />
               <input
@@ -788,7 +789,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                   onClick={resetFilters}
                   className="inline-flex items-center gap-1 rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-600 hover:bg-slate-200"
                 >
-                  <RotateCcw size={12} />
+                  <RotateCcw size={12} strokeWidth={1.5} />
                   Reset Filters
                 </button>
               )}
@@ -817,7 +818,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
       <section className="mx-auto max-w-7xl px-4 pt-5 sm:px-6">
         {filteredRecords.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center">
-            <Filter size={32} className="mx-auto text-slate-400" />
+            <Filter size={32} strokeWidth={1.5} className="mx-auto text-slate-400" />
             <h3 className="mt-3 text-base font-bold text-slate-900">
               No public finance records match your filters
             </h3>
@@ -828,7 +829,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
               onClick={resetFilters}
               className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800"
             >
-              <RotateCcw size={14} /> Clear all filters
+              <RotateCcw size={14} strokeWidth={1.5} /> Clear all filters
             </button>
           </div>
         ) : (
@@ -874,7 +875,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
 
                       {/* Financial Year */}
                       <span className="flex items-center gap-1 text-xs font-semibold text-slate-500">
-                        <Calendar size={13} />
+                        <Calendar size={13} strokeWidth={1.5} />
                         {record.financialYear}
                       </span>
                     </div>
@@ -886,7 +887,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                           {record.title}
                         </h3>
                         <div className="mt-1 flex items-center gap-1.5 text-xs text-slate-500">
-                          <Building2 size={13} />
+                          <Building2 size={13} strokeWidth={1.5} />
                           <span>{record.departmentOrMinistry}</span>
                         </div>
                       </div>
@@ -906,12 +907,12 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                     </div>
 
                     {/* Plain Language Citizen Explanation */}
-                    <div className="mt-4 rounded-xl border border-indigo-100 bg-indigo-50/40 p-3.5">
+                    <div className="mt-4 rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-3.5">
                       <div className="flex items-start gap-2">
-                        <span className="rounded-md bg-indigo-600 px-1.5 py-0.5 text-[10px] font-bold text-white shrink-0">
+                        <span className="rounded-md bg-[#1A3D2F] px-1.5 py-0.5 text-[10px] font-bold text-white shrink-0">
                           Citizen Explanation
                         </span>
-                        <p className="text-xs leading-relaxed text-indigo-950 font-medium sm:text-sm">
+                        <p className="text-xs leading-relaxed text-[#181A19] font-medium sm:text-sm">
                           {record.plainSummary}
                         </p>
                       </div>
@@ -922,7 +923,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                       {record.budgetEstimateCr != null && (
                         <div className="rounded-lg border border-slate-100 bg-slate-50/70 p-2.5">
                           <p className="text-[10px] font-medium text-slate-500">Budget Estimate (BE)</p>
-                          <p className="mt-0.5 text-xs font-bold text-indigo-700">
+                          <p className="mt-0.5 text-xs font-bold text-[#1A3D2F]">
                             {formatInLakhCrore(record.budgetEstimateCr)}
                           </p>
                         </div>
@@ -980,7 +981,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                     {/* Scheme physical progress badge */}
                     {record.details?.physicalProgress && (
                       <div className="mt-3 flex items-center gap-2 rounded-lg bg-emerald-50 border border-emerald-100 px-3 py-2 text-xs text-emerald-900">
-                        <CheckCircle2 size={14} className="shrink-0 text-emerald-600" />
+                        <CheckCircle2 size={14} strokeWidth={1.5} className="shrink-0 text-emerald-600" />
                         <span>
                           <strong>Physical Ground Delivery:</strong> {record.details.physicalProgress}
                         </span>
@@ -990,7 +991,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                     {/* Audit observation specific notice */}
                     {record.details?.cagReportNumber && (
                       <div className="mt-3 flex items-start gap-2 rounded-lg bg-rose-50 border border-rose-100 px-3 py-2 text-xs text-rose-900">
-                        <ShieldCheck size={14} className="shrink-0 text-rose-600 mt-0.5" />
+                        <ShieldCheck size={14} strokeWidth={1.5} className="shrink-0 text-rose-600 mt-0.5" />
                         <div>
                           <span className="font-bold">CAG Report ID:</span> {record.details.cagReportNumber}
                           {record.details.ministryResponseStatus && (
@@ -1033,7 +1034,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                                 {formatInLakhCrore(pt.amountCr)}
                               </p>
                               {pt.gdpPct && (
-                                <p className="text-[10px] font-semibold text-indigo-600">
+                                <p className="text-[10px] font-semibold text-[#1A3D2F]">
                                   {pt.gdpPct}% of GDP
                                 </p>
                               )}
@@ -1051,12 +1052,12 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                       className="flex w-full items-center justify-between text-xs font-bold text-slate-700 hover:text-slate-900"
                     >
                       <span className="flex items-center gap-1.5">
-                        <FileCheck2 size={14} className="text-indigo-600" />
+                        <FileCheck2 size={14} strokeWidth={1.5} className="text-[#1A3D2F]" />
                         <span>Source & Audit Methodology Dossier</span>
                       </span>
                       <span className="flex items-center gap-1 text-slate-500">
                         <span>{isExpanded ? 'Hide Citation & Math' : 'Verify Sources & Calculations'}</span>
-                        {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                        {isExpanded ? <ChevronUp size={14} strokeWidth={1.5} /> : <ChevronDown size={14} strokeWidth={1.5} />}
                       </span>
                     </button>
                   </div>
@@ -1066,7 +1067,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                     <div className="border-t border-slate-200 bg-slate-50 p-5 sm:p-6">
                       <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5 shadow-xs">
                         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                          <span className="text-xs font-bold uppercase tracking-wider text-indigo-700">
+                          <span className="text-xs font-bold uppercase tracking-wider text-[#1A3D2F]">
                             Verification Dossier & Citations
                           </span>
                           <span className="text-[11px] text-slate-400">
@@ -1130,10 +1131,10 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                               href={record.source.sourceUrl}
                               target="_blank"
                               rel="noreferrer"
-                              className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-50 border border-indigo-200 px-3 py-1.5 text-xs font-bold text-indigo-700 transition hover:bg-indigo-100"
+                              className="inline-flex items-center gap-1.5 rounded-lg bg-[#FAF8F5] border border-[#E5E0D8] px-3 py-1.5 text-xs font-bold text-[#1A3D2F] transition hover:bg-[#F5F2EB]"
                             >
                               <span>Open Official Government Portal</span>
-                              <ExternalLink size={13} />
+                              <ExternalLink size={13} strokeWidth={1.5} />
                             </a>
                           </div>
                         )}
@@ -1149,11 +1150,11 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
 
       {/* 10. Citizen Rights & Transparency Callout */}
       <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
-        <div className="rounded-2xl border border-slate-800 bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 p-6 text-white sm:p-8 shadow-md">
+        <div className="rounded-2xl border border-[#143025] bg-[#1A3D2F] p-6 text-white sm:p-8 shadow-md">
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
             <div className="max-w-2xl">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-emerald-300">
-                <ShieldCheck size={14} /> Constitutional Accountability
+                <ShieldCheck size={14} strokeWidth={1.5} /> Constitutional Accountability
               </span>
               <h3 className="mt-3 text-xl font-extrabold sm:text-2xl">
                 How Can You Audit Public Expenditure in Your Area?
@@ -1173,7 +1174,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-xs font-bold text-slate-900 transition hover:bg-slate-100"
               >
                 <span>e-GramSwaraj Portal</span>
-                <ArrowUpRight size={14} />
+                <ArrowUpRight size={14} strokeWidth={1.5} />
               </a>
               <a
                 href="https://pfms.nic.in/"
@@ -1182,7 +1183,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 text-xs font-bold text-white transition hover:bg-white/20"
               >
                 <span>PFMS Disbursements</span>
-                <ArrowUpRight size={14} />
+                <ArrowUpRight size={14} strokeWidth={1.5} />
               </a>
             </div>
           </div>

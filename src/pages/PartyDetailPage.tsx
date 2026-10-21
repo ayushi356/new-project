@@ -21,22 +21,20 @@ import {
   Loader,
   Landmark,
   Users as UsersIcon,
-  Flag,
+  Compass,
   Calendar,
   FileText,
   BadgeCheck,
-  Flame,
+  AlertTriangle,
   ExternalLink,
   MapPin,
   ShieldAlert,
-  AlertTriangle,
   Coins,
   BookOpen,
   Filter,
   RotateCcw,
   CheckCircle2,
   Building2,
-  Tag,
   Layers,
   Scale,
   Receipt,
@@ -221,7 +219,7 @@ export function PartyDetailPage({ id }: { id: string }) {
             onClick={() => navigate('/parties')}
             className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#5C6460] hover:text-[#181A19] transition cursor-pointer"
           >
-            <ArrowLeft size={14} /> Back to Parties Directory
+            <ArrowLeft size={14} strokeWidth={1.5} /> Back to Parties Directory
           </button>
 
           <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-5">
@@ -422,7 +420,7 @@ export function PartyDetailPage({ id }: { id: string }) {
         <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xs">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500">
-              <Filter size={15} />
+              <Filter size={15} strokeWidth={1.5} />
               <span>Filter Dossier Records</span>
             </div>
 
@@ -507,7 +505,7 @@ export function PartyDetailPage({ id }: { id: string }) {
                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">Constitutional Profile</h3>
                 <dl className="space-y-4 text-xs">
                   <InfoRow icon={Calendar} label="Founded Year" value={party.founded_year ? party.founded_year.toString() : '—'} />
-                  <InfoRow icon={Flag} label="Ideological Orientation" value={party.ideology ?? '—'} />
+                  <InfoRow icon={Compass} label="Ideological Orientation" value={party.ideology ?? '—'} />
                   <InfoRow icon={Landmark} label="Party Code" value={party.abbreviation} />
                   <InfoRow icon={UsersIcon} label="Representation" value={party.represents ? 'National / Multi-State' : '—'} />
                 </dl>
@@ -554,7 +552,7 @@ export function PartyDetailPage({ id }: { id: string }) {
                               : 'bg-slate-200 text-slate-700'
                           }`}
                         >
-                          {isNational ? '🏛️ Union Government' : isState ? '🏢 State Government' : '⚖️ Opposition'}
+                          {isNational ? 'Union Government' : isState ? 'State Government' : 'Opposition'}
                         </span>
                         <span className="font-semibold text-slate-500 text-[11px]">{t.period}</span>
                       </div>
@@ -565,7 +563,7 @@ export function PartyDetailPage({ id }: { id: string }) {
 
                       <div className="mt-3.5 pt-2.5 border-t border-slate-200/60 flex items-center justify-between text-[11px]">
                         <span className="font-semibold text-slate-700 flex items-center gap-1">
-                          <ShieldCheck size={12} className="text-indigo-600" />
+                          <ShieldCheck size={12} strokeWidth={1.5} className="text-[#1A3D2F]" />
                           Evidence & Sources:
                         </span>
                         <span className="text-slate-500 font-medium">ECI Gazette & Sansad Record</span>
@@ -651,7 +649,7 @@ export function PartyDetailPage({ id }: { id: string }) {
               <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                   <div className="flex items-center gap-2">
-                    <FileText size={18} className="text-blue-600" />
+                    <FileText size={18} strokeWidth={1.5} className="text-[#1A3D2F]" />
                     <h3 className="font-bold text-slate-900 text-base">Flagship Schemes (Yojnas)</h3>
                   </div>
                   <span className="rounded-full bg-blue-50 text-blue-700 px-2 py-0.5 text-xs font-bold">
@@ -701,7 +699,7 @@ export function PartyDetailPage({ id }: { id: string }) {
                         {/* Evidence, Sources & Updates */}
                         <div className="mt-3 pt-2.5 border-t border-slate-200/60 flex items-center justify-between text-[11px]">
                           <span className="font-semibold text-slate-700 flex items-center gap-1">
-                            <ShieldCheck size={12} className="text-blue-600" />
+                            <ShieldCheck size={12} strokeWidth={1.5} className="text-[#1A3D2F]" />
                             Evidence, Sources & Updates:
                           </span>
                           {y.source_url ? (
@@ -712,7 +710,7 @@ export function PartyDetailPage({ id }: { id: string }) {
                               className="font-medium text-blue-600 hover:underline inline-flex items-center gap-1 truncate max-w-[200px]"
                             >
                               <span>{y.source_name ?? 'Ministry Dashboard'}</span>
-                              <ExternalLink size={10} />
+                              <ExternalLink size={10} strokeWidth={1.5} />
                             </a>
                           ) : (
                             <span className="text-slate-500 font-medium truncate max-w-[200px]">
@@ -730,7 +728,7 @@ export function PartyDetailPage({ id }: { id: string }) {
               <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                   <div className="flex items-center gap-2">
-                    <BadgeCheck size={18} className="text-purple-600" />
+                    <BadgeCheck size={18} strokeWidth={1.5} className="text-[#1A3D2F]" />
                     <h3 className="font-bold text-slate-900 text-base">Manifesto Promises Reality Check</h3>
                   </div>
                   <span className="rounded-full bg-purple-50 text-purple-700 px-2 py-0.5 text-xs font-bold">
@@ -774,7 +772,7 @@ export function PartyDetailPage({ id }: { id: string }) {
                         {/* Evidence, Sources & Updates */}
                         <div className="mt-3 pt-2.5 border-t border-slate-200/60 flex items-center justify-between text-[11px]">
                           <span className="font-semibold text-slate-700 flex items-center gap-1">
-                            <ShieldCheck size={12} className="text-purple-600" />
+                            <ShieldCheck size={12} strokeWidth={1.5} className="text-[#1A3D2F]" />
                             Evidence, Sources & Updates:
                           </span>
                           {pr.source_url ? (
@@ -785,7 +783,7 @@ export function PartyDetailPage({ id }: { id: string }) {
                               className="font-medium text-purple-600 hover:underline inline-flex items-center gap-1 truncate max-w-[200px]"
                             >
                               <span>{pr.source_name ?? 'Official Manifesto'}</span>
-                              <ExternalLink size={10} />
+                              <ExternalLink size={10} strokeWidth={1.5} />
                             </a>
                           ) : (
                             <span className="text-slate-500 font-medium truncate max-w-[200px]">
@@ -820,7 +818,7 @@ export function PartyDetailPage({ id }: { id: string }) {
                 className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:underline"
               >
                 <span>National Public Money Tracker (10 Pillars)</span>
-                <ExternalLink size={12} />
+                <ExternalLink size={12} strokeWidth={1.5} />
               </button>
             </div>
 
@@ -856,7 +854,7 @@ export function PartyDetailPage({ id }: { id: string }) {
                   <div className="mt-4 pt-3 border-t border-slate-100 space-y-2">
                     <div className="flex items-center justify-between text-[11px]">
                       <span className="font-semibold text-slate-700 flex items-center gap-1">
-                        <ShieldCheck size={12} className="text-indigo-600" />
+                        <ShieldCheck size={12} strokeWidth={1.5} className="text-[#1A3D2F]" />
                         Evidence, Sources & Updates:
                       </span>
                       <span className="text-slate-500 font-medium truncate max-w-[180px]" title={fin.source.documentTitle}>
@@ -933,7 +931,7 @@ export function PartyDetailPage({ id }: { id: string }) {
                               : 'bg-amber-50 text-amber-700 border border-amber-200'
                           }`}
                         >
-                          {inc.severity === 'extreme' ? <ShieldAlert size={12} /> : <AlertTriangle size={12} />}
+                          {inc.severity === 'extreme' ? <ShieldAlert size={12} strokeWidth={1.5} /> : <AlertTriangle size={12} strokeWidth={1.5} />}
                           {inc.severity === 'extreme' ? 'Extreme' : 'Mild'}
                         </span>
                       </div>
@@ -941,12 +939,12 @@ export function PartyDetailPage({ id }: { id: string }) {
                       <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-slate-500">
                         {inc.date_year && (
                           <span className="flex items-center gap-1 font-medium text-slate-600">
-                            <Calendar size={12} /> {inc.date_year}
+                            <Calendar size={12} strokeWidth={1.5} /> {inc.date_year}
                           </span>
                         )}
                         {inc.location && (
                           <span className="flex items-center gap-1 text-slate-600">
-                            <MapPin size={12} /> {inc.location}
+                            <MapPin size={12} strokeWidth={1.5} /> {inc.location}
                           </span>
                         )}
                         {inc.deaths_reported != null && inc.deaths_reported > 0 && (
@@ -959,8 +957,8 @@ export function PartyDetailPage({ id }: { id: string }) {
                       <p className="mt-3 text-sm leading-relaxed text-slate-600">{inc.description}</p>
 
                       {inc.demands && (
-                        <div className="mt-3 rounded-lg border border-indigo-100 bg-indigo-50/70 p-3">
-                          <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-900">Protesters' Demands</p>
+                        <div className="mt-3 rounded-lg border border-[#E5E0D8] bg-[#FAF8F5] p-3">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-[#1A3D2F]">Protesters' Demands</p>
                           <p className="mt-1 text-xs text-slate-700 leading-relaxed">{inc.demands}</p>
                         </div>
                       )}
@@ -983,7 +981,7 @@ export function PartyDetailPage({ id }: { id: string }) {
                     {(inc.source_url || inc.source_name) && (
                       <div className="mt-4 border-t border-slate-100 pt-3 flex items-center justify-between text-xs text-slate-500">
                         <span className="font-semibold text-slate-700 flex items-center gap-1 text-[11px]">
-                          <ShieldCheck size={12} className="text-rose-600" />
+                          <ShieldCheck size={12} strokeWidth={1.5} className="text-[#1A3D2F]" />
                           Evidence, Sources & Updates:
                         </span>
                         {inc.source_url ? (
@@ -994,7 +992,7 @@ export function PartyDetailPage({ id }: { id: string }) {
                             className="inline-flex items-center gap-1 font-semibold text-blue-600 hover:text-blue-700"
                           >
                             <span>{inc.source_name ?? 'Official Record'}</span>
-                            <ExternalLink size={12} />
+                            <ExternalLink size={12} strokeWidth={1.5} />
                           </a>
                         ) : (
                           <span className="font-medium text-slate-600">{inc.source_name}</span>
@@ -1048,7 +1046,7 @@ export function PartyDetailPage({ id }: { id: string }) {
                         <p className="text-xs text-slate-600 mt-0.5 line-clamp-2">{l.role}</p>
                         {l.represents && (
                           <p className="text-[11px] text-slate-400 mt-1 flex items-center gap-1 truncate">
-                            <MapPin size={10} /> {l.represents}
+                            <MapPin size={10} strokeWidth={1.5} /> {l.represents}
                           </p>
                         )}
                       </div>
@@ -1062,7 +1060,7 @@ export function PartyDetailPage({ id }: { id: string }) {
 
                   <div className="mt-4 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
                     <span className="font-semibold text-slate-700 flex items-center gap-1">
-                      <ShieldCheck size={12} className="text-indigo-600" />
+                      <ShieldCheck size={12} strokeWidth={1.5} className="text-[#1A3D2F]" />
                       Individual Record
                     </span>
                     <span className="font-semibold text-blue-600 group-hover:underline">
@@ -1125,7 +1123,7 @@ export function PartyDetailPage({ id }: { id: string }) {
 
                     <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
                       <span className="font-semibold text-slate-700 flex items-center gap-1">
-                        <ShieldCheck size={12} className="text-indigo-600" />
+                        <ShieldCheck size={12} strokeWidth={1.5} className="text-[#1A3D2F]" />
                         Evidence, Sources & Updates:
                       </span>
                       {leg.source_url ? (
@@ -1136,7 +1134,7 @@ export function PartyDetailPage({ id }: { id: string }) {
                           className="font-medium text-blue-600 hover:underline inline-flex items-center gap-1"
                         >
                           <span>{leg.source_name}</span>
-                          <ExternalLink size={11} />
+                          <ExternalLink size={11} strokeWidth={1.5} />
                         </a>
                       ) : (
                         <span>{leg.source_name}</span>
@@ -1153,13 +1151,13 @@ export function PartyDetailPage({ id }: { id: string }) {
   );
 }
 
-function InfoRow({ icon: Icon, label, value }: { icon: typeof Flag; label: string; value: string }) {
+function InfoRow({ icon: Icon, label, value }: { icon: typeof Compass; label: string; value: string }) {
   return (
     <div className="flex items-start gap-3">
-      <Icon size={16} className="mt-0.5 shrink-0 text-slate-400" />
+      <Icon size={16} strokeWidth={1.5} className="mt-0.5 shrink-0 text-[#1A3D2F]" />
       <div>
-        <dt className="text-[11px] font-bold uppercase tracking-wider text-slate-400">{label}</dt>
-        <dd className="mt-0.5 font-medium text-slate-800 text-xs">{value}</dd>
+        <dt className="text-[11px] font-bold uppercase tracking-wider text-[#717A74]">{label}</dt>
+        <dd className="mt-0.5 font-medium text-[#181A19] text-xs">{value}</dd>
       </div>
     </div>
   );

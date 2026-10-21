@@ -49,7 +49,7 @@ export function EnvironmentPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="max-w-3xl space-y-3">
             <div className="inline-flex items-center gap-2 rounded-full bg-[#1A3D2F]/10 border border-[#1A3D2F]/20 px-3.5 py-1 text-xs font-bold text-[#1A3D2F] uppercase tracking-wider">
-              <Trees size={14} />
+              <Trees size={14} strokeWidth={1.5} />
               <span>Public Commons, Forests & Ecological Governance</span>
             </div>
 
@@ -97,7 +97,7 @@ export function EnvironmentPage() {
         {/* Civic Primer on Forest Laws */}
         <div className="rounded-2xl border border-[#E5E0D8] bg-white p-6 shadow-xs">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1A3D2F]">
-            <BookOpen size={15} />
+            <BookOpen size={15} strokeWidth={1.5} />
             <span>Civic Literacy: The Dual Pillars of Indian Forest Governance</span>
           </div>
           <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-2 text-xs leading-relaxed">
@@ -124,7 +124,7 @@ export function EnvironmentPage() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 rounded-xl border border-[#E5E0D8] bg-white p-4 shadow-xs">
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-bold text-[#181A19] flex items-center gap-1.5 mr-1">
-              <Filter size={14} className="text-[#1A3D2F]" /> Filter By Category:
+              <Filter size={14} strokeWidth={1.5} className="text-[#1A3D2F]" /> Filter By Category:
             </span>
             {[
               { id: 'all', label: 'All Projects' },
@@ -149,7 +149,7 @@ export function EnvironmentPage() {
           </div>
 
           <div className="relative w-full sm:w-72">
-            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#818C85]" />
+            <Search size={15} strokeWidth={1.5} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#818C85]" />
             <input
               type="text"
               placeholder="Search projects, states, companies..."
@@ -177,7 +177,7 @@ export function EnvironmentPage() {
                           {rec.category.replace('_', ' ')}
                         </span>
                         <span className="flex items-center gap-1 text-xs text-[#6F7771]">
-                          <MapPin size={12} /> {rec.location}, <strong>{rec.state}</strong>
+                          <MapPin size={12} strokeWidth={1.5} /> {rec.location}, <strong>{rec.state}</strong>
                         </span>
                         {rec.landAreaHectares && (
                           <span className="text-xs text-[#6F7771]">
@@ -204,7 +204,7 @@ export function EnvironmentPage() {
                           : 'bg-blue-100 text-blue-900 border border-blue-200'
                       }`}
                     >
-                      <Scale size={13} />
+                      <Scale size={13} strokeWidth={1.5} />
                       {rec.statusLabel}
                     </span>
                   </div>
@@ -233,11 +233,11 @@ export function EnvironmentPage() {
                   {/* Expandable Deep Dive */}
                   {isExpanded && (
                     <div className="mt-5 pt-5 border-t border-[#E5E0D8] space-y-4 text-xs">
-                      <div className="rounded-xl border border-indigo-100 bg-indigo-50/40 p-4">
-                        <strong className="block text-indigo-950 font-bold mb-1">
+                      <div className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-4">
+                        <strong className="block text-[#181A19] font-bold mb-1">
                           Tribal & Local Community Context:
                         </strong>
-                        <p className="text-indigo-900 leading-relaxed">{rec.tribalRightsContext}</p>
+                        <p className="text-[#4A524D] leading-relaxed">{rec.tribalRightsContext}</p>
                       </div>
 
                       <div className="rounded-xl border border-rose-100 bg-rose-50/40 p-4">
@@ -259,7 +259,7 @@ export function EnvironmentPage() {
                   {/* Footer & Source Link */}
                   <div className="mt-5 pt-4 border-t border-[#E5E0D8] flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs text-[#525A55] gap-3">
                     <div className="flex items-center gap-2">
-                      <ShieldCheck size={14} className="text-[#1A3D2F]" />
+                      <ShieldCheck size={14} strokeWidth={1.5} className="text-[#1A3D2F]" />
                       <span>{rec.evidenceTier} Judicial / Gazette Record · Verified {rec.lastVerifiedDate}</span>
                     </div>
 
@@ -269,7 +269,7 @@ export function EnvironmentPage() {
                         className="font-semibold text-[#1A3D2F] hover:underline inline-flex items-center gap-1"
                       >
                         <span>{isExpanded ? 'Collapse Details' : 'View Full Dossier'}</span>
-                        {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                        {isExpanded ? <ChevronUp size={14} strokeWidth={1.5} /> : <ChevronDown size={14} strokeWidth={1.5} />}
                       </button>
 
                       <a
@@ -279,7 +279,7 @@ export function EnvironmentPage() {
                         className="inline-flex items-center gap-1 rounded-lg bg-[#F5F2EB] border border-[#E5E0D8] px-3 py-1.5 font-semibold text-[#1A3D2F] hover:bg-[#EAE4DC] transition"
                       >
                         <span>{rec.primarySource.split('&')[0]}</span>
-                        <ExternalLink size={12} />
+                        <ExternalLink size={12} strokeWidth={1.5} />
                       </a>
                     </div>
                   </div>

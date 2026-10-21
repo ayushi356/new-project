@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { supabase, type Work, type Party } from '@/lib/supabase';
 import { WorkCard } from '@/components/Work';
-import { Loader, Scale, Search, Filter } from 'lucide-react';
+import { Loader, FileCheck2, Search, Filter } from 'lucide-react';
 
 export function WorksPage() {
   const [works, setWorks] = useState<Work[]>([]);
@@ -64,7 +64,7 @@ export function WorksPage() {
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
       <div className="flex flex-col gap-2 border-b border-[#E5E0D8] pb-5">
         <div className="flex items-center gap-2 text-[#1A3D2F] font-bold text-xs tracking-wider uppercase">
-          <Scale size={16} />
+          <FileCheck2 size={16} strokeWidth={1.5} />
           <span>Works, Projects & Policy Reforms</span>
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl font-extrabold tracking-tight text-[#181A19]">
@@ -88,7 +88,7 @@ export function WorksPage() {
       <div className="mt-6 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
           <div className="relative flex-1">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search size={16} strokeWidth={1.5} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}

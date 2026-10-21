@@ -1,22 +1,21 @@
 import {
   Scale,
   Search,
-  ExternalLink,
   ShieldCheck,
   Users,
   Landmark,
   FileText,
   BadgeCheck,
-  Flame,
+  AlertTriangle,
   Coins,
   Trees,
-  Radio,
+  Newspaper,
   FileCheck2,
-  Mail,
-  ArrowRight,
   UserCheck,
+  type LucideIcon,
 } from 'lucide-react';
 import { useNavigate } from '@/lib/router';
+import { EditorialIconContainer } from '@/components/EditorialIcon';
 
 export function AboutPage() {
   const navigate = useNavigate();
@@ -25,7 +24,7 @@ export function AboutPage() {
     <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 text-[#181A19]">
       {/* Pill Badge */}
       <div className="inline-flex items-center gap-2 rounded-full border border-[#1A3D2F]/20 bg-[#1A3D2F]/5 px-3.5 py-1 text-xs font-semibold text-[#1A3D2F]">
-        <Scale size={14} />
+        <Scale size={14} strokeWidth={1.5} />
         <span>Civic Transparency · Project Background</span>
       </div>
 
@@ -52,7 +51,7 @@ export function AboutPage() {
       {/* Creator Note */}
       <div className="mt-10 rounded-2xl border border-[#E5E0D8] bg-[#F5F2EB] p-6 sm:p-7 shadow-2xs">
         <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1A3D2F]">
-          <UserCheck size={16} />
+          <UserCheck size={16} strokeWidth={1.5} />
           <span>Creator Note</span>
         </div>
         <h2 className="mt-2 font-serif text-xl font-bold text-[#181A19]">
@@ -83,61 +82,51 @@ export function AboutPage() {
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <SectionCard
             icon={Landmark}
-            tint="bg-orange-50 text-orange-700 border-orange-200"
             title="Parties & Ideological Tenures"
             body="Major national and regional political parties, their founding platforms, representation footprints, and legislative tenures."
           />
           <SectionCard
             icon={Users}
-            tint="bg-blue-50 text-blue-700 border-blue-200"
             title="Ministers & Executive Accountability"
             body="Cabinet responsibilities, ministerial portfolios, tenure timelines, key policy decisions, and unscripted press availability."
           />
           <SectionCard
             icon={Coins}
-            tint="bg-emerald-50 text-emerald-800 border-emerald-200"
             title="Tax & Public Money"
             body="The Citizen’s Rupee breakdown, Union and state budgetary allocations, capital expenditure trends, and Comptroller & Auditor General (CAG) performance audits."
           />
           <SectionCard
-            icon={Scale}
-            tint="bg-slate-100 text-slate-800 border-slate-200"
+            icon={FileCheck2}
             title="Works, Reforms & Scrutiny"
             body="Major policy initiatives, infrastructure rollouts, and documented controversies evaluated alongside their economic and societal impact."
           />
           <SectionCard
             icon={FileText}
-            tint="bg-sky-50 text-sky-700 border-sky-200"
             title="Welfare Schemes (Yojnas)"
             body="Government schemes tracked separately: officially announced launch targets compared against verified ground implementation data."
           />
           <SectionCard
             icon={BadgeCheck}
-            tint="bg-purple-50 text-purple-700 border-purple-200"
             title="Election Manifesto Pledges"
             body="Campaign commitments tracked across election cycles to determine whether each pledge was kept, partially delivered, or abandoned."
           />
           <SectionCard
             icon={Trees}
-            tint="bg-teal-50 text-teal-800 border-teal-200"
             title="Environment, Forests & Land"
             body="Statutory clearances, Gram Sabha consents, biodiversity impacts, and Supreme Court environmental directives through October 2026."
           />
           <SectionCard
-            icon={Flame}
-            tint="bg-rose-50 text-rose-700 border-rose-200"
+            icon={AlertTriangle}
             title="Major Incidents & Inquiries"
             body="Source-linked documentation of civil crises, mass student and farmer agitations, and state responses, with civilian impact made explicit."
           />
           <SectionCard
-            icon={Radio}
-            tint="bg-indigo-50 text-indigo-700 border-indigo-200"
+            icon={Newspaper}
             title="Media & Press Freedom"
             body="Eight core pillars examining journalist safety, corporate ownership concentration, regulatory emergency orders, and direct press access."
           />
           <SectionCard
-            icon={ExternalLink}
-            tint="bg-amber-50 text-amber-800 border-amber-200"
+            icon={Search}
             title="Primary Sources & Citations"
             body="Whenever possible, each record links directly to primary sources — government gazettes, CAG audit portals, court judgments, or established news archives."
           />
@@ -147,7 +136,7 @@ export function AboutPage() {
       {/* Non-Partisan Commitment & Standards */}
       <div className="mt-12 rounded-2xl border border-[#E5E0D8] bg-white p-6 sm:p-7 shadow-2xs">
         <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1A3D2F]">
-          <ShieldCheck size={16} />
+          <ShieldCheck size={16} strokeWidth={1.5} />
           <span>Editorial Standards</span>
         </div>
         <h2 className="mt-2 font-serif text-xl font-bold text-[#181A19]">
@@ -169,7 +158,7 @@ export function AboutPage() {
       {/* Corrections & Contact */}
       <div className="mt-8 rounded-2xl border border-[#E5E0D8] bg-white p-6 sm:p-7 shadow-2xs">
         <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1A3D2F]">
-          <FileCheck2 size={16} />
+          <FileCheck2 size={16} strokeWidth={1.5} />
           <span>Auditable Accuracy</span>
         </div>
         <h2 className="mt-2 font-serif text-xl font-bold text-[#181A19]">
@@ -186,25 +175,25 @@ export function AboutPage() {
           onClick={() => navigate('/parties')}
           className="inline-flex items-center gap-2 rounded-xl bg-[#1A3D2F] px-5 py-3 text-sm font-bold text-white shadow-2xs transition hover:bg-[#143025] cursor-pointer"
         >
-          <Landmark size={16} /> Browse Parties
+          <Landmark size={16} strokeWidth={1.5} /> Browse Parties
         </button>
         <button
           onClick={() => navigate('/public-money')}
           className="inline-flex items-center gap-2 rounded-xl border border-[#D5CFBF] bg-white px-5 py-3 text-sm font-semibold text-[#181A19] shadow-2xs transition hover:bg-[#FAF8F5] cursor-pointer"
         >
-          <Coins size={16} className="text-[#1A3D2F]" /> Tax & Public Money
+          <Coins size={16} strokeWidth={1.5} className="text-[#1A3D2F]" /> Tax & Public Money
         </button>
         <button
           onClick={() => navigate('/environment')}
           className="inline-flex items-center gap-2 rounded-xl border border-[#D5CFBF] bg-white px-5 py-3 text-sm font-semibold text-[#181A19] shadow-2xs transition hover:bg-[#FAF8F5] cursor-pointer"
         >
-          <Trees size={16} className="text-emerald-700" /> Environment & Land
+          <Trees size={16} strokeWidth={1.5} className="text-[#1A3D2F]" /> Environment & Land
         </button>
         <button
           onClick={() => navigate('/works')}
           className="inline-flex items-center gap-2 rounded-xl border border-[#D5CFBF] bg-white px-5 py-3 text-sm font-semibold text-[#181A19] shadow-2xs transition hover:bg-[#FAF8F5] cursor-pointer"
         >
-          <Scale size={16} /> Browse All Works
+          <FileCheck2 size={16} strokeWidth={1.5} className="text-[#1A3D2F]" /> Browse All Works
         </button>
       </div>
     </div>
@@ -213,20 +202,16 @@ export function AboutPage() {
 
 function SectionCard({
   icon: Icon,
-  tint,
   title,
   body,
 }: {
-  icon: typeof Scale;
-  tint: string;
+  icon: LucideIcon;
   title: string;
   body: string;
 }) {
   return (
-    <div className="rounded-xl border border-[#E5E0D8] bg-white p-4 shadow-2xs flex gap-3.5">
-      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border ${tint}`}>
-        <Icon size={18} />
-      </div>
+    <div className="rounded-xl border border-[#E5E0D8] bg-white p-4 shadow-2xs flex gap-3.5 items-start">
+      <EditorialIconContainer icon={Icon} variant="ivory" size="md" iconSize={18} />
       <div>
         <h3 className="font-serif text-sm font-bold text-[#181A19]">{title}</h3>
         <p className="mt-1 text-xs leading-relaxed text-[#525A55]">{body}</p>
