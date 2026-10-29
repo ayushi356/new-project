@@ -254,10 +254,10 @@ const LEADER_TENURE_MILESTONES: Record<
   ],
   'leader-pradhan': [
     {
-      period: '2021 – Present',
+      period: '2021 – July 2026',
       roleTitle: 'Union Minister of Education and Skill Development',
       institution: 'Ministry of Education (Union of India)',
-      keyDecisions: 'Implementation of National Education Policy (NEP 2020); oversaw Radhakrishnan High-Level Committee on NTA reform following NEET-UG 2024 controversies; APAAR student ID rollout.',
+      keyDecisions: 'Implementation of National Education Policy (NEP 2020); oversaw Radhakrishnan High-Level Committee on NTA reform following NEET-UG controversies; APAAR student ID rollout; stepped down in July 2026 taking moral responsibility amid student agitations.',
     },
     {
       period: '2014 – 2021',
@@ -284,6 +284,40 @@ const LEADER_TENURE_MILESTONES: Record<
       roleTitle: 'Union Minister of State for External Affairs',
       institution: 'Ministry of External Affairs (Vajpayee NDA Government)',
       keyDecisions: 'Represented India’s bilateral foreign diplomacy at multilateral United Nations conferences.',
+    },
+  ],
+  'leader-omar-abdullah': [
+    {
+      period: 'October 2024 – Present',
+      roleTitle: 'Chief Minister of Jammu & Kashmir (Union Territory)',
+      institution: 'Government of Jammu & Kashmir',
+      keyDecisions: 'First elected Chief Minister of J&K post-Article 370 abrogation; passed assembly resolution demanding restoration of special status and statehood.',
+    },
+    {
+      period: '2009 – 2015',
+      roleTitle: 'Chief Minister of Jammu & Kashmir (State)',
+      institution: 'Government of Jammu and Kashmir (NC-Congress Coalition)',
+      keyDecisions: 'Enacted J&K Public Services Guarantee Act 2011; Right to Information (RTI) state framework; handled 2010 Valley unrest and 2014 catastrophic Kashmir floods.',
+    },
+    {
+      period: '2001 – 2002',
+      roleTitle: 'Union Minister of State for External Affairs',
+      institution: 'Ministry of External Affairs (Vajpayee NDA Government)',
+      keyDecisions: 'Represented India’s bilateral foreign diplomacy at multilateral United Nations conferences.',
+    },
+  ],
+  'leader-abhishek': [
+    {
+      period: '2021 – Present',
+      roleTitle: 'National General Secretary, All India Trinamool Congress (AITC)',
+      institution: 'AITC Central Committee',
+      keyDecisions: 'Spearheaded national party organization beyond Bengal; coordinated opposition floor strategy in 18th Lok Sabha.',
+    },
+    {
+      period: '2014 – Present',
+      roleTitle: 'Member of Parliament (Diamond Harbour, 3 Consecutive Terms)',
+      institution: 'Lok Sabha (Parliament of India)',
+      keyDecisions: 'Diamond Harbour Model healthcare initiatives, grassroots welfare camps, and vocal opposition debates on federal central funds.',
     },
   ],
 };

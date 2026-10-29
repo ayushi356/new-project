@@ -87,25 +87,36 @@ export function PartyDetailPage({ id }: { id: string }) {
     if (id === 'party-bjp') {
       // BJP Union Government (2014-present)
       return SAMPLE_FINANCE_RECORDS.filter((r) =>
-        ['rev-sample-01', 'alloc-sample-01', 'exp-sample-01', 'sch-sample-01', 'aud-sample-01', 'aud-sample-02'].includes(r.id)
+        [
+          'rev-sample-01',
+          'alloc-sample-01',
+          'alloc-sample-02',
+          'exp-sample-01',
+          'exp-sample-02',
+          'scheme-sample-01',
+          'scheme-sample-02',
+          'audit-sample-01',
+          'audit-sample-02',
+          'debt-sample-01',
+        ].includes(r.id)
       );
     }
     if (id === 'party-inc') {
       // INC Union UPA / State welfare records
       return SAMPLE_FINANCE_RECORDS.filter((r) =>
-        ['tax-sample-01', 'comp-sample-01', 'st-sample-01'].includes(r.id)
+        ['taxinc-sample-01', 'comp-sample-01', 'state-sample-01', 'st-karnataka-guarantees'].includes(r.id)
       );
     }
     if (id === 'party-aap') {
       // AAP Delhi/Punjab state public records
       return SAMPLE_FINANCE_RECORDS.filter((r) =>
-        ['st-sample-02', 'proc-sample-01'].includes(r.id)
+        ['proc-sample-01', 'st-delhi-education-health'].includes(r.id)
       );
     }
     if (id === 'party-tmc') {
       // TMC West Bengal state public records
       return SAMPLE_FINANCE_RECORDS.filter((r) =>
-        ['st-sample-01', 'st-sample-02'].includes(r.id)
+        ['state-sample-01', 'st-wb-lakshmir-bhandar'].includes(r.id)
       );
     }
     return [];

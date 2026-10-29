@@ -116,8 +116,8 @@ export const SEED_LEADERS: Leader[] = [
     id: 'leader-pradhan',
     party_id: 'party-bjp',
     name: 'Dharmendra Pradhan',
-    role: 'Union Minister of Education',
-    bio: 'Senior BJP leader responsible for National Education Policy (NEP 2020) implementation, overseeing central university entrance reforms and high-level committee restructuring of the National Testing Agency (NTA) following the 2024 examination controversies.',
+    role: 'Former Union Minister of Education (2021–July 2026) & Senior BJP Leader',
+    bio: 'Senior BJP leader who served as Union Minister of Education (2021–2026) overseeing National Education Policy (NEP 2020) implementation and university entrance reforms before stepping down in July 2026 taking moral responsibility amid student agitations over examination integrity.',
     represents: 'Sambalpur (Lok Sabha), Odisha',
     ideology: 'Educational Modernisation, Skill India, Social Inclusion',
     image_url: null,
@@ -895,26 +895,26 @@ export const SEED_INCIDENTS: Incident[] = [
     source_name: 'Amnesty International, The Hindu & Delhi Police Special Branch Reports',
   },
 
-  // --- Protest 2: CJP Anti-Paper Leak Strikes & Education Ministry Resignation (2026) ---
+  // --- Protest 2: Pan-India Student Front & Youth Anti-Paper Leak Strikes (2026) ---
   {
     id: 'inc-protest-cjp-neet-2026',
     party_id: 'party-bjp',
     category: 'protest',
-    title: 'CJP & Pan-India Student Front Anti-Paper Leak Strikes & Sansad Chalo (2026)',
+    title: 'Pan-India Student Front Anti-Paper Leak Strikes & Education Ministry Resignation (2026)',
     description:
-      'In June–July 2026, building upon persistent examination irregularities, the CJP allied with national student unions organizing intense relays of hunger strikes at Jantar Mantar and a mass "Sansad Chalo" march. Facing intense street-level pressure and mounting public outrage over student suicides and testing monopolies, Union Education Minister Dharmendra Pradhan tendered his resignation in July 2026.',
+      'In June–July 2026, building upon persistent examination irregularities and paper leak grievances, national student organizations alongside youth coalitions organized intense relays of hunger strikes at Jantar Mantar and a mass "Sansad Chalo" march. Facing intense street-level pressure and mounting public scrutiny over public testing monopolies, Union Education Minister Dharmendra Pradhan tendered his resignation on July 25, 2026 taking moral responsibility, following which Union Minister Pralhad Joshi was given charge of the portfolio.',
     date_year: 2026,
     location: 'Jantar Mantar & Parliament Annexe, New Delhi',
     severity: 'extreme',
     demands:
-      'Immediate resignation of the Union Education Minister; dissolution and structural replacement of the National Testing Agency (NTA); fast-track criminal tribunals for paper-leak mafia; national institutional support and compensation for distressed aspirants.',
+      'Accountability for examination leak syndicates; dissolution and structural replacement of the National Testing Agency (NTA); fast-track criminal tribunals for paper-leak mafia; national institutional support and compensation for distressed aspirants.',
     state_response:
-      'Authorities deployed barricades and water cannons to halt the Sansad Chalo march. However, mounting youth pressure and parliamentary deadlocks culminated in the resignation of Education Minister Dharmendra Pradhan in July 2026 and an overhaul of public testing protocols.',
+      'Authorities deployed barricades and water cannons to halt the Sansad Chalo march. However, mounting youth pressure and parliamentary deadlocks culminated in the resignation of Education Minister Dharmendra Pradhan on July 25, 2026, and an administrative overhaul of testing protocols under interim ministerial leadership.',
     citizen_impact:
       'Milestone in modern Indian student mobilization, demonstrating youth civic influence over cabinet accountability and structural education reforms.',
     deaths_reported: 0,
     source_url: 'https://sansad.in/',
-    source_name: 'Parliamentary Records & National Media Investigations',
+    source_name: 'Parliamentary Records, PIB Official Releases & National Media Investigations',
   },
 
   // --- Protest 3: Delhi University Sexual Assault & Women’s Safety Protests (2026) ---
@@ -1490,9 +1490,9 @@ export const PARTY_TENURES: Record<string, GovernanceTenure[]> = {
       level: 'state',
       title: 'Current State Governments',
       period: '2022 / 2023 – Present',
-      jurisdiction: 'Karnataka, Telangana, Himachal Pradesh',
+      jurisdiction: 'Karnataka, Telangana, Himachal Pradesh (also coalition partner in Jharkhand & J&K)',
       details:
-        'Formed state governments with expansive 5-guarantee welfare models (free bus travel for women, 200 units power, monthly direct cash assistance).',
+        'Formed state governments with expansive 5-guarantee welfare models (free bus travel for women, 200 units power, monthly direct cash assistance), alongside ruling alliance governments in Jharkhand (re-elected Nov 2024) and Jammu & Kashmir (elected Oct 2024).',
     },
     {
       level: 'opposition',

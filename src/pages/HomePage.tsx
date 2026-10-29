@@ -211,7 +211,7 @@ export function HomePage() {
               <div className="font-serif text-3xl font-extrabold text-[#1A3D2F]">₹48.2 Lakh Cr</div>
               <div className="mt-1 text-sm font-bold text-[#181A19]">Union Outlay Tracked</div>
               <div className="mt-2 text-xs leading-relaxed text-[#5C645E]">
-                Authorized central expenditure across revenue and capital accounts for FY 2025–26 under Article 112.
+                Authorized central expenditure across revenue and capital accounts for FY 2024–25 under Article 112.
               </div>
             </div>
 

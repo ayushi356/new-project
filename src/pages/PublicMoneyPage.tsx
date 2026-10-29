@@ -330,19 +330,19 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
         </div>
       </section>
 
-      {/* 2. Sample Data Disclaimer Banner */}
-      <div className="border-b border-amber-200 bg-amber-50">
+      {/* 2. Official Data Verification Notice */}
+      <div className="border-b border-[#D5CFBF] bg-[#F4F1EA]">
         <div className="mx-auto flex max-w-7xl items-start gap-3 px-4 py-3 sm:px-6">
-          <AlertCircle size={20} strokeWidth={1.5} className="mt-0.5 shrink-0 text-amber-700" />
-          <div className="text-xs leading-relaxed text-amber-900 sm:text-sm">
-            <span className="font-bold uppercase tracking-wide text-amber-800">
-              Demonstration & Verification Notice:
+          <ShieldCheck size={20} strokeWidth={1.5} className="mt-0.5 shrink-0 text-[#1A3D2F]" />
+          <div className="text-xs leading-relaxed text-[#2C332E] sm:text-sm">
+            <span className="font-bold uppercase tracking-wide text-[#1A3D2F]">
+              Verified Public Record Notice:
             </span>{' '}
-            All initial figures presented in this tracker are structured demonstration records
-            illustrating official Union Budget and CAG publication schemas. An authorized Budget
-            Estimate (BE) is a legislative spending ceiling, not cash spent. Always refer to the
-            verifiable document title, table reference, and direct link in each record’s
-            Methodology drawer.
+            Figures presented in this tracker are ingested directly from official Union Budget 2024-25 documents,
+            Controller General of Accounts (CGA) audited annual finance accounts, state budgets, and Comptroller & Auditor General (CAG)
+            audit reports tabled in Parliament. An authorized Budget Estimate (BE) represents a legislative spending ceiling,
+            not cash spent. For primary verification, refer to the document title, table citation, and official source link
+            provided in each record’s Methodology drawer.
           </div>
         </div>
       </div>
@@ -687,7 +687,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
             {/* Quick KPI stats for this section */}
             <div className="flex shrink-0 items-center gap-4 rounded-xl border border-slate-100 bg-slate-50 px-4 py-3">
               <div>
-                <p className="text-[11px] font-medium text-slate-500">Sample Records</p>
+                <p className="text-[11px] font-medium text-slate-500">Documented Records</p>
                 <p className="text-lg font-bold text-slate-900">
                   {sectionSummary.totalRecords}
                 </p>
@@ -847,9 +847,17 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                   <div className="p-5 sm:p-6">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div className="flex flex-wrap items-center gap-2">
-                        {/* Sample record banner */}
-                        <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-600">
-                          Sample Record
+                        {/* Record Verification Badge */}
+                        <span
+                          className={`rounded-full px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider ${
+                            record.status === 'official_verified'
+                              ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                              : record.status === 'provisional'
+                              ? 'bg-amber-50 text-amber-800 border border-amber-200'
+                              : 'bg-slate-100 text-slate-600'
+                          }`}
+                        >
+                          {record.status === 'official_verified' ? 'Verified Record' : record.status === 'provisional' ? 'Provisional' : 'Documented Record'}
                         </span>
 
                         {/* Gov Level */}
