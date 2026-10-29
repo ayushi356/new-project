@@ -84,7 +84,7 @@ export const PORTFOLIO_CHANGE_LOGS: PortfolioChangeLog[] = [
     gazette_notification_ref: 'Press Communique, Rashtrapati Bhavan & Cabinet Secretariat Order No. 1/32/2026-Cab',
     official_source_url: 'https://cabsec.nic.in/about-us/council-of-ministers',
     summary:
-      'The President of India, as advised by the Prime Minister, directed that Shri Pralhad Joshi, Cabinet Minister, be allocated the portfolio of Ministry of Education, following the acceptance of resignation of Shri Dharmendra Pradhan.',
+      'The President of India, as advised by the Prime Minister, directed that Pralhad Joshi, Cabinet Minister, be allocated the portfolio of Ministry of Education, following the acceptance of resignation of Dharmendra Pradhan.',
   },
 ];
 
@@ -556,7 +556,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   // =========================================================================
   {
     id: 'min-narendra-modi',
-    full_name: 'Shri Narendra Modi',
+    full_name: 'Narendra Modi',
     designation: 'Prime Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Varanasi',
@@ -587,7 +587,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   // =========================================================================
   {
     id: 'min-rajnath-singh',
-    full_name: 'Shri Rajnath Singh',
+    full_name: 'Rajnath Singh',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Lucknow',
@@ -611,7 +611,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-amit-shah',
-    full_name: 'Shri Amit Shah',
+    full_name: 'Amit Shah',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Gandhinagar',
@@ -634,7 +634,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-nitin-gadkari',
-    full_name: 'Shri Nitin Jairam Gadkari',
+    full_name: 'Nitin Jairam Gadkari',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Nagpur',
@@ -657,7 +657,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-jp-nadda',
-    full_name: 'Shri Jagat Prakash Nadda',
+    full_name: 'Jagat Prakash Nadda',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Rajya Sabha',
@@ -683,7 +683,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-shivraj-chouhan',
-    full_name: 'Shri Shivraj Singh Chouhan',
+    full_name: 'Shivraj Singh Chouhan',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Vidisha',
@@ -754,7 +754,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-manohar-lal',
-    full_name: 'Shri Manohar Lal Khattar',
+    full_name: 'Manohar Lal Khattar',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Karnal',
@@ -778,7 +778,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-hd-kumaraswamy',
-    full_name: 'Shri H. D. Kumaraswamy',
+    full_name: 'H. D. Kumaraswamy',
     designation: 'Cabinet Minister',
     party: 'Janata Dal (Secular) [JD-S]',
     constituency: 'Mandya',
@@ -803,7 +803,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-piyush-goyal',
-    full_name: 'Shri Piyush Goyal',
+    full_name: 'Piyush Goyal',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Mumbai North',
@@ -825,7 +825,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-pralhad-joshi',
-    full_name: 'Shri Pralhad Joshi',
+    full_name: 'Pralhad Joshi',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Dharwad',
@@ -856,7 +856,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-jitan-ram-manjhi',
-    full_name: 'Shri Jitan Ram Manjhi',
+    full_name: 'Jitan Ram Manjhi',
     designation: 'Cabinet Minister',
     party: 'Hindustani Awam Morcha (Secular) [HAM-S]',
     constituency: 'Gaya',
@@ -879,7 +879,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-lalan-singh',
-    full_name: 'Shri Rajiv Ranjan Singh alias Lalan Singh',
+    full_name: 'Rajiv Ranjan Singh alias Lalan Singh',
     designation: 'Cabinet Minister',
     party: 'Janata Dal (United) [JD-U]',
     constituency: 'Munger',
@@ -904,7 +904,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-sarbananda-sonowal',
-    full_name: 'Shri Sarbananda Sonowal',
+    full_name: 'Sarbananda Sonowal',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Dibrugarh',
@@ -950,7 +950,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-ram-mohan-naidu',
-    full_name: 'Shri Kinjarapu Ram Mohan Naidu',
+    full_name: 'Kinjarapu Ram Mohan Naidu',
     designation: 'Cabinet Minister',
     party: 'Telugu Desam Party (TDP)',
     constituency: 'Srikakulam',
@@ -972,7 +972,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-jual-oram',
-    full_name: 'Shri Jual Oram',
+    full_name: 'Jual Oram',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Sundargarh',
@@ -994,7 +994,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-giriraj-singh',
-    full_name: 'Shri Giriraj Singh',
+    full_name: 'Giriraj Singh',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Begusarai',
@@ -1016,7 +1016,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-ashwini-vaishnaw',
-    full_name: 'Shri Ashwini Vaishnaw',
+    full_name: 'Ashwini Vaishnaw',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Rajya Sabha',
@@ -1046,7 +1046,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-jyotiraditya-scindia',
-    full_name: 'Shri Jyotiraditya M. Scindia',
+    full_name: 'Jyotiraditya M. Scindia',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Guna',
@@ -1071,7 +1071,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-bhupender-yadav',
-    full_name: 'Shri Bhupender Yadav',
+    full_name: 'Bhupender Yadav',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Alwar',
@@ -1093,7 +1093,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-gajendra-shekhawat',
-    full_name: 'Shri Gajendra Singh Shekhawat',
+    full_name: 'Gajendra Singh Shekhawat',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Jodhpur',
@@ -1137,7 +1137,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-kiren-rijiju',
-    full_name: 'Shri Kiren Rijiju',
+    full_name: 'Kiren Rijiju',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Arunachal West',
@@ -1163,7 +1163,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-hardeep-puri',
-    full_name: 'Shri Hardeep Singh Puri',
+    full_name: 'Hardeep Singh Puri',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Rajya Sabha',
@@ -1210,7 +1210,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-kishan-reddy',
-    full_name: 'Shri G. Kishan Reddy',
+    full_name: 'G. Kishan Reddy',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Secunderabad',
@@ -1233,7 +1233,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-chirag-paswan',
-    full_name: 'Shri Chirag Paswan',
+    full_name: 'Chirag Paswan',
     designation: 'Cabinet Minister',
     party: 'Lok Janshakti Party (Ram Vilas) [LJP-RV]',
     constituency: 'Hajipur',
@@ -1255,7 +1255,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-cr-patil',
-    full_name: 'Shri C. R. Patil',
+    full_name: 'C. R. Patil',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Navsari',
@@ -1281,7 +1281,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   // =========================================================================
   {
     id: 'min-rao-inderjit-singh',
-    full_name: 'Shri Rao Inderjit Singh',
+    full_name: 'Rao Inderjit Singh',
     designation: 'Minister of State (Independent Charge)',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Gurgaon',
@@ -1335,7 +1335,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-arjun-ram-meghwal',
-    full_name: 'Shri Arjun Ram Meghwal',
+    full_name: 'Arjun Ram Meghwal',
     designation: 'Minister of State (Independent Charge)',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Bikaner',
@@ -1360,7 +1360,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-prataprao-jadhav',
-    full_name: 'Shri Jadhav Prataprao Ganpatrao',
+    full_name: 'Jadhav Prataprao Ganpatrao',
     designation: 'Minister of State (Independent Charge)',
     party: 'Shiv Sena (SHS)',
     constituency: 'Buldhana',
@@ -1385,7 +1385,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-jayant-chaudhary',
-    full_name: 'Shri Jayant Chaudhary',
+    full_name: 'Jayant Chaudhary',
     designation: 'Minister of State (Independent Charge)',
     party: 'Rashtriya Lok Dal (RLD)',
     constituency: 'Rajya Sabha',
@@ -1414,7 +1414,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   // =========================================================================
   {
     id: 'min-jitin-prasada',
-    full_name: 'Shri Jitin Prasada',
+    full_name: 'Jitin Prasada',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Pilibhit',
@@ -1434,7 +1434,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-shripad-naik',
-    full_name: 'Shri Shripad Yesso Naik',
+    full_name: 'Shripad Yesso Naik',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'North Goa',
@@ -1454,7 +1454,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-pankaj-chaudhary',
-    full_name: 'Shri Pankaj Chaudhary',
+    full_name: 'Pankaj Chaudhary',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Maharajganj',
@@ -1471,7 +1471,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-krishan-pal',
-    full_name: 'Shri Krishan Pal Gurjar',
+    full_name: 'Krishan Pal Gurjar',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Faridabad',
@@ -1488,7 +1488,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-ramdas-athawale',
-    full_name: 'Shri Ramdas Athawale',
+    full_name: 'Ramdas Athawale',
     designation: 'Minister of State',
     party: 'Republican Party of India (A) [RPI-A]',
     constituency: 'Rajya Sabha',
@@ -1505,7 +1505,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-ram-nath-thakur',
-    full_name: 'Shri Ram Nath Thakur',
+    full_name: 'Ram Nath Thakur',
     designation: 'Minister of State',
     party: 'Janata Dal (United) [JD-U]',
     constituency: 'Rajya Sabha',
@@ -1522,7 +1522,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-nityanand-rai',
-    full_name: 'Shri Nityanand Rai',
+    full_name: 'Nityanand Rai',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Ujiarpur',
@@ -1559,7 +1559,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-v-somanna',
-    full_name: 'Shri V. Somanna',
+    full_name: 'V. Somanna',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Tumkur',
@@ -1639,7 +1639,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-kirtivardhan-singh',
-    full_name: 'Shri Kirtivardhan Singh',
+    full_name: 'Kirtivardhan Singh',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Gonda',
@@ -1659,7 +1659,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-bl-verma',
-    full_name: 'Shri B. L. Verma',
+    full_name: 'B. L. Verma',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Rajya Sabha',
@@ -1679,7 +1679,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-shantanu-thakur',
-    full_name: 'Shri Shantanu Thakur',
+    full_name: 'Shantanu Thakur',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Bangaon',
@@ -1696,7 +1696,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-suresh-gopi',
-    full_name: 'Shri Suresh Gopi',
+    full_name: 'Suresh Gopi',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Thrissur',
@@ -1736,7 +1736,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-ajay-tamta',
-    full_name: 'Shri Ajay Tamta',
+    full_name: 'Ajay Tamta',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Almora',
@@ -1753,7 +1753,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-bandi-sanjay',
-    full_name: 'Shri Bandi Sanjay Kumar',
+    full_name: 'Bandi Sanjay Kumar',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Karimnagar',
@@ -1770,7 +1770,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-kamlesh-paswan',
-    full_name: 'Shri Kamlesh Paswan',
+    full_name: 'Kamlesh Paswan',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Bansgaon',
@@ -1787,7 +1787,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-bhagirath-choudhary',
-    full_name: 'Shri Bhagirath Choudhary',
+    full_name: 'Bhagirath Choudhary',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Ajmer',
@@ -1804,7 +1804,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-satish-dubey',
-    full_name: 'Shri Satish Chandra Dubey',
+    full_name: 'Satish Chandra Dubey',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Rajya Sabha',
@@ -1824,7 +1824,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-sanjay-seth',
-    full_name: 'Shri Sanjay Seth',
+    full_name: 'Sanjay Seth',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Ranchi',
@@ -1841,7 +1841,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-ravneet-bittu',
-    full_name: 'Shri Ravneet Singh Bittu',
+    full_name: 'Ravneet Singh Bittu',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Rajya Sabha',
@@ -1861,7 +1861,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-durgadas-uikey',
-    full_name: 'Shri Durgadas Uikey',
+    full_name: 'Durgadas Uikey',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Betul',
@@ -1932,7 +1932,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-tokhan-sahu',
-    full_name: 'Shri Tokhan Sahu',
+    full_name: 'Tokhan Sahu',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Bilaspur',
@@ -1966,7 +1966,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-srinivasa-varma',
-    full_name: 'Shri Bhupathi Raju Srinivasa Varma',
+    full_name: 'Bhupathi Raju Srinivasa Varma',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Narsapuram',
@@ -1986,7 +1986,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-harsh-malhotra',
-    full_name: 'Shri Harsh Malhotra',
+    full_name: 'Harsh Malhotra',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'East Delhi',
@@ -2023,7 +2023,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-murlidhar-mohol',
-    full_name: 'Shri Murlidhar Mohol',
+    full_name: 'Murlidhar Mohol',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Pune',
@@ -2043,7 +2043,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-george-kurian',
-    full_name: 'Shri George Kurian',
+    full_name: 'George Kurian',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Rajya Sabha',
@@ -2063,7 +2063,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   },
   {
     id: 'min-pabitra-margherita',
-    full_name: 'Shri Pabitra Margherita',
+    full_name: 'Pabitra Margherita',
     designation: 'Minister of State',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Rajya Sabha',
@@ -2087,7 +2087,7 @@ export const COUNCIL_OF_MINISTERS: Minister[] = [
   // =========================================================================
   {
     id: 'min-former-dharmendra-pradhan',
-    full_name: 'Shri Dharmendra Pradhan',
+    full_name: 'Dharmendra Pradhan',
     designation: 'Cabinet Minister',
     party: 'Bharatiya Janata Party (BJP)',
     constituency: 'Sambalpur',

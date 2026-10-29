@@ -248,7 +248,7 @@ export function MinistersPage() {
                   Official Gazette Update — Ministry of Education Portfolio Allocation (25 July 2026)
                 </p>
                 <p className="mt-1 text-amber-800 leading-normal">
-                  As directed by the President of India on the advice of the Prime Minister, <strong>Shri Pralhad Joshi</strong> is the Union Minister of Education (holding concurrent charge with Consumer Affairs, Food & Public Distribution and New & Renewable Energy), following the resignation of Shri Dharmendra Pradhan. Dharmendra Pradhan is preserved in historical records as Former Minister (2021–July 2026).
+                  As directed by the President of India on the advice of the Prime Minister, <strong>Pralhad Joshi</strong> is the Union Minister of Education (holding concurrent charge with Consumer Affairs, Food & Public Distribution and New & Renewable Energy), following the resignation of Dharmendra Pradhan. Dharmendra Pradhan is preserved in historical records as Former Minister (2021–July 2026).
                 </p>
               </div>
             </div>

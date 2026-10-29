@@ -202,7 +202,7 @@ export function HomePage() {
                 className="inline-flex items-center gap-2 rounded-xl border border-[#D5CFBF] bg-white px-6 py-3.5 text-sm font-semibold text-[#181A19] shadow-2xs transition hover:bg-[#FAF8F5] cursor-pointer"
               >
                 <FileText size={15} strokeWidth={1.5} className="text-[#1A3D2F]" />
-                <span>How We Verify Claims</span>
+                <span>About the Project</span>
               </button>
             </div>
           </div>
