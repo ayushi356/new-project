@@ -36,11 +36,11 @@ export function HomePage() {
     {
       id: 'ministers',
       category: 'Executive Accountability',
-      title: 'Ministers & Council',
+      title: 'Council of Ministers Directory',
       description:
-        'Executive accountability records, portfolio allocations, parliamentary attendances, cabinet tenures, and verified unscripted press availability.',
-      path: '/leaders',
-      cta: 'Explore Ministers & Portfolios',
+        'Official directory of all 71 active Union Ministers and 51 governing ministries. Track every portfolio allocation, ministerial tenure, and verified gazette changes through October 2026.',
+      path: '/ministers',
+      cta: 'Explore 71 Ministers & 51 Ministries',
       icon: Users,
     },
     {
@@ -116,6 +116,16 @@ export function HomePage() {
         'A unanimous 5-judge Supreme Court Constitution Bench declared the Electoral Bond Scheme unconstitutional under Article 19(1)(a), leading to SBI disclosing ₹16,518 Cr.',
       source: 'Supreme Court of India (5-Judge Bench Judgment)',
       path: '/society',
+    },
+    {
+      id: 'council-of-ministers-gazette',
+      category: 'Executive Council',
+      period: 'October 2026',
+      title: 'Union Council of Ministers Portfolio Gazette & Education Handover',
+      summary:
+        'Official verification of all 71 active Council members across 51 ministries, including presidential gazette allocation transferring the Ministry of Education to Cabinet Minister Pralhad Joshi.',
+      source: 'Cabinet Secretariat & PM India Official Gazette',
+      path: '/ministers',
     },
     {
       id: 'internet-suspensions-tracker',

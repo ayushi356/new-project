@@ -15,6 +15,7 @@ import { PublicMoneyPage } from '@/pages/PublicMoneyPage';
 import { MediaFreedomPage } from '@/pages/MediaFreedomPage';
 import { EnvironmentPage } from '@/pages/EnvironmentPage';
 import { SocietyPage } from '@/pages/SocietyPage';
+import { MinistersPage } from '@/pages/MinistersPage';
 
 function App() {
   const route = useRoute();
@@ -23,6 +24,9 @@ function App() {
   switch (route.name) {
     case 'home':
       page = <HomePage />;
+      break;
+    case 'ministers':
+      page = <MinistersPage />;
       break;
     case 'about':
       page = <AboutPage />;

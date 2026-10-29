@@ -84,11 +84,13 @@ export function AboutPage() {
             icon={Landmark}
             title="Parties & Ideological Tenures"
             body="Major national and regional political parties, their founding platforms, representation footprints, and legislative tenures."
+            onClick={() => navigate('/parties')}
           />
           <SectionCard
             icon={Users}
-            title="Ministers & Executive Accountability"
-            body="Cabinet responsibilities, ministerial portfolios, tenure timelines, key policy decisions, and unscripted press availability."
+            title="Ministers & Council Directory"
+            body="All 71 active Union Ministers and 51 ministries, portfolios, tenure timelines, key policy decisions, and verified gazette changes."
+            onClick={() => navigate('/ministers')}
           />
           <SectionCard
             icon={Coins}
@@ -204,13 +206,20 @@ function SectionCard({
   icon: Icon,
   title,
   body,
+  onClick,
 }: {
   icon: LucideIcon;
   title: string;
   body: string;
+  onClick?: () => void;
 }) {
   return (
-    <div className="rounded-xl border border-[#E5E0D8] bg-white p-4 shadow-2xs flex gap-3.5 items-start">
+    <div
+      onClick={onClick}
+      className={`rounded-xl border border-[#E5E0D8] bg-white p-4 shadow-2xs flex gap-3.5 items-start transition ${
+        onClick ? 'cursor-pointer hover:border-[#C8C2B5] hover:-translate-y-0.5 hover:shadow-xs' : ''
+      }`}
+    >
       <EditorialIconContainer icon={Icon} variant="ivory" size="md" iconSize={18} />
       <div>
         <h3 className="font-serif text-sm font-bold text-[#181A19]">{title}</h3>

@@ -113,6 +113,16 @@ export const SEED_LEADERS: Leader[] = [
     image_url: null,
   },
   {
+    id: 'leader-pralhad-joshi',
+    party_id: 'party-bjp',
+    name: 'Pralhad Joshi',
+    role: 'Union Minister of Education, Consumer Affairs, Food & Public Distribution, New & Renewable Energy',
+    bio: 'Five-time Lok Sabha MP from Dharwad, Karnataka, former Parliamentary Affairs Minister, and senior Union Cabinet Minister allocated the Ministry of Education alongside Consumer Affairs, Food & Public Distribution and New & Renewable Energy.',
+    represents: 'Dharwad (Lok Sabha), Karnataka',
+    ideology: 'Institutional Governance, Renewable Transition, Citizen Welfare Delivery',
+    image_url: null,
+  },
+  {
     id: 'leader-pradhan',
     party_id: 'party-bjp',
     name: 'Dharmendra Pradhan',

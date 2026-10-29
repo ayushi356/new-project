@@ -252,6 +252,26 @@ const LEADER_TENURE_MILESTONES: Record<
       keyDecisions: 'Handled 1999 Odisha Super Cyclone relief logistics as Collector of Balasore; Deputy Secretary in Prime Minister Atal Bihari Vajpayee’s PMO.',
     },
   ],
+  'leader-pralhad-joshi': [
+    {
+      period: 'July 25, 2026 – Present',
+      roleTitle: 'Union Minister of Education',
+      institution: 'Ministry of Education (Union of India)',
+      keyDecisions: 'Allocated portfolio by the President of India on advice of the Prime Minister following acceptance of Dharmendra Pradhan resignation; initiated emergency review of testing infrastructure and exam security reforms.',
+    },
+    {
+      period: 'June 2024 – Present',
+      roleTitle: 'Union Minister of Consumer Affairs, Food & Public Distribution and New & Renewable Energy',
+      institution: 'Ministries of Consumer Affairs & MNRE (Union of India)',
+      keyDecisions: 'Accelerated PM Surya Ghar Muft Bijli Yojana rooftop solar rollout; oversaw national foodgrain buffer stocking and price stabilization measures.',
+    },
+    {
+      period: '2019 – 2024',
+      roleTitle: 'Union Minister of Parliamentary Affairs, Coal and Mines',
+      institution: 'Ministries of Parliamentary Affairs, Coal & Mines',
+      keyDecisions: 'Commercial coal mine auctions deregulation; enactment of Mines and Minerals (Development and Regulation) Amendment Act; legislative floor management during key constitutional bills.',
+    },
+  ],
   'leader-pradhan': [
     {
       period: '2021 – July 2026',

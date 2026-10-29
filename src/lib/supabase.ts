@@ -10,6 +10,16 @@ import {
   type GovernanceTenure,
   type LegislativePolicyRecord,
 } from '@/data/politicalData';
+import {
+  COUNCIL_OF_MINISTERS,
+  MINISTRIES_DIRECTORY,
+  PORTFOLIO_CHANGE_LOGS,
+  type Minister,
+  type Ministry,
+  type PortfolioChangeLog,
+  type MinisterDesignation,
+  type MinisterStatus,
+} from '@/data/ministersData';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
@@ -117,7 +127,15 @@ export type Incident = {
   state_response?: string | null;
 };
 
-export type { GovernanceTenure, LegislativePolicyRecord };
+export type {
+  GovernanceTenure,
+  LegislativePolicyRecord,
+  Minister,
+  Ministry,
+  PortfolioChangeLog,
+  MinisterDesignation,
+  MinisterStatus,
+};
 
 // Fallback in-memory database
 const TABLE_STORE: Record<string, any[]> = {
@@ -128,6 +146,9 @@ const TABLE_STORE: Record<string, any[]> = {
   promises: SEED_PROMISES,
   incidents: SEED_INCIDENTS,
   legislative_records: SEED_LEGISLATIVE_RECORDS,
+  ministers: COUNCIL_OF_MINISTERS,
+  ministries: MINISTRIES_DIRECTORY,
+  portfolio_changes: PORTFOLIO_CHANGE_LOGS,
 };
 
 type QueryFilter = { col: string; val: any };

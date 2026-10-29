@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { supabase, type Leader, type Party } from '@/lib/supabase';
 import { useNavigate } from '@/lib/router';
-import { Loader, Users, Search } from 'lucide-react';
+import { Loader, Users, Search, Shield, ChevronRight } from 'lucide-react';
 
 export function LeadersPage() {
   const navigate = useNavigate();
@@ -59,6 +59,31 @@ export function LeadersPage() {
         <p className="mt-1 max-w-2xl text-sm sm:text-base text-[#4A524D] leading-relaxed">
           The people who shape party policy, legislative votes, and cabinet ministries — their constitutional roles, parliamentary constituencies, and individual dossiers through 2026.
         </p>
+      </div>
+
+      {/* Council of Ministers Direct Gateway Banner */}
+      <div className="mt-6 rounded-2xl border border-[#C3DCC9] bg-[#EBF3ED]/50 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-2xs">
+        <div className="flex items-start gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#1A3D2F] text-white">
+            <Shield size={20} />
+          </div>
+          <div>
+            <h3 className="font-serif text-base font-bold text-[#1A3D2F]">
+              Official Union Council of Ministers Directory
+            </h3>
+            <p className="mt-0.5 text-xs text-[#4A524D] max-w-xl leading-relaxed">
+              Explore all 71 active Union Ministers (Prime Minister, Cabinet Ministers, MoS Independent Charge, and Ministers of State) across 51 ministries, verified as of 15 October 2026.
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={() => navigate('/ministers')}
+          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#1A3D2F] px-4 py-2.5 text-xs font-semibold text-white shadow-2xs hover:bg-[#143025] transition cursor-pointer"
+        >
+          <span>Open Ministers Directory</span>
+          <ChevronRight size={14} />
+        </button>
       </div>
 
       {/* Filters */}

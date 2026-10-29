@@ -61,16 +61,17 @@ export function Navbar() {
   // Route matchers
   const isHomeActive = route.name === 'home';
   const isPartiesActive = route.name === 'parties' || route.name === 'party';
-  const isGovernanceActive = ['works', 'work', 'yojnas', 'promises', 'leaders', 'leader'].includes(route.name);
+  const isGovernanceActive = ['works', 'work', 'yojnas', 'promises', 'leaders', 'leader', 'ministers'].includes(route.name);
   const isPublicMoneyActive = route.name === 'public-money';
   const isSocietyActive = ['society', 'environment', 'press-freedom', 'incidents'].includes(route.name);
   const isAboutActive = route.name === 'about';
 
   const governanceItems: NavDropdownItem[] = [
+    { path: '/ministers', label: 'Council of Ministers Directory', description: 'Complete official directory of 71 Union Ministers and 51 Ministries' },
     { path: '/works', label: 'Works & Records', description: 'Policy reforms, major milestones and documented scrutiny' },
     { path: '/yojnas', label: 'Welfare Schemes (Yojnas)', description: 'Claimed launch targets vs ground delivery data' },
     { path: '/promises', label: 'Manifesto Promises', description: 'Tracking campaign pledges: delivered, partial, or stalled' },
-    { path: '/leaders', label: 'Ministers & Council', description: 'Executive accountability, cabinet tenures and decisions' },
+    { path: '/leaders', label: 'Party Leaders & Key Figures', description: 'Executive accountability, party chiefs and legislative dossiers' },
   ];
 
   const publicMoneyItems: NavDropdownItem[] = [
@@ -437,8 +438,13 @@ export function Footer() {
                 </button>
               </li>
               <li>
+                <button onClick={() => navigate('/ministers')} className="hover:text-[#1A3D2F] hover:underline cursor-pointer">
+                  Council of Ministers Directory (71 Members)
+                </button>
+              </li>
+              <li>
                 <button onClick={() => navigate('/leaders')} className="hover:text-[#1A3D2F] hover:underline cursor-pointer">
-                  Ministers & Executive Council
+                  Party Leaders & Key Figures
                 </button>
               </li>
               <li>
