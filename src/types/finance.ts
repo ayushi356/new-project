@@ -56,6 +56,10 @@ export interface PublicFinanceRecord {
   actualAmountCr?: number;      // Actual
   previousYearAmountCr?: number;// Prior financial year for comparison
 
+  // Sub-component tagging to prevent double-counting in aggregate summaries
+  isSubComponent?: boolean;     // True if component of another record (e.g. RBI surplus is component of Non-Tax)
+  parentRecordId?: string;      // ID of parent aggregate record (e.g. 'rev-sample-03')
+
   // Detailed attributes specific to each section
   details?: {
     // 1. Revenue

@@ -1,15 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
   Coins,
-  Receipt,
   PieChart,
-  TrendingDown,
-  FolderKanban,
-  Tag,
-  FileCheck2,
-  FileSignature,
-  Landmark,
-  GitFork,
   BarChart3,
   Search,
   Filter,
@@ -26,6 +18,9 @@ import {
   ShieldCheck,
   Info,
   FileText,
+  FileCheck2,
+  SlidersHorizontal,
+  Table,
 } from 'lucide-react';
 import {
   FINANCIAL_SECTIONS,
@@ -37,60 +32,86 @@ import type {
   FigureType,
 } from '@/types/finance';
 import { useNavigate } from '@/lib/router';
-import { AccessibleChart, type DataPoint } from '@/components/AccessibleChart';
 
-// 1. Direct Central Capital Outlay (Infrastructure & Asset Creation)
-// Verified against Union Budget Expenditure Statements and CGA Audited Finance Accounts
-const DIRECT_CAPEX_TREND_DATA: DataPoint[] = [
-  { label: '2014-15', value: 1.96, formattedValue: '₹1.96 Lakh Cr', note: 'Audited Actual · 11.8% of Total Outlay', color: '#1A3D2F' },
-  { label: '2016-17', value: 2.84, formattedValue: '₹2.84 Lakh Cr', note: 'Audited Actual · 14.4% of Total Outlay', color: '#1A3D2F' },
-  { label: '2018-19', value: 3.03, formattedValue: '₹3.03 Lakh Cr', note: 'Audited Actual · 13.1% of Total Outlay', color: '#1A3D2F' },
-  { label: '2020-21', value: 4.26, formattedValue: '₹4.26 Lakh Cr', note: 'Audited Actual · 12.1% of Total Outlay', color: '#1A3D2F' },
-  { label: '2022-23', value: 7.39, formattedValue: '₹7.39 Lakh Cr', note: 'Audited Actual · 17.6% of Total Outlay', color: '#1A3D2F' },
-  { label: '2023-24', value: 9.49, formattedValue: '₹9.49 Lakh Cr', note: 'CGA Audited Actual · 21.1% of Total Outlay', color: '#1A3D2F' },
-  { label: '2024-25', value: 10.18, secondaryValue: 11.11, secondaryLabel: 'Budget Estimate (BE)', formattedValue: '₹10.18 Lakh Cr (RE)', note: 'Revised Estimate · BE was ₹11.11L Cr', color: '#1A3D2F' },
-  { label: '2025-26', value: 11.21, formattedValue: '₹11.21 Lakh Cr (BE)', note: 'Budget Estimate · 22.1% of Total Outlay', color: '#1A3D2F' },
-];
-
-// 2. Direct Capex vs Effective Capital Expenditure (Including Grants-in-Aid for Capital Asset Creation)
-const EFFECTIVE_CAPEX_TREND_DATA: DataPoint[] = [
-  { label: '2014-15', value: 1.96, secondaryValue: 2.65, secondaryLabel: 'Effective Capex', formattedValue: '₹1.96L Cr (Direct)', note: 'Effective: ₹2.65L Cr', color: '#1A3D2F' },
-  { label: '2016-17', value: 2.84, secondaryValue: 3.75, secondaryLabel: 'Effective Capex', formattedValue: '₹2.84L Cr (Direct)', note: 'Effective: ₹3.75L Cr', color: '#1A3D2F' },
-  { label: '2018-19', value: 3.03, secondaryValue: 4.28, secondaryLabel: 'Effective Capex', formattedValue: '₹3.03L Cr (Direct)', note: 'Effective: ₹4.28L Cr', color: '#1A3D2F' },
-  { label: '2020-21', value: 4.26, secondaryValue: 6.36, secondaryLabel: 'Effective Capex', formattedValue: '₹4.26L Cr (Direct)', note: 'Effective: ₹6.36L Cr', color: '#1A3D2F' },
-  { label: '2022-23', value: 7.39, secondaryValue: 10.53, secondaryLabel: 'Effective Capex', formattedValue: '₹7.39L Cr (Direct)', note: 'Effective: ₹10.53L Cr', color: '#1A3D2F' },
-  { label: '2023-24', value: 9.49, secondaryValue: 12.71, secondaryLabel: 'Effective Capex', formattedValue: '₹9.49L Cr (Direct)', note: 'Effective: ₹12.71L Cr', color: '#1A3D2F' },
-  { label: '2024-25', value: 10.18, secondaryValue: 15.02, secondaryLabel: 'Effective Capex (BE)', formattedValue: '₹10.18L Cr (RE)', note: 'Effective BE: ₹15.02L Cr', color: '#1A3D2F' },
-  { label: '2025-26', value: 11.21, secondaryValue: 15.48, secondaryLabel: 'Effective Capex (BE)', formattedValue: '₹11.21L Cr (BE)', note: 'Effective BE: ₹15.48L Cr', color: '#1A3D2F' },
-];
-
-// Icon resolver for sections
-function getSectionIcon(iconName: string) {
-  switch (iconName) {
-    case 'Receipt':
-      return Receipt;
-    case 'PieChart':
-      return PieChart;
-    case 'TrendingDown':
-      return TrendingDown;
-    case 'FolderKanban':
-      return FolderKanban;
-    case 'Tag':
-      return Tag;
-    case 'FileCheck2':
-      return FileCheck2;
-    case 'FileSignature':
-      return FileSignature;
-    case 'Landmark':
-      return Landmark;
-    case 'GitFork':
-      return GitFork;
-    case 'BarChart3':
-      return BarChart3;
-    default:
-      return Coins;
-  }
+// Distinct public investment series for the grouped vertical column chart
+interface CapexSeriesItem {
+  year: string;
+  actual: number | null; // In ₹ Lakh Crore
+  actualStatus: 'audited' | 'provisional_cga' | 'pending';
+  be: number;            // In ₹ Lakh Crore
+  re: number;            // In ₹ Lakh Crore
+  note: string;
 }
+
+const CAPEX_SERIES_MAP: Record<'expenditure' | 'outlay' | 'effective', {
+  title: string;
+  shortLabel: string;
+  subtitle: string;
+  denominatorNote: string;
+  maxY: number;
+  data: CapexSeriesItem[];
+}> = {
+  expenditure: {
+    title: 'Total Capital Expenditure (Infrastructure Outlay + Capex Loans to States)',
+    shortLabel: 'Capital Expenditure',
+    subtitle: 'Total capital disbursements of the Union Government under Article 112, combining central asset creation with 50-year interest-free capital loans to states.',
+    denominatorNote: 'Capital Expenditure (₹11.11 Lakh Cr BE in FY 2024–25; revised to ₹10.18 Lakh Cr RE) includes direct central capital outlay PLUS ₹1.92 Lakh Cr in 50-year interest-free capital loans disbursed to state governments under the SASCI scheme.',
+    maxY: 14,
+    data: [
+      { year: '2020–21', actual: 4.26, actualStatus: 'audited', be: 4.12, re: 4.39, note: 'Audited Finance Accounts (CGA/CAG)' },
+      { year: '2021–22', actual: 5.93, actualStatus: 'audited', be: 5.54, re: 6.03, note: 'Audited Finance Accounts (CGA/CAG)' },
+      { year: '2022–23', actual: 7.36, actualStatus: 'audited', be: 7.50, re: 7.28, note: 'Audited Finance Accounts (CGA/CAG)' },
+      { year: '2023–24', actual: 9.49, actualStatus: 'audited', be: 10.01, re: 9.50, note: 'Audited Finance Accounts (CGA/CAG)' },
+      { year: '2024–25', actual: 9.85, actualStatus: 'provisional_cga', be: 11.11, re: 10.18, note: 'Actual is provisional CGA accounts (~₹9.85L Cr); final audited Finance Accounts pending CAG audit tabling.' },
+      { year: '2025–26', actual: null, actualStatus: 'pending', be: 11.21, re: 11.21, note: 'Budget Estimate approved by Parliament.' },
+    ],
+  },
+  outlay: {
+    title: 'Capital Outlay (Direct Physical Asset Creation by Union Ministries)',
+    shortLabel: 'Capital Outlay',
+    subtitle: 'Direct physical assets created by the Centre: national highways, railway track doubling, defense equipment, and ports.',
+    denominatorNote: 'Capital Outlay measures strictly direct physical asset creation by Union Ministries (₹9.19 Lakh Cr BE in FY 2024–25; revised to ₹8.37 Lakh Cr RE). It excludes loans to states, differentiating it from the ₹11.11 Lakh Cr total Capex figure.',
+    maxY: 12,
+    data: [
+      { year: '2020–21', actual: 3.16, actualStatus: 'audited', be: 3.33, re: 3.17, note: 'Audited direct asset creation.' },
+      { year: '2021–22', actual: 4.60, actualStatus: 'audited', be: 4.35, re: 4.70, note: 'Audited direct asset creation.' },
+      { year: '2022–23', actual: 6.09, actualStatus: 'audited', be: 6.10, re: 5.86, note: 'Audited direct asset creation.' },
+      { year: '2023–24', actual: 8.35, actualStatus: 'audited', be: 8.40, re: 8.30, note: 'Audited direct asset creation.' },
+      { year: '2024–25', actual: 8.20, actualStatus: 'provisional_cga', be: 9.19, re: 8.37, note: 'FY 2024–25 BE was ₹9.19L Cr (~₹9,19,401 Cr) for direct outlay, revised to ₹8.37L Cr. Actual is provisional CGA.' },
+      { year: '2025–26', actual: null, actualStatus: 'pending', be: 9.38, re: 9.38, note: 'Budget Estimate: ₹9.38L Cr (~₹9,38,000 Cr) for direct physical asset creation.' },
+    ],
+  },
+  effective: {
+    title: 'Effective Capital Expenditure (Capital Spending + Grants-in-Aid for State Assets)',
+    shortLabel: 'Effective Capex',
+    subtitle: 'Consolidated national investment footprint, adding earmarked capital grants given to states for rural roads (PMGSY), housing (PMAY), and irrigation.',
+    denominatorNote: 'Under constitutional accounting standards, grants given to states for asset creation are accounted under Revenue Account because the assets belong to states. Effective Capex consolidates this to show total public investment (₹15.02 Lakh Cr BE in FY 2024–25).',
+    maxY: 18,
+    data: [
+      { year: '2020–21', actual: 6.38, actualStatus: 'audited', be: 6.15, re: 6.45, note: 'Includes ₹2.12L Cr grants-in-aid to states for asset creation.' },
+      { year: '2021–22', actual: 8.35, actualStatus: 'audited', be: 7.74, re: 8.41, note: 'Includes ₹2.42L Cr grants-in-aid to states.' },
+      { year: '2022–23', actual: 10.51, actualStatus: 'audited', be: 10.68, re: 10.42, note: 'Includes ₹3.15L Cr grants-in-aid to states.' },
+      { year: '2023–24', actual: 12.72, actualStatus: 'audited', be: 13.71, re: 12.71, note: 'Includes ₹3.23L Cr grants-in-aid to states.' },
+      { year: '2024–25', actual: 13.40, actualStatus: 'provisional_cga', be: 15.02, re: 13.90, note: 'BE of ₹15.02L Cr (~₹15,01,648 Cr, 4.6% of GDP) includes ₹3.91L Cr capital grants to states. Actual is provisional CGA.' },
+      { year: '2025–26', actual: null, actualStatus: 'pending', be: 15.48, re: 15.48, note: 'BE of ₹15.48L Cr (~₹15,48,282 Cr, 4.3% of GDP) includes ₹4.27L Cr capital grants to states.' },
+    ],
+  },
+};
+
+// Civic Category groupings for streamlined navigation
+const CIVIC_FILTER_GROUPS: {
+  id: string;
+  label: string;
+  shortLabel: string;
+  sections: FinancialSectionId[];
+}[] = [
+  { id: 'all', label: 'All Public Finance Records', shortLabel: 'All Records', sections: [] },
+  { id: 'revenue', label: 'Tax & Non-Tax Revenues', shortLabel: 'Revenue & Taxes', sections: ['revenue'] },
+  { id: 'spending', label: 'Ministry Allocations & Capital Spending', shortLabel: 'Spending & Capex', sections: ['allocation', 'expenditure'] },
+  { id: 'schemes_relief', label: 'Welfare Schemes & Tax Relief', shortLabel: 'Schemes & Welfare', sections: ['schemes', 'tax_incentives'] },
+  { id: 'oversight', label: 'Audits & Public Procurement', shortLabel: 'Audits & Contracts', sections: ['audits', 'procurement'] },
+  { id: 'debt_transfers', label: 'Public Debt & Federal Devolution', shortLabel: 'Debt & Transfers', sections: ['debt', 'state_finance', 'comparison'] },
+];
 
 // Format numbers in Indian numbering system (Lakh, Crore)
 function formatInLakhCrore(amountCr: number): string {
@@ -161,19 +182,29 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
   }, [initialSection]);
 
   const [activeSection, setActiveSection] = useState<FinancialSectionId>(validSectionId);
+  const [activeCivicGroup, setActiveCivicGroup] = useState<string>('all');
+  const [selectedPillar, setSelectedPillar] = useState<string>('all');
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState<boolean>(false);
+
+  // Section 4 states: Percentage Financing
   const [rupeeTab, setRupeeTab] = useState<'comes' | 'goes'>('comes');
   const [selectedRupeeYear, setSelectedRupeeYear] = useState<string>('2024-25');
-  const [capexView, setCapexView] = useState<'direct' | 'effective'>('direct');
-  const [showGlossary, setShowGlossary] = useState(false);
-  const [expandedRecordIds, setExpandedRecordIds] = useState<Record<string, boolean>>({});
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState<number | null>(null);
   const [hoveredDonutIndex, setHoveredDonutIndex] = useState<number | null>(null);
 
-  const currentRupeeData = useMemo(() => {
-    return (
-      CITIZEN_RUPEE_DATASETS.find((d) => d.yearId === selectedRupeeYear) ||
-      CITIZEN_RUPEE_DATASETS[0]
-    );
-  }, [selectedRupeeYear]);
+  // Section 5 states: Grouped Vertical Column Capex Chart
+  const [capexMetric, setCapexMetric] = useState<'expenditure' | 'outlay' | 'effective'>('expenditure');
+  const [showCapexTable, setShowCapexTable] = useState<boolean>(false);
+  const [hoveredCapexBar, setHoveredCapexBar] = useState<{
+    year: string;
+    series: 'actual' | 'be' | 're';
+    value: number | null;
+    note: string;
+  } | null>(null);
+
+  // General states
+  const [showGlossary, setShowGlossary] = useState<boolean>(false);
+  const [expandedRecordIds, setExpandedRecordIds] = useState<Record<string, boolean>>({});
 
   // Filters
   const [searchQuery, setSearchQuery] = useState('');
@@ -182,9 +213,16 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
   const [selectedMinistry, setSelectedMinistry] = useState<string>('all');
   const [selectedFigureType, setSelectedFigureType] = useState<string>('all');
 
+  const currentRupeeData = useMemo(() => {
+    return (
+      CITIZEN_RUPEE_DATASETS.find((d) => d.yearId === selectedRupeeYear) ||
+      CITIZEN_RUPEE_DATASETS[0]
+    );
+  }, [selectedRupeeYear]);
+
   // Keep route synced when tab changes
   useEffect(() => {
-    if (initialSection !== activeSection) {
+    if (initialSection && initialSection !== activeSection) {
       navigate(`/public-money/${activeSection}`);
     }
   }, [activeSection, initialSection, navigate]);
@@ -198,11 +236,20 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
 
   // Filter records
   const filteredRecords = useMemo(() => {
-    return SAMPLE_FINANCE_RECORDS.filter((rec) => {
-      // Must match section
-      if (rec.section !== activeSection) return false;
+    const currentGroup = CIVIC_FILTER_GROUPS.find((g) => g.id === activeCivicGroup);
 
-      // Text search
+    return SAMPLE_FINANCE_RECORDS.filter((rec) => {
+      // 1. Civic group filter
+      if (activeCivicGroup !== 'all' && currentGroup && currentGroup.sections.length > 0) {
+        if (!currentGroup.sections.includes(rec.section)) return false;
+      }
+
+      // 2. Specific pillar filter
+      if (selectedPillar !== 'all' && rec.section !== selectedPillar) {
+        return false;
+      }
+
+      // 3. Text search
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase();
         const matchesTitle = rec.title.toLowerCase().includes(query);
@@ -215,22 +262,22 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
         }
       }
 
-      // Gov level
+      // 4. Gov level
       if (selectedGovLevel !== 'all' && rec.govLevel !== selectedGovLevel) {
         return false;
       }
 
-      // Ministry
+      // 5. Ministry
       if (selectedMinistry !== 'all' && rec.departmentOrMinistry !== selectedMinistry) {
         return false;
       }
 
-      // Figure type
+      // 6. Figure type
       if (selectedFigureType !== 'all' && rec.figureType !== selectedFigureType) {
         return false;
       }
 
-      // Financial year
+      // 7. Financial year
       if (selectedFY !== 'all' && !rec.financialYear.includes(selectedFY)) {
         return false;
       }
@@ -238,7 +285,8 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
       return true;
     });
   }, [
-    activeSection,
+    activeCivicGroup,
+    selectedPillar,
     searchQuery,
     selectedGovLevel,
     selectedMinistry,
@@ -272,6 +320,8 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
 
   const resetFilters = () => {
     setSearchQuery('');
+    setActiveCivicGroup('all');
+    setSelectedPillar('all');
     setSelectedFY('all');
     setSelectedGovLevel('all');
     setSelectedMinistry('all');
@@ -280,24 +330,41 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
 
   const hasActiveFilters =
     searchQuery !== '' ||
+    activeCivicGroup !== 'all' ||
+    selectedPillar !== 'all' ||
     selectedFY !== 'all' ||
     selectedGovLevel !== 'all' ||
     selectedMinistry !== 'all' ||
     selectedFigureType !== 'all';
 
-  // Section summary statistics
+  // Section summary statistics: excludes sub-components to prevent double-counting
   const sectionSummary = useMemo(() => {
-    const records = SAMPLE_FINANCE_RECORDS.filter((r) => r.section === activeSection);
-    const totalAmount = records.reduce((sum, r) => sum + r.amountCr, 0);
-    const auditedCount = records.filter(
+    const currentGroup = CIVIC_FILTER_GROUPS.find((g) => g.id === activeCivicGroup);
+    const pool = SAMPLE_FINANCE_RECORDS.filter((rec) => {
+      if (activeCivicGroup !== 'all' && currentGroup && currentGroup.sections.length > 0) {
+        if (!currentGroup.sections.includes(rec.section)) return false;
+      }
+      if (selectedPillar !== 'all' && rec.section !== selectedPillar) return false;
+      return true;
+    });
+
+    // Exclude sub-components from aggregate total to eliminate double-counting!
+    const totalAmount = pool
+      .filter((r) => !r.isSubComponent)
+      .reduce((sum, r) => sum + r.amountCr, 0);
+
+    const auditedCount = pool.filter(
       (r) => r.figureType === 'actual' || r.figureType === 'reported_finding'
     ).length;
+
     return {
-      totalRecords: records.length,
+      totalRecords: pool.length,
       totalAmount,
       auditedCount,
     };
-  }, [activeSection]);
+  }, [activeCivicGroup, selectedPillar]);
+
+  const currentCapexConfig = CAPEX_SERIES_MAP[capexMetric];
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-[#181A19] pb-20">
@@ -316,7 +383,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
 
             <p className="mt-4 text-base leading-relaxed text-[#4A524D] sm:text-lg">
               Public money belongs to the people of India. Explore how national revenues are
-              collected, allocated to ministries, spent on infrastructure, reviewed by independent
+              collected, allocated to ministries, invested into infrastructure, reviewed by independent
               auditors (CAG), and devolved to states — with clear distinctions between budget
               ceilings and actual disbursements.
             </p>
@@ -327,7 +394,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 className="inline-flex items-center gap-2 rounded-xl bg-[#1A3D2F] px-4 py-2 text-xs font-bold text-white shadow-2xs transition hover:bg-[#143025] cursor-pointer"
               >
                 <HelpCircle size={15} strokeWidth={1.5} />
-                <span>{showGlossary ? 'Hide Budget Guide' : 'Citizen Budget Primer'}</span>
+                <span>{showGlossary ? 'Hide Budget Primer' : 'Citizen Budget Primer'}</span>
               </button>
               <a
                 href="https://www.indiabudget.gov.in/"
@@ -360,11 +427,10 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
             <span className="font-bold uppercase tracking-wide text-[#1A3D2F]">
               Verified Public Record Notice:
             </span>{' '}
-            Figures presented in this tracker are ingested directly from official Union Budget 2024-25 documents,
-            Controller General of Accounts (CGA) audited annual finance accounts, state budgets, and Comptroller & Auditor General (CAG)
-            audit reports tabled in Parliament. An authorized Budget Estimate (BE) represents a legislative spending ceiling,
-            not cash spent. For primary verification, refer to the document title, table citation, and official source link
-            provided in each record’s Methodology drawer.
+            Figures presented in this tracker are ingested directly from official Union Budget documents (Ministry of Finance),
+            Controller General of Accounts (CGA) annual accounts, and Comptroller & Auditor General (CAG) audit reports
+            tabled in Parliament. An authorized Budget Estimate (BE) represents a legislative spending ceiling, not cash spent.
+            All sub-components (such as the RBI surplus dividend) are itemized without double-counting in aggregate revenues.
           </div>
         </div>
       </div>
@@ -382,7 +448,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
               </div>
               <button
                 onClick={() => setShowGlossary(false)}
-                className="text-xs text-slate-500 hover:text-slate-800"
+                className="text-xs text-slate-500 hover:text-slate-800 cursor-pointer"
               >
                 Close Primer &times;
               </button>
@@ -398,7 +464,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 </h3>
                 <p className="mt-1 text-xs leading-relaxed text-slate-600">
                   Passed by Parliament at the start of the financial year. It gives legal authority
-                  to spend up to that limit. It does <strong>not</strong> mean the money has left
+                  to spend up to that ceiling. It does <strong>not</strong> mean the money has left
                   the treasury.
                 </p>
               </div>
@@ -447,20 +513,22 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
         </section>
       )}
 
-      {/* 4. Percentage-Based Financial Visualization: Where Does India's Money Come From & Go */}
+      {/* 4. Percentage-Based Citizen Financing Section: How Does the Union Government Finance Its Budget? */}
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs sm:p-7">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1A3D2F]">
                 <PieChart size={15} strokeWidth={1.5} />
                 <span>Percentage Budget Distribution · {currentRupeeData.financialYear}</span>
               </div>
-              <h2 className="mt-1 font-serif text-xl font-extrabold text-slate-900 sm:text-2xl">
-                {rupeeTab === 'comes' ? "Where Does India's Money Come From?" : "Where Does India's Money Go?"}
+              <h2 className="mt-1 font-serif text-xl font-extrabold text-[#181A19] sm:text-2xl">
+                {rupeeTab === 'comes'
+                  ? 'How Does the Union Government Finance Its Budget?'
+                  : 'How Does the Union Government Spend Its Outlay?'}
               </h2>
               <p className="mt-1 text-xs text-slate-500 sm:text-sm">
-                Percentage distribution of Union Budget {rupeeTab === 'comes' ? 'Receipts & Financing' : 'Expenditures & Outlays'}. Basis: {currentRupeeData.budgetBasis}
+                Percentage distribution of Union Budget {rupeeTab === 'comes' ? 'Receipts & Financing Sources' : 'Expenditures & Outlays'}. Basis: {currentRupeeData.budgetBasis}
               </p>
             </div>
 
@@ -469,7 +537,10 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
               {/* Financial Year Selector */}
               <div className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-1 text-xs">
                 <button
-                  onClick={() => setSelectedRupeeYear('2024-25')}
+                  onClick={() => {
+                    setSelectedRupeeYear('2024-25');
+                    setSelectedCategoryIndex(null);
+                  }}
                   className={`rounded-md px-3 py-1.5 font-bold transition cursor-pointer ${
                     selectedRupeeYear === '2024-25'
                       ? 'bg-white text-slate-900 shadow-xs'
@@ -479,7 +550,10 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                   FY 2024–25 (BE & RE)
                 </button>
                 <button
-                  onClick={() => setSelectedRupeeYear('2025-26')}
+                  onClick={() => {
+                    setSelectedRupeeYear('2025-26');
+                    setSelectedCategoryIndex(null);
+                  }}
                   className={`rounded-md px-3 py-1.5 font-bold transition cursor-pointer ${
                     selectedRupeeYear === '2025-26'
                       ? 'bg-white text-slate-900 shadow-xs'
@@ -493,7 +567,10 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
               {/* Inflow vs Outflow Toggle */}
               <div className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-1 text-xs">
                 <button
-                  onClick={() => setRupeeTab('comes')}
+                  onClick={() => {
+                    setRupeeTab('comes');
+                    setSelectedCategoryIndex(null);
+                  }}
                   className={`rounded-md px-3 py-1.5 font-bold transition cursor-pointer ${
                     rupeeTab === 'comes'
                       ? 'bg-[#1A3D2F] text-white shadow-xs'
@@ -503,7 +580,10 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                   Where Money Comes From
                 </button>
                 <button
-                  onClick={() => setRupeeTab('goes')}
+                  onClick={() => {
+                    setRupeeTab('goes');
+                    setSelectedCategoryIndex(null);
+                  }}
                   className={`rounded-md px-3 py-1.5 font-bold transition cursor-pointer ${
                     rupeeTab === 'goes'
                       ? 'bg-[#1A3D2F] text-white shadow-xs'
@@ -656,18 +736,18 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 <div className="flex flex-wrap items-center gap-2 font-bold text-slate-900">
                   <span>Percentage Denominator & Accounting Identity:</span>
                   <span className="rounded-md bg-[#1A3D2F]/10 px-2 py-0.5 text-[10px] text-[#1A3D2F]">
-                    Budget Outlay Denominator: ₹{currentRupeeData.macroTotals.totalBudgetOutlayCr.toLocaleString('en-IN')} Cr ({formatInLakhCrore(currentRupeeData.macroTotals.totalBudgetOutlayCr)} BE)
+                    Total Outlay Denominator: ₹{currentRupeeData.macroTotals.totalBudgetOutlayCr.toLocaleString('en-IN')} Cr ({formatInLakhCrore(currentRupeeData.macroTotals.totalBudgetOutlayCr)} BE)
                   </span>
                 </div>
                 <p className="leading-relaxed text-slate-600">
                   All category percentages indicate that component's share of the <strong>Total National Budget Outlay & Financing Envelope ({formatInLakhCrore(currentRupeeData.macroTotals.totalBudgetOutlayCr)})</strong>.
                   {rupeeTab === 'comes' ? (
                     <>
-                      {' '}Tax categories (Income Tax 19%, GST 18%, Corporation Tax 17%) reflect their proportion of <em>total receipts including borrowings</em> (27%). Borrowings represent debt financing to cover the fiscal deficit gap, not tax revenue. Percentages are rounded to whole numbers as published in official Ministry of Finance budget documents and sum to exactly 100%.
+                      {' '}Tax categories (Income Tax 19%, GST 18%, Corporation Tax 17%) reflect their proportion of <em>total receipts including borrowings</em> (27%). Borrowings represent debt financing to cover the fiscal deficit gap, not tax revenue. Percentages are verified against official Ministry of Finance budget documents and sum to exactly 100%. Click any category card to reveal exact underlying rupee amounts and primary citations.
                     </>
                   ) : (
                     <>
-                      {' '}Expenditure percentages show the proportional distribution of public expenditure across constitutional state tax transfers (21%), debt interest servicing (19%), central development schemes (16%), defense preparedness (8%), and essential public services, summing to exactly 100%.
+                      {' '}Expenditure percentages show the proportional distribution of public expenditure across constitutional state tax transfers (21%), debt interest servicing (19%), central development schemes (16%), defense preparedness (8%), and essential public services, summing to exactly 100%. Click any card to inspect detailed calculations.
                     </>
                   )}
                 </p>
@@ -675,7 +755,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
             </div>
           </div>
 
-          {/* Interactive Donut Chart & Category Breakdown Grid */}
+          {/* Interactive Donut Chart & Simplified Category Breakdown Grid */}
           <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
             {/* Left Column: Interactive Donut Chart with 100% in the Centre */}
             <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-200 bg-slate-50/50 p-5 lg:col-span-5">
@@ -684,7 +764,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                   Budget Allocation Donut Chart
                 </span>
                 <p className="text-[11px] text-slate-500">
-                  Hover over any ring slice or category card to inspect underlying figures
+                  Hover over ring slices or click category cards to reveal underlying figures
                 </p>
               </div>
 
@@ -705,7 +785,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                       const strokeDasharray = `${(item.percentage / 100) * circumference} ${circumference}`;
                       const strokeDashoffset = -((cumulativePct / 100) * circumference);
                       cumulativePct += item.percentage;
-                      const isHovered = hoveredDonutIndex === idx;
+                      const isHovered = hoveredDonutIndex === idx || selectedCategoryIndex === idx;
 
                       return (
                         <circle
@@ -722,8 +802,9 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                           className="transition-all duration-200 cursor-pointer"
                           onMouseEnter={() => setHoveredDonutIndex(idx)}
                           onMouseLeave={() => setHoveredDonutIndex(null)}
+                          onClick={() => setSelectedCategoryIndex(selectedCategoryIndex === idx ? null : idx)}
                           style={{
-                            opacity: hoveredDonutIndex !== null && !isHovered ? 0.45 : 1,
+                            opacity: (hoveredDonutIndex !== null || selectedCategoryIndex !== null) && !isHovered ? 0.45 : 1,
                             filter: isHovered ? 'drop-shadow(0 2px 8px rgba(0,0,0,0.25))' : 'none',
                           }}
                         />
@@ -731,11 +812,12 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                     });
                   })()}
 
-                  {/* Centre of the Donut Chart: 100% when neutral, or category details when hovered */}
-                  {hoveredDonutIndex !== null ? (
+                  {/* Centre of the Donut Chart: 100% when neutral, or category details when hovered/selected */}
+                  {(hoveredDonutIndex !== null || selectedCategoryIndex !== null) ? (
                     (() => {
+                      const activeIdx = hoveredDonutIndex !== null ? hoveredDonutIndex : selectedCategoryIndex!;
                       const items = rupeeTab === 'comes' ? currentRupeeData.where1RupeeComesFrom : currentRupeeData.where1RupeeGoes;
-                      const hoveredItem = items[hoveredDonutIndex];
+                      const hoveredItem = items[activeIdx];
                       if (!hoveredItem) return null;
                       const label = ('source' in hoveredItem && hoveredItem.source ? hoveredItem.source : hoveredItem.destination) || '';
 
@@ -847,7 +929,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
               </div>
             </div>
 
-            {/* Right Column: Category Breakdown Cards with Percentage beside Name */}
+            {/* Right Column: Simplified Category Cards (Expandable on Selection) */}
             <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:col-span-7">
               {(rupeeTab === 'comes'
                 ? currentRupeeData.where1RupeeComesFrom
@@ -855,22 +937,25 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
               ).map((item, idx) => {
                 const label = ('source' in item && item.source ? item.source : item.destination) || '';
                 const isBorrowing = item.categoryType === 'borrowing_liability';
+                const isSelected = selectedCategoryIndex === idx;
                 const isHovered = hoveredDonutIndex === idx;
 
                 return (
                   <div
                     key={idx}
+                    onClick={() => setSelectedCategoryIndex(isSelected ? null : idx)}
                     onMouseEnter={() => setHoveredDonutIndex(idx)}
                     onMouseLeave={() => setHoveredDonutIndex(null)}
-                    className={`flex flex-col justify-between rounded-xl border p-3.5 text-xs transition-all duration-150 ${
-                      isHovered
+                    className={`flex flex-col justify-between rounded-xl border p-3.5 text-xs transition-all duration-150 cursor-pointer ${
+                      isSelected || isHovered
                         ? 'border-[#1A3D2F] bg-white ring-2 ring-[#1A3D2F]/20 shadow-sm'
                         : isBorrowing
-                        ? 'border-amber-300 bg-amber-50/60 hover:border-amber-400'
-                        : 'border-slate-200 bg-slate-50/70 hover:border-slate-300 hover:bg-white'
+                        ? 'border-amber-300 bg-amber-50/50 hover:border-amber-400'
+                        : 'border-slate-200 bg-slate-50/60 hover:border-slate-300 hover:bg-white'
                     }`}
                   >
                     <div>
+                      {/* Compact Header: Color, Category Name, and Percentage beside Name */}
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex items-start gap-2 overflow-hidden pr-1">
                           <span
@@ -878,7 +963,6 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                             style={{ backgroundColor: item.color }}
                           />
                           <div>
-                            {/* CATEGORY NAME WITH PERCENTAGE BESIDE ITS NAME */}
                             <div className="flex flex-wrap items-baseline gap-1.5">
                               <span className="font-bold text-slate-900" title={label}>
                                 {label}
@@ -897,7 +981,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                                       : 'bg-[#1A3D2F]/10 text-[#1A3D2F]'
                                   }`}
                                 >
-                                  {item.categoryLabel}
+                                  {isBorrowing ? 'Financing Source (Debt Liability) — Not Tax Revenue' : item.categoryLabel}
                                 </span>
                               </div>
                             )}
@@ -912,87 +996,67 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                         </div>
                       </div>
 
-                      {/* Underlying Calculated Financial Amount */}
-                      <div className="mt-2.5 flex items-center justify-between rounded-lg border border-slate-200/70 bg-white p-2 font-mono text-[11px]">
-                        <span className="font-sans text-[10px] text-slate-500">Calculated Value:</span>
-                        <span className="font-bold text-slate-900">
-                          ₹{item.exactAmountCr.toLocaleString('en-IN')} Cr{' '}
-                          <span className="font-sans text-[10px] font-normal text-slate-500">
-                            ({formatInLakhCrore(item.exactAmountCr)})
-                          </span>
-                        </span>
-                      </div>
+                      {/* Click prompt indicator when collapsed */}
+                      {!isSelected && (
+                        <div className="mt-2.5 flex items-center justify-between text-[10px] text-slate-400">
+                          <span>Click to view exact amount & formula</span>
+                          <ChevronDown size={12} strokeWidth={1.5} />
+                        </div>
+                      )}
 
-                      {item.description && (
-                        <p className="mt-2 text-[11px] leading-relaxed text-slate-600">
-                          {item.description}
-                        </p>
+                      {/* Expanded Details: Revealed when Selected */}
+                      {isSelected && (
+                        <div className="mt-3 border-t border-slate-200/80 pt-3 space-y-2.5">
+                          {/* Exact calculated financial amount */}
+                          <div className="flex items-center justify-between rounded-lg border border-slate-200/70 bg-white p-2 font-mono text-[11px]">
+                            <span className="font-sans text-[10px] text-slate-500">Calculated Value:</span>
+                            <span className="font-bold text-slate-900">
+                              ₹{item.exactAmountCr.toLocaleString('en-IN')} Cr{' '}
+                              <span className="font-sans text-[10px] font-normal text-slate-500">
+                                ({formatInLakhCrore(item.exactAmountCr)})
+                              </span>
+                            </span>
+                          </div>
+
+                          {/* Calculation basis */}
+                          <div className="text-[10px] text-slate-600 bg-slate-50 p-2 rounded-md border border-slate-100">
+                            <span className="font-semibold text-slate-700">Calculation Basis: </span>
+                            {item.percentage}% of ₹{currentRupeeData.macroTotals.totalBudgetOutlayCr.toLocaleString('en-IN')} Cr Total Outlay
+                          </div>
+
+                          {/* Plain-language explanation */}
+                          {item.description && (
+                            <p className="text-[11px] leading-relaxed text-slate-700">
+                              {item.description}
+                            </p>
+                          )}
+
+                          {/* Official Source Link */}
+                          {item.officialSourceUrl && (
+                            <div className="flex items-center justify-between pt-1 text-[10px]">
+                              <span className="text-slate-400">Official Document:</span>
+                              <a
+                                href={item.officialSourceUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="inline-flex items-center gap-1 font-semibold text-[#1A3D2F] hover:underline"
+                              >
+                                <span>Ministry of Finance Budget</span>
+                                <ExternalLink size={10} strokeWidth={1.5} />
+                              </a>
+                            </div>
+                          )}
+                        </div>
                       )}
                     </div>
-
-                    {item.officialSourceUrl && (
-                      <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-2 text-[10px]">
-                        <span className="text-slate-400 font-mono">
-                          Share: {item.percentage}% of Outlay
-                        </span>
-                        <a
-                          href={item.officialSourceUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center gap-0.5 font-semibold text-[#1A3D2F] hover:underline"
-                        >
-                          <span>Official Source</span>
-                          <ExternalLink size={9} strokeWidth={1.5} />
-                        </a>
-                      </div>
-                    )}
                   </div>
                 );
               })}
             </div>
           </div>
 
-          {/* Cumulative Percentage Distribution Bar */}
-          <div className="mt-6 border-t border-slate-100 pt-4">
-            <div className="flex items-center justify-between text-xs text-slate-600 mb-1.5">
-              <span className="font-semibold text-slate-700">Cumulative Percentage Distribution Bar (0% to 100%)</span>
-              <span className="font-mono text-[11px] text-slate-500">
-                Denominator: ₹{currentRupeeData.macroTotals.totalBudgetOutlayCr.toLocaleString('en-IN')} Cr BE
-              </span>
-            </div>
-            <div className="flex h-6 w-full overflow-hidden rounded-lg bg-slate-100 shadow-inner">
-              {(rupeeTab === 'comes'
-                ? currentRupeeData.where1RupeeComesFrom
-                : currentRupeeData.where1RupeeGoes
-              ).map((item, idx) => {
-                const label = ('source' in item && item.source ? item.source : item.destination) || '';
-                const isHovered = hoveredDonutIndex === idx;
-
-                return (
-                  <div
-                    key={idx}
-                    style={{
-                      width: `${item.percentage}%`,
-                      backgroundColor: item.color,
-                    }}
-                    title={`${label}: ${item.percentage}% (₹${item.exactAmountCr.toLocaleString('en-IN')} Cr)`}
-                    className={`transition-all cursor-pointer ${
-                      isHovered ? 'opacity-100 brightness-110 ring-2 ring-white z-10' : 'hover:opacity-85'
-                    }`}
-                    onMouseEnter={() => setHoveredDonutIndex(idx)}
-                    onMouseLeave={() => setHoveredDonutIndex(null)}
-                  />
-                );
-              })}
-            </div>
-            <div className="mt-1.5 flex items-center justify-between text-[11px] font-mono text-slate-400">
-              <span>0%</span>
-              <span>50%</span>
-              <span>100% of Union Budget ({formatInLakhCrore(currentRupeeData.macroTotals.totalBudgetOutlayCr)})</span>
-            </div>
-          </div>
-
-          {/* Civic Primer on Receipts Categories */}
+          {/* Civic Guide on Receipts Categories */}
           <div className="mt-6 border-t border-slate-100 pt-4">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
               Citizen Guide: Understanding Budget Receipts Classification
@@ -1027,76 +1091,428 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
         </div>
       </section>
 
-      {/* Visual Storytelling: Capital Spending Trend Chart */}
+      {/* 5. Grouped Vertical Column Chart: Capital Spending Trajectory */}
       <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
-        <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-              Historical Public Investment Trajectory
-            </span>
-            <p className="text-xs text-slate-600">
-              Distinguishing direct central capital outlays from grants-in-aid for state asset creation.
-            </p>
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs sm:p-7">
+          {/* Header & Controls */}
+          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1A3D2F]">
+                <BarChart3 size={15} strokeWidth={1.5} />
+                <span>Grouped Column Chart · Multi-Year Public Investment</span>
+              </div>
+              <h2 className="mt-1 font-serif text-xl font-extrabold text-[#181A19] sm:text-2xl">
+                {currentCapexConfig.title}
+              </h2>
+              <p className="mt-1 text-xs text-slate-500 sm:text-sm">
+                {currentCapexConfig.subtitle}
+              </p>
+            </div>
+
+            {/* Toggle Metric View (Total Capex vs Direct Outlay vs Effective Capex) */}
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-1 text-xs font-semibold">
+                <button
+                  onClick={() => setCapexMetric('expenditure')}
+                  className={`rounded-md px-2.5 py-1.5 transition cursor-pointer ${
+                    capexMetric === 'expenditure'
+                      ? 'bg-white text-slate-900 shadow-xs font-bold'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                  title="Includes direct outlay plus loans to states"
+                >
+                  Total Capex
+                </button>
+                <button
+                  onClick={() => setCapexMetric('outlay')}
+                  className={`rounded-md px-2.5 py-1.5 transition cursor-pointer ${
+                    capexMetric === 'outlay'
+                      ? 'bg-white text-slate-900 shadow-xs font-bold'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                  title="Strictly direct central physical assets"
+                >
+                  Capital Outlay
+                </button>
+                <button
+                  onClick={() => setCapexMetric('effective')}
+                  className={`rounded-md px-2.5 py-1.5 transition cursor-pointer ${
+                    capexMetric === 'effective'
+                      ? 'bg-white text-slate-900 shadow-xs font-bold'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                  title="Includes capital grants-in-aid to states"
+                >
+                  Effective Capex
+                </button>
+              </div>
+
+              {/* Table Toggle Button */}
+              <button
+                onClick={() => setShowCapexTable((v) => !v)}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 transition cursor-pointer"
+              >
+                <Table size={13} strokeWidth={1.5} />
+                <span>{showCapexTable ? 'Show Column Chart' : 'View Data Table'}</span>
+              </button>
+            </div>
           </div>
 
-          {/* Toggle View: Direct Capex vs Effective Capex */}
-          <div className="inline-flex rounded-lg border border-[#E5E0D8] bg-[#F5F2EB] p-1 text-xs font-semibold">
-            <button
-              onClick={() => setCapexView('direct')}
-              className={`rounded-md px-3 py-1.5 transition cursor-pointer ${
-                capexView === 'direct'
-                  ? 'bg-white text-[#181A19] shadow-xs font-bold'
-                  : 'text-[#5C645E] hover:text-[#181A19]'
-              }`}
-            >
-              Direct Capital Expenditure
-            </button>
-            <button
-              onClick={() => setCapexView('effective')}
-              className={`rounded-md px-3 py-1.5 transition cursor-pointer ${
-                capexView === 'effective'
-                  ? 'bg-white text-[#181A19] shadow-xs font-bold'
-                  : 'text-[#5C645E] hover:text-[#181A19]'
-              }`}
-            >
-              Direct vs Effective Capex (incl. Grants-in-Aid)
-            </button>
+          {/* Metric Distinction Note */}
+          <div className="mt-4 rounded-xl border border-slate-100 bg-[#FAF8F5] p-3 text-xs text-slate-600">
+            <span className="font-bold text-[#1A3D2F]">Classification Note: </span>
+            {currentCapexConfig.denominatorNote}
+          </div>
+
+          {/* Chart Series Legend */}
+          <div className="mt-4 flex flex-wrap items-center gap-4 border-b border-slate-100 pb-3 text-xs">
+            <div className="flex items-center gap-1.5">
+              <span className="h-3 w-3 rounded-xs bg-[#1A3D2F]" />
+              <span className="font-bold text-slate-800">Actual Outflow</span>
+              <span className="text-[10px] text-slate-500">(Audited CGA Accounts; FY25 is Provisional CGA)</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="h-3 w-3 rounded-xs bg-[#B45309]" />
+              <span className="font-bold text-slate-800">Budget Estimate (BE)</span>
+              <span className="text-[10px] text-slate-500">(Statutory Authorization Ceiling)</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="h-3 w-3 rounded-xs bg-[#527863]" />
+              <span className="font-bold text-slate-800">Revised Estimate (RE)</span>
+              <span className="text-[10px] text-slate-500">(Mid-Year Operational Target)</span>
+            </div>
+          </div>
+
+          {!showCapexTable ? (
+            /* Grouped Vertical Column Chart SVG */
+            <div className="mt-6 overflow-x-auto">
+              <div className="min-w-[680px]">
+                <svg
+                  viewBox="0 0 760 320"
+                  className="w-full h-72 sm:h-80 select-none"
+                  role="img"
+                  aria-label={`${currentCapexConfig.title} Grouped Column Chart`}
+                >
+                  {/* Background grid lines */}
+                  {[0, 0.25, 0.5, 0.75, 1].map((ratio, i) => {
+                    const y = 250 - ratio * 200;
+                    const val = (ratio * currentCapexConfig.maxY).toFixed(1);
+                    return (
+                      <g key={i}>
+                        <line
+                          x1="55"
+                          y1={y}
+                          x2="735"
+                          y2={y}
+                          stroke="#E2E8F0"
+                          strokeDasharray={ratio === 0 ? 'none' : '3 3'}
+                          strokeWidth={ratio === 0 ? 1.5 : 1}
+                        />
+                        <text
+                          x="48"
+                          y={y + 4}
+                          textAnchor="end"
+                          fill="#64748B"
+                          style={{ fontSize: '10px', fontFamily: 'monospace' }}
+                        >
+                          ₹{val}L
+                        </text>
+                      </g>
+                    );
+                  })}
+
+                  {/* Render 6 Year Clusters */}
+                  {currentCapexConfig.data.map((item, yearIdx) => {
+                    const slotWidth = (735 - 55) / 6; // 113.33px per year
+                    const slotX = 55 + yearIdx * slotWidth;
+                    const barWidth = 22;
+                    const barGap = 4;
+                    const clusterWidth = 3 * barWidth + 2 * barGap; // 74px
+                    const startX = slotX + (slotWidth - clusterWidth) / 2;
+
+                    // Bar 1: Actual
+                    const actualHeight = item.actual !== null ? (item.actual / currentCapexConfig.maxY) * 200 : 0;
+                    const actualY = 250 - actualHeight;
+                    const isProvisional = item.actualStatus === 'provisional_cga';
+
+                    // Bar 2: BE
+                    const beHeight = (item.be / currentCapexConfig.maxY) * 200;
+                    const beY = 250 - beHeight;
+
+                    // Bar 3: RE
+                    const reHeight = (item.re / currentCapexConfig.maxY) * 200;
+                    const reY = 250 - reHeight;
+
+                    return (
+                      <g key={item.year}>
+                        {/* Actual Bar */}
+                        {item.actual !== null ? (
+                          <g
+                            className="cursor-pointer transition-opacity hover:opacity-80"
+                            onMouseEnter={() =>
+                              setHoveredCapexBar({
+                                year: item.year,
+                                series: 'actual',
+                                value: item.actual,
+                                note: isProvisional
+                                  ? 'Provisional CGA accounts (~₹' + item.actual + 'L Cr); final audited Finance Accounts pending CAG audit tabling.'
+                                  : 'Audited Finance Accounts (CGA / CAG)',
+                              })
+                            }
+                            onMouseLeave={() => setHoveredCapexBar(null)}
+                          >
+                            <rect
+                              x={startX}
+                              y={actualY}
+                              width={barWidth}
+                              height={actualHeight}
+                              fill="#1A3D2F"
+                              rx="3"
+                              stroke={isProvisional ? '#0F241C' : 'none'}
+                              strokeWidth={isProvisional ? 1.5 : 0}
+                              strokeDasharray={isProvisional ? '3 2' : 'none'}
+                            />
+                            <text
+                              x={startX + barWidth / 2}
+                              y={actualY - 4}
+                              textAnchor="middle"
+                              fill="#1A3D2F"
+                              style={{ fontSize: '9px', fontWeight: 800, fontFamily: 'monospace' }}
+                            >
+                              {item.actual.toFixed(2)}
+                            </text>
+                          </g>
+                        ) : (
+                          <g>
+                            <rect
+                              x={startX}
+                              y={244}
+                              width={barWidth}
+                              height={6}
+                              fill="#CBD5E1"
+                              rx="2"
+                              stroke="#94A3B8"
+                              strokeDasharray="2 2"
+                            />
+                            <text
+                              x={startX + barWidth / 2}
+                              y={238}
+                              textAnchor="middle"
+                              fill="#94A3B8"
+                              style={{ fontSize: '9px', fontWeight: 700 }}
+                            >
+                              —
+                            </text>
+                          </g>
+                        )}
+
+                        {/* BE Bar */}
+                        <g
+                          className="cursor-pointer transition-opacity hover:opacity-80"
+                          onMouseEnter={() =>
+                            setHoveredCapexBar({
+                              year: item.year,
+                              series: 'be',
+                              value: item.be,
+                              note: 'Budget Estimate approved by Parliament at start of year.',
+                            })
+                          }
+                          onMouseLeave={() => setHoveredCapexBar(null)}
+                        >
+                          <rect
+                            x={startX + barWidth + barGap}
+                            y={beY}
+                            width={barWidth}
+                            height={beHeight}
+                            fill="#B45309"
+                            rx="3"
+                          />
+                          <text
+                            x={startX + barWidth + barGap + barWidth / 2}
+                            y={beY - 4}
+                            textAnchor="middle"
+                            fill="#B45309"
+                            style={{ fontSize: '9px', fontWeight: 800, fontFamily: 'monospace' }}
+                          >
+                            {item.be.toFixed(2)}
+                          </text>
+                        </g>
+
+                        {/* RE Bar */}
+                        <g
+                          className="cursor-pointer transition-opacity hover:opacity-80"
+                          onMouseEnter={() =>
+                            setHoveredCapexBar({
+                              year: item.year,
+                              series: 're',
+                              value: item.re,
+                              note: 'Revised Estimate presented mid-year in the subsequent budget.',
+                            })
+                          }
+                          onMouseLeave={() => setHoveredCapexBar(null)}
+                        >
+                          <rect
+                            x={startX + 2 * (barWidth + barGap)}
+                            y={reY}
+                            width={barWidth}
+                            height={reHeight}
+                            fill="#527863"
+                            rx="3"
+                          />
+                          <text
+                            x={startX + 2 * (barWidth + barGap) + barWidth / 2}
+                            y={reY - 4}
+                            textAnchor="middle"
+                            fill="#527863"
+                            style={{ fontSize: '9px', fontWeight: 800, fontFamily: 'monospace' }}
+                          >
+                            {item.re.toFixed(2)}
+                          </text>
+                        </g>
+
+                        {/* X-axis Year Label */}
+                        <text
+                          x={slotX + slotWidth / 2}
+                          y={272}
+                          textAnchor="middle"
+                          fill="#181A19"
+                          style={{ fontSize: '11px', fontWeight: 700 }}
+                        >
+                          {item.year}
+                        </text>
+
+                        {/* Provisional status flag */}
+                        {isProvisional && (
+                          <text
+                            x={slotX + slotWidth / 2}
+                            y={286}
+                            textAnchor="middle"
+                            fill="#B45309"
+                            style={{ fontSize: '8.5px', fontWeight: 700 }}
+                          >
+                            (Prov. CGA)
+                          </text>
+                        )}
+                        {item.actualStatus === 'pending' && (
+                          <text
+                            x={slotX + slotWidth / 2}
+                            y={286}
+                            textAnchor="middle"
+                            fill="#64748B"
+                            style={{ fontSize: '8.5px', fontWeight: 600 }}
+                          >
+                            (In Progress)
+                          </text>
+                        )}
+                      </g>
+                    );
+                  })}
+                </svg>
+              </div>
+
+              {/* Hover Tooltip / Status Display */}
+              <div className="mt-2 min-h-12 rounded-xl border border-slate-200 bg-slate-50 p-2.5 text-xs text-slate-700 flex items-center justify-between">
+                {hoveredCapexBar ? (
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-bold text-slate-900">{hoveredCapexBar.year}:</span>
+                    <span
+                      className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold ${
+                        hoveredCapexBar.series === 'actual'
+                          ? 'bg-[#1A3D2F] text-white'
+                          : hoveredCapexBar.series === 'be'
+                          ? 'bg-[#B45309] text-white'
+                          : 'bg-[#527863] text-white'
+                      }`}
+                    >
+                      {hoveredCapexBar.series === 'actual'
+                        ? 'Actual Outflow'
+                        : hoveredCapexBar.series === 'be'
+                        ? 'Budget Estimate'
+                        : 'Revised Estimate'}
+                    </span>
+                    <span className="font-mono font-bold text-slate-900">
+                      ₹{hoveredCapexBar.value} Lakh Crore
+                    </span>
+                    <span className="text-slate-500">· {hoveredCapexBar.note}</span>
+                  </div>
+                ) : (
+                  <div className="text-slate-500 text-[11px] flex items-center gap-1.5">
+                    <Info size={13} strokeWidth={1.5} />
+                    <span>Hover over any column to inspect its precise value, budget status, and audit notes.</span>
+                  </div>
+                )}
+                <span className="text-[10px] text-slate-400 font-mono">Unit: ₹ Lakh Crore</span>
+              </div>
+            </div>
+          ) : (
+            /* Accessible Data Table View */
+            <div className="mt-6 overflow-x-auto rounded-xl border border-slate-200">
+              <table className="w-full text-left text-xs">
+                <thead className="bg-[#FAF8F5] text-slate-700 border-b border-slate-200 font-bold text-[11px]">
+                  <tr>
+                    <th className="px-3.5 py-2.5">Financial Year</th>
+                    <th className="px-3.5 py-2.5 text-right">Actual Outflow (₹ Lakh Cr)</th>
+                    <th className="px-3.5 py-2.5 text-right">Budget Estimate BE (₹ Lakh Cr)</th>
+                    <th className="px-3.5 py-2.5 text-right">Revised Estimate RE (₹ Lakh Cr)</th>
+                    <th className="px-3.5 py-2.5">Audit & Verification Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 font-mono text-slate-800">
+                  {currentCapexConfig.data.map((row) => (
+                    <tr key={row.year} className="hover:bg-slate-50">
+                      <td className="px-3.5 py-2.5 font-sans font-bold text-slate-900">
+                        {row.year}
+                      </td>
+                      <td className="px-3.5 py-2.5 text-right font-black text-[#1A3D2F]">
+                        {row.actual !== null ? `₹${row.actual.toFixed(2)}` : '—'}
+                      </td>
+                      <td className="px-3.5 py-2.5 text-right font-bold text-[#B45309]">
+                        ₹{row.be.toFixed(2)}
+                      </td>
+                      <td className="px-3.5 py-2.5 text-right font-bold text-[#527863]">
+                        ₹{row.re.toFixed(2)}
+                      </td>
+                      <td className="px-3.5 py-2.5 font-sans text-[11px] text-slate-600">
+                        {row.note}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {/* Reconciliation & Provisional Actuals Audit Box */}
+          <div className="mt-6 border-t border-slate-100 pt-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+              Accounting Reconciliation: Capital Outlay vs Capital Expenditure
+            </h4>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 text-xs">
+              <div className="rounded-xl border border-slate-200 bg-white p-3.5">
+                <span className="font-bold text-slate-900 block">Why Capex is ₹11.11L Cr while Outlay is ₹9.19L Cr (BE 2024–25):</span>
+                <p className="mt-1 text-[11px] text-slate-600 leading-relaxed">
+                  <strong>Capital Outlay (₹9.19 Lakh Cr BE)</strong> measures strictly direct physical asset creation by Union Ministries (national highways, railway track doubling, defense hardware, port infrastructure). <strong>Total Capital Expenditure (₹11.11 Lakh Cr BE)</strong> includes this outlay PLUS ₹1.92 Lakh Crore in 50-year interest-free capital loans disbursed to state governments under the SASCI scheme.
+                </p>
+              </div>
+              <div className="rounded-xl border border-amber-200 bg-amber-50/50 p-3.5">
+                <span className="font-bold text-amber-900 block">Audited Actuals vs Provisional CGA Data:</span>
+                <p className="mt-1 text-[11px] text-amber-800 leading-relaxed">
+                  Actuals from FY 2020–21 through FY 2023–24 reflect finalized, audited Union Finance Accounts confirmed by CGA and reviewed by the CAG. FY 2024–25 actuals are provisional figures from CGA monthly accounts (~₹9.85L Cr Capex; ~₹8.20L Cr Outlay); final audited accounts will be tabled in Parliament in the Union Finance Accounts with a 12–18 month lag.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-
-        {capexView === 'direct' ? (
-          <AccessibleChart
-            title="Union Capital Outlay (Direct Physical Asset Creation) Trend: FY 2014-15 to FY 2025-26"
-            unit="₹ Lakh Crore"
-            referencePeriod="FY 2014-15 to FY 2025-26 (BE)"
-            takeaway="Central Capital Expenditure (expressways, freight corridors, railway modernization, defense hardware, port infrastructure) grew nearly 6-fold from ₹1.96 Lakh Crore (11.8% of total budget) in FY 2014-15 to ₹10.18 Lakh Crore (RE) in FY 2024-25 and ₹11.21 Lakh Crore (BE) in FY 2025-26. Note: FY 2024-25 was originally budgeted at ₹11.11 Lakh Crore (BE) and revised mid-year to ₹10.18 Lakh Crore (RE); FY 2025-26 BE stands at ₹11.21 Lakh Crore."
-            sourceName="Union Budget Trends in Expenditure (Statement 4) & CGA Audited Finance Accounts"
-            sourceUrl="https://www.indiabudget.gov.in/"
-            limitations="Figures from FY 2014-15 to FY 2023-24 represent audited actuals confirmed by Controller General of Accounts (CGA). FY 2024-25 figures represent Revised Estimates (RE) alongside original BE (₹11.11L Cr). FY 2025-26 represents parliamentary Budget Estimates (BE). Effective Capex including grants to states is presented separately."
-            data={DIRECT_CAPEX_TREND_DATA}
-          />
-        ) : (
-          <AccessibleChart
-            title="Direct Capital Outlay vs Effective Capital Expenditure (Including Grants-in-Aid to States)"
-            unit="₹ Lakh Crore"
-            referencePeriod="FY 2014-15 to FY 2025-26"
-            takeaway="Effective Capital Expenditure includes direct central capital spending plus Grants-in-Aid provided to State Governments specifically earmarked for creating durable physical assets (such as PMGSY rural roads and irrigation). In FY 2024-25, Effective Capex BE reached ₹15.02 Lakh Crore (4.6% of GDP) vs direct Capex of ₹11.11 Lakh Crore. In FY 2025-26, Effective Capex BE is ₹15.48 Lakh Crore (4.3% of GDP) vs direct Capex of ₹11.21 Lakh Crore."
-            sourceName="Union Budget at a Glance (Statement 1) & Budget Highlights, Ministry of Finance"
-            sourceUrl="https://www.indiabudget.gov.in/"
-            limitations="Under constitutional accounting standards, Grants-in-Aid transferred to states are accounted under the Revenue Account because asset ownership vests with the state, not the Union. The Ministry of Finance reports 'Effective Capital Expenditure' as an analytical consolidation of total national public investment."
-            data={EFFECTIVE_CAPEX_TREND_DATA}
-          />
-        )}
       </section>
 
-      {/* Visual Storytelling: How Public Money Moves Through Government */}
+      {/* 6. Civic Literacy: The 5-Stage Life of Public Money */}
       <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
         <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1A3D2F]">
             <Coins size={14} strokeWidth={1.5} />
             <span>Civic Literacy: The 5-Stage Life of Public Money</span>
           </div>
-          <h2 className="mt-1 text-xl font-bold text-slate-900">How Tax Money Moves Through Indian Government</h2>
+          <h2 className="mt-1 text-xl font-bold text-slate-900 font-serif">How Tax Money Moves Through Indian Government</h2>
           <p className="mt-1 text-xs text-slate-600">
             A transparent walkthrough of public finance: from tax collection to parliamentary approval, mid-year recalibration, cash accounting, and independent constitutional audit.
           </p>
@@ -1106,134 +1522,47 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#181A19] text-xs font-bold text-white mb-2">1</span>
               <h3 className="font-serif font-bold text-[#181A19] text-xs">Revenue Inflow</h3>
               <p className="text-[11px] text-[#5C645E] mt-1 leading-relaxed">
-                Taxes (direct and indirect), non-tax earnings (like RBI surplus dividends and CPSE profits), and capital receipts flow into the Consolidated Fund of India (Article 266).
+                Taxes, non-tax earnings (like RBI dividends and CPSE profits), and loans flow into the Consolidated Fund of India (Article 266).
               </p>
             </div>
             <div className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-4 relative">
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#1A3D2F] text-xs font-bold text-white mb-2">2</span>
               <h3 className="font-serif font-bold text-[#181A19] text-xs">Budget Estimates (BE)</h3>
               <p className="text-[11px] text-[#5C645E] mt-1 leading-relaxed">
-                Original government budget projections approved by Parliament in the annual Appropriation Act. An approved BE is a statutory spending authorization ceiling, not money actually spent.
+                Approved by Parliament in the annual Appropriation Act. An approved BE is a legal spending ceiling, not cash actually spent.
               </p>
             </div>
             <div className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-4 relative">
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#181A19] text-xs font-bold text-white mb-2">3</span>
               <h3 className="font-serif font-bold text-[#181A19] text-xs">Revised Estimates (RE)</h3>
               <p className="text-[11px] text-[#5C645E] mt-1 leading-relaxed">
-                Updated projections reflecting mid-year adjustments, ground execution pace, and supplementary grants. RE is a revised operational projection presented to Parliament, not an audited result.
+                Updated mid-year projections reflecting ground execution pace and supplementary grants. RE is an adjusted operational projection.
               </p>
             </div>
             <div className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-4 relative">
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#1A3D2F] text-xs font-bold text-white mb-2">4</span>
               <h3 className="font-serif font-bold text-[#181A19] text-xs">Actual Accounts</h3>
               <p className="text-[11px] text-[#5C645E] mt-1 leading-relaxed">
-                Recorded cash receipts and disbursements documented by ministries through the Controller General of Accounts (CGA) and the Public Financial Management System (PFMS).
+                Recorded cash disbursements documented by ministries through the Controller General of Accounts (CGA) and the PFMS platform.
               </p>
             </div>
             <div className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-4 relative">
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#B45309] text-xs font-bold text-white mb-2">5</span>
               <h3 className="font-serif font-bold text-[#181A19] text-xs">CAG Constitutional Audit</h3>
               <p className="text-[11px] text-[#5C645E] mt-1 leading-relaxed">
-                Independent constitutional audit under Article 151 examining legal regularity, financial propriety, and project delays. An audit evaluates compliance and identifies systemic flaws; it does not automatically certify that every scheme fulfilled its intended social outcome.
+                Independent constitutional examination under Article 151 checking legal regularity, accounting accuracy, and compliance. An audit evaluates procedural compliance; it is not an automatic certification of successful social outcomes.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 5. The 10 Section Navigation Pills */}
-      <section className="mx-auto max-w-7xl px-4 pt-2 sm:px-6">
-        <div className="flex items-center justify-between pb-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-            Browse By Accountability Pillar (10 Pillars)
-          </span>
-          <span className="text-xs text-slate-400">Select any pillar to examine detailed records</span>
-        </div>
-
-        <div className="flex gap-2 overflow-x-auto pb-3 pt-1 scrollbar-thin">
-          {FINANCIAL_SECTIONS.map((sec) => {
-            const Icon = getSectionIcon(sec.iconName);
-            const active = sec.id === activeSection;
-            const count = SAMPLE_FINANCE_RECORDS.filter((r) => r.section === sec.id).length;
-
-            return (
-              <button
-                key={sec.id}
-                onClick={() => setActiveSection(sec.id)}
-                className={`flex shrink-0 items-center gap-2 rounded-xl border px-3.5 py-2.5 text-xs font-bold transition ${
-                  active
-                    ? 'border-slate-900 bg-slate-900 text-white shadow-sm'
-                    : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50'
-                }`}
-              >
-                <Icon size={16} strokeWidth={1.5} className={active ? 'text-emerald-400' : 'text-slate-500'} />
-                <span>{sec.shortLabel}</span>
-                <span
-                  className={`rounded-full px-1.5 py-0.2 text-[10px] font-extrabold ${
-                    active ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'
-                  }`}
-                >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* 6. Active Pillar Header & Metadata */}
-      <section className="mx-auto max-w-7xl px-4 pt-4 sm:px-6">
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-            <div>
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500">
-                <Layers size={14} strokeWidth={1.5} />
-                <span>Pillar Details</span>
-              </div>
-              <h2 className="mt-1 text-2xl font-black text-slate-900">
-                {activeSectionMeta.label}
-              </h2>
-              <p className="mt-1 text-sm font-semibold text-[#1A3D2F]">
-                {activeSectionMeta.plainQuestion}
-              </p>
-              <p className="mt-1.5 max-w-3xl text-xs leading-relaxed text-slate-600 sm:text-sm">
-                {activeSectionMeta.citizenDescription}
-              </p>
-            </div>
-
-            {/* Quick KPI stats for this section */}
-            <div className="flex shrink-0 items-center gap-4 rounded-xl border border-slate-100 bg-slate-50 px-4 py-3">
-              <div>
-                <p className="text-[11px] font-medium text-slate-500">Documented Records</p>
-                <p className="text-lg font-bold text-slate-900">
-                  {sectionSummary.totalRecords}
-                </p>
-              </div>
-              <div className="h-8 w-px bg-slate-200" />
-              <div>
-                <p className="text-[11px] font-medium text-slate-500">Tracked Value</p>
-                <p className="text-lg font-bold text-slate-900">
-                  {formatInLakhCrore(sectionSummary.totalAmount)}
-                </p>
-              </div>
-              <div className="h-8 w-px bg-slate-200" />
-              <div>
-                <p className="text-[11px] font-medium text-slate-500">Audited/Actuals</p>
-                <p className="text-lg font-bold text-emerald-600">
-                  {sectionSummary.auditedCount}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. Search & Filter Bar */}
-      <section className="mx-auto max-w-7xl px-4 pt-4 sm:px-6">
-        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-12">
-            {/* Search */}
-            <div className="relative md:col-span-3">
+      {/* 7. Streamlined Civic Navigation & Search Bar */}
+      <section className="mx-auto max-w-7xl px-4 pt-6 sm:px-6">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xs">
+          {/* Top Row: Search Input + Advanced Filter Toggle */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="relative flex-1">
               <Search
                 size={16}
                 strokeWidth={1.5}
@@ -1241,88 +1570,204 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
               />
               <input
                 type="text"
-                placeholder="Search pillar records, ministries, schemes..."
+                placeholder="Search public finance records, ministries, schemes, citations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-9 pr-4 text-xs text-slate-900 placeholder-slate-400 transition focus:border-slate-400 focus:bg-white focus:outline-hidden"
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-9 pr-4 text-xs text-slate-900 placeholder-slate-400 transition focus:border-[#1A3D2F] focus:bg-white focus:outline-hidden"
               />
             </div>
 
-            {/* Gov Level */}
-            <div className="md:col-span-2">
-              <select
-                value={selectedGovLevel}
-                onChange={(e) => setSelectedGovLevel(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs text-slate-700 focus:border-slate-400 focus:bg-white focus:outline-hidden"
-              >
-                <option value="all">All Gov Levels</option>
-                <option value="union">Union Government</option>
-                <option value="state">State Government</option>
-                <option value="local">Local / Municipal</option>
-              </select>
-            </div>
-
-            {/* Financial Year Filter */}
-            <div className="md:col-span-2">
-              <select
-                value={selectedFY}
-                onChange={(e) => setSelectedFY(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs text-slate-700 focus:border-slate-400 focus:bg-white focus:outline-hidden"
-              >
-                <option value="all">All Financial Years</option>
-                <option value="2024-25">FY 2024-25</option>
-                <option value="2023-24">FY 2023-24</option>
-                <option value="2025-26">FY 2025-26</option>
-                <option value="2022-23">FY 2022-23</option>
-              </select>
-            </div>
-
-            {/* Ministry */}
-            <div className="md:col-span-3">
-              <select
-                value={selectedMinistry}
-                onChange={(e) => setSelectedMinistry(e.target.value)}
-                className="w-full truncate rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs text-slate-700 focus:border-slate-400 focus:bg-white focus:outline-hidden"
-              >
-                <option value="all">All Ministries & Departments</option>
-                {allMinistries.map((m) => (
-                  <option key={m} value={m}>
-                    {m}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Figure Type */}
-            <div className="md:col-span-2">
-              <select
-                value={selectedFigureType}
-                onChange={(e) => setSelectedFigureType(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs text-slate-700 focus:border-slate-400 focus:bg-white focus:outline-hidden"
-              >
-                <option value="all">All Figure Types</option>
-                <option value="budget_estimate">Budget Estimate (BE)</option>
-                <option value="revised_estimate">Revised Estimate (RE)</option>
-                <option value="actual">Audited Actual Spend</option>
-                <option value="reported_finding">CAG / PAC Audit Observation</option>
-                <option value="calculated_metric">Calculated Fiscal Metric</option>
-              </select>
-            </div>
+            <button
+              onClick={() => setShowAdvancedFilters((v) => !v)}
+              className={`inline-flex items-center gap-2 rounded-xl border px-3.5 py-2.5 text-xs font-bold transition cursor-pointer shrink-0 ${
+                showAdvancedFilters || hasActiveFilters
+                  ? 'border-[#1A3D2F] bg-[#1A3D2F]/5 text-[#1A3D2F]'
+                  : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+              }`}
+            >
+              <SlidersHorizontal size={14} strokeWidth={1.5} />
+              <span>Advanced Filters</span>
+              {hasActiveFilters && (
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#1A3D2F] text-[10px] text-white">
+                  ✓
+                </span>
+              )}
+            </button>
           </div>
 
-          {/* Active filter tags & drawer toggles */}
+          {/* Streamlined Civic Category Filters (6 Clean Buttons) */}
+          <div className="mt-3 flex flex-wrap gap-2 border-t border-slate-100 pt-3">
+            {CIVIC_FILTER_GROUPS.map((group) => {
+              const isActive = activeCivicGroup === group.id;
+              const count = SAMPLE_FINANCE_RECORDS.filter((r) => {
+                if (group.id === 'all') return true;
+                return group.sections.includes(r.section);
+              }).length;
+
+              return (
+                <button
+                  key={group.id}
+                  onClick={() => {
+                    setActiveCivicGroup(group.id);
+                    setSelectedPillar('all');
+                  }}
+                  className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-bold transition cursor-pointer ${
+                    isActive
+                      ? 'border-[#1A3D2F] bg-[#1A3D2F] text-white shadow-xs'
+                      : 'border-slate-200 bg-slate-50/70 text-slate-700 hover:border-slate-300 hover:bg-white'
+                  }`}
+                >
+                  <span>{group.shortLabel}</span>
+                  <span
+                    className={`rounded-full px-1.5 py-0.2 text-[10px] font-extrabold ${
+                      isActive ? 'bg-white/20 text-white' : 'bg-slate-200/70 text-slate-600'
+                    }`}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Expandable Advanced Filters Drawer */}
+          {showAdvancedFilters && (
+            <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                  Detailed Public Finance Parameter Filters
+                </span>
+                <button
+                  onClick={resetFilters}
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-rose-700 hover:underline cursor-pointer"
+                >
+                  <RotateCcw size={12} strokeWidth={1.5} />
+                  <span>Reset All Filters</span>
+                </button>
+              </div>
+
+              <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {/* 10 Accountability Pillars Filter */}
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 mb-1">
+                    Specific Accountability Pillar:
+                  </label>
+                  <select
+                    value={selectedPillar}
+                    onChange={(e) => {
+                      setSelectedPillar(e.target.value);
+                      if (e.target.value !== 'all') {
+                        setActiveSection(e.target.value as FinancialSectionId);
+                      }
+                    }}
+                    className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-xs text-slate-700 focus:outline-hidden"
+                  >
+                    <option value="all">All 10 Pillars</option>
+                    {FINANCIAL_SECTIONS.map((sec) => (
+                      <option key={sec.id} value={sec.id}>
+                        {sec.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Financial Year */}
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 mb-1">
+                    Financial Year:
+                  </label>
+                  <select
+                    value={selectedFY}
+                    onChange={(e) => setSelectedFY(e.target.value)}
+                    className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-xs text-slate-700 focus:outline-hidden"
+                  >
+                    <option value="all">All Financial Years</option>
+                    <option value="2024-25">FY 2024-25</option>
+                    <option value="2023-24">FY 2023-24</option>
+                    <option value="2025-26">FY 2025-26</option>
+                    <option value="2022-23">FY 2022-23</option>
+                  </select>
+                </div>
+
+                {/* Gov Level */}
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 mb-1">
+                    Government Level:
+                  </label>
+                  <select
+                    value={selectedGovLevel}
+                    onChange={(e) => setSelectedGovLevel(e.target.value)}
+                    className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-xs text-slate-700 focus:outline-hidden"
+                  >
+                    <option value="all">All Gov Levels</option>
+                    <option value="union">Union Government</option>
+                    <option value="state">State Government</option>
+                    <option value="local">Local / Municipal</option>
+                  </select>
+                </div>
+
+                {/* Figure Type */}
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 mb-1">
+                    Figure Type:
+                  </label>
+                  <select
+                    value={selectedFigureType}
+                    onChange={(e) => setSelectedFigureType(e.target.value)}
+                    className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-xs text-slate-700 focus:outline-hidden"
+                  >
+                    <option value="all">All Figure Types</option>
+                    <option value="budget_estimate">Budget Estimate (BE)</option>
+                    <option value="revised_estimate">Revised Estimate (RE)</option>
+                    <option value="actual">Audited Actual Spend</option>
+                    <option value="reported_finding">CAG / PAC Audit Observation</option>
+                    <option value="calculated_metric">Calculated Fiscal Metric</option>
+                  </select>
+                </div>
+
+                {/* Ministry */}
+                <div className="sm:col-span-2 lg:col-span-4">
+                  <label className="block text-[11px] font-bold text-slate-600 mb-1">
+                    Ministry or Department:
+                  </label>
+                  <select
+                    value={selectedMinistry}
+                    onChange={(e) => setSelectedMinistry(e.target.value)}
+                    className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-xs text-slate-700 focus:outline-hidden"
+                  >
+                    <option value="all">All Ministries & Departments</option>
+                    {allMinistries.map((m) => (
+                      <option key={m} value={m}>
+                        {m}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Active filter count & controls */}
           <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3 text-xs text-slate-500">
             <div className="flex items-center gap-2">
               <span className="font-semibold text-slate-700">
-                Showing {filteredRecords.length} of {sectionSummary.totalRecords} records
+                Showing {filteredRecords.length} records
+              </span>
+              <span className="text-slate-300">·</span>
+              <span className="text-slate-600">
+                Total Value Tracked:{' '}
+                <strong className="text-slate-900 font-mono">
+                  {formatInLakhCrore(sectionSummary.totalAmount)}
+                </strong>
+                <span className="text-[10px] text-slate-400 font-sans ml-1">(Excluding sub-components)</span>
               </span>
               {hasActiveFilters && (
                 <button
                   onClick={resetFilters}
-                  className="inline-flex items-center gap-1 rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-600 hover:bg-slate-200"
+                  className="inline-flex items-center gap-1 rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-600 hover:bg-slate-200 cursor-pointer"
                 >
                   <RotateCcw size={12} strokeWidth={1.5} />
-                  Reset Filters
+                  Reset
                 </button>
               )}
             </div>
@@ -1330,14 +1775,14 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
             <div className="flex items-center gap-2">
               <button
                 onClick={expandAll}
-                className="rounded-md px-2.5 py-1 text-slate-600 hover:bg-slate-100 font-medium"
+                className="rounded-md px-2.5 py-1 text-slate-600 hover:bg-slate-100 font-medium cursor-pointer"
               >
                 Expand All Details
               </button>
               <span className="text-slate-300">|</span>
               <button
                 onClick={collapseAll}
-                className="rounded-md px-2.5 py-1 text-slate-600 hover:bg-slate-100 font-medium"
+                className="rounded-md px-2.5 py-1 text-slate-600 hover:bg-slate-100 font-medium cursor-pointer"
               >
                 Collapse All
               </button>
@@ -1346,8 +1791,19 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
         </div>
       </section>
 
-      {/* 8. Record List / Cards */}
+      {/* 8. Simplified Detailed Financial Cards */}
       <section className="mx-auto max-w-7xl px-4 pt-5 sm:px-6">
+        {selectedPillar !== 'all' && (
+          <div className="mb-4 rounded-xl border border-slate-200 bg-white p-4 shadow-2xs">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1A3D2F]">
+              <Layers size={14} strokeWidth={1.5} />
+              <span>Accountability Pillar: {activeSectionMeta.label}</span>
+            </div>
+            <p className="mt-1 text-sm font-semibold text-slate-900">{activeSectionMeta.plainQuestion}</p>
+            <p className="mt-1 text-xs text-slate-600">{activeSectionMeta.citizenDescription}</p>
+          </div>
+        )}
+
         {filteredRecords.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center">
             <Filter size={32} strokeWidth={1.5} className="mx-auto text-slate-400" />
@@ -1359,7 +1815,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
             </p>
             <button
               onClick={resetFilters}
-              className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800"
+              className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 cursor-pointer"
             >
               <RotateCcw size={14} strokeWidth={1.5} /> Clear all filters
             </button>
@@ -1375,7 +1831,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                   key={record.id}
                   className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xs transition hover:border-slate-300 hover:shadow-md"
                 >
-                  {/* Record Header */}
+                  {/* Simplified Card Initial View: Name, Amount, FY, One-Sentence Explanation, Data Status */}
                   <div className="p-5 sm:p-6">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div className="flex flex-wrap items-center gap-2">
@@ -1405,6 +1861,13 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                           {badge.label}
                         </span>
 
+                        {/* Sub-component indicator to prevent double-counting */}
+                        {record.isSubComponent && (
+                          <span className="rounded-full bg-blue-50 border border-blue-200 px-2.5 py-0.5 text-[10px] font-bold text-blue-800">
+                            Constituent Sub-Component (Excluded from Aggregate Total)
+                          </span>
+                        )}
+
                         {/* Sector Tag */}
                         {record.sectorTag && (
                           <span className="rounded-full bg-slate-50 border border-slate-200 px-2 py-0.5 text-[10px] text-slate-600">
@@ -1423,7 +1886,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                     {/* Title & Ministry */}
                     <div className="mt-3 flex flex-col justify-between gap-4 md:flex-row md:items-start">
                       <div className="max-w-3xl">
-                        <h3 className="text-lg font-bold text-slate-900 sm:text-xl">
+                        <h3 className="text-lg font-bold text-slate-900 sm:text-xl font-serif">
                           {record.title}
                         </h3>
                         <div className="mt-1 flex items-center gap-1.5 text-xs text-slate-500">
@@ -1437,7 +1900,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                         <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
                           {badge.short} Reported Amount
                         </p>
-                        <p className="text-xl font-black text-slate-900 sm:text-2xl">
+                        <p className="text-xl font-black text-slate-900 sm:text-2xl font-mono">
                           {formatInLakhCrore(record.amountCr)}
                         </p>
                         <p className="text-[10px] text-slate-500 font-mono">
@@ -1446,7 +1909,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                       </div>
                     </div>
 
-                    {/* Plain Language Citizen Explanation */}
+                    {/* Plain Language Citizen Explanation (Initially Visible) */}
                     <div className="mt-4 rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-3.5">
                       <div className="flex items-start gap-2">
                         <span className="rounded-md bg-[#1A3D2F] px-1.5 py-0.5 text-[10px] font-bold text-white shrink-0">
@@ -1457,268 +1920,269 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                         </p>
                       </div>
                     </div>
-
-                    {/* Specific Details & Compact BE vs RE vs Actual Variance Table */}
-                    <div className="mt-4 overflow-hidden rounded-xl border border-slate-200 bg-white">
-                      <div className="border-b border-slate-100 bg-slate-50/70 px-3 py-2 flex items-center justify-between">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700">
-                          Fiscal Accounting Breakdown & Dynamic Variance: {record.financialYear}
-                        </span>
-                        <span className="text-[10px] text-slate-500 font-mono">Figures in ₹ Crore</span>
-                      </div>
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-left text-xs">
-                          <thead className="bg-[#FAF8F5] text-slate-600 border-b border-slate-100 font-semibold text-[11px]">
-                            <tr>
-                              <th className="px-3.5 py-2">Measure</th>
-                              <th className="px-3.5 py-2 text-right">Value (₹ Cr)</th>
-                              <th className="px-3.5 py-2 text-right">In Lakh Crore</th>
-                              <th className="px-3.5 py-2 text-right">Variance vs BE</th>
-                              <th className="px-3.5 py-2">Classification Nature</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-slate-100 font-mono">
-                            {record.budgetEstimateCr != null && (
-                              <tr className="hover:bg-slate-50/50">
-                                <td className="px-3.5 py-2 font-sans font-semibold text-[#1A3D2F]">
-                                  Budget Estimate (BE)
-                                </td>
-                                <td className="px-3.5 py-2 text-right font-bold text-slate-900">
-                                  ₹{record.budgetEstimateCr.toLocaleString('en-IN')} Cr
-                                </td>
-                                <td className="px-3.5 py-2 text-right text-slate-700">
-                                  {formatInLakhCrore(record.budgetEstimateCr)}
-                                </td>
-                                <td className="px-3.5 py-2 text-right text-slate-400 font-sans">
-                                  Baseline target
-                                </td>
-                                <td className="px-3.5 py-2 font-sans text-[11px] text-slate-500">
-                                  Initial approved authorization ceiling
-                                </td>
-                              </tr>
-                            )}
-                            {record.revisedEstimateCr != null && (
-                              <tr className="hover:bg-slate-50/50">
-                                <td className="px-3.5 py-2 font-sans font-semibold text-amber-800">
-                                  Revised Estimate (RE)
-                                </td>
-                                <td className="px-3.5 py-2 text-right font-bold text-amber-900">
-                                  ₹{record.revisedEstimateCr.toLocaleString('en-IN')} Cr
-                                </td>
-                                <td className="px-3.5 py-2 text-right text-amber-800">
-                                  {formatInLakhCrore(record.revisedEstimateCr)}
-                                </td>
-                                <td className="px-3.5 py-2 text-right font-bold font-sans">
-                                  {record.budgetEstimateCr != null ? (
-                                    (() => {
-                                      const diff = record.revisedEstimateCr - record.budgetEstimateCr;
-                                      const diffPct = ((diff / record.budgetEstimateCr) * 100).toFixed(1);
-                                      if (diff === 0) return <span className="text-slate-500">0.0% (Matched)</span>;
-                                      return diff > 0 ? (
-                                        <span className="text-emerald-700">+{diffPct}% (+{formatInLakhCrore(diff)})</span>
-                                      ) : (
-                                        <span className="text-rose-700">{diffPct}% (-{formatInLakhCrore(Math.abs(diff))})</span>
-                                      );
-                                    })()
-                                  ) : (
-                                    '—'
-                                  )}
-                                </td>
-                                <td className="px-3.5 py-2 font-sans text-[11px] text-slate-500">
-                                  Mid-year calibrated projection
-                                </td>
-                              </tr>
-                            )}
-                            {record.actualAmountCr != null && (
-                              <tr className="hover:bg-slate-50/50 bg-emerald-50/20">
-                                <td className="px-3.5 py-2 font-sans font-bold text-emerald-900">
-                                  Audited / Confirmed Actual
-                                </td>
-                                <td className="px-3.5 py-2 text-right font-black text-emerald-900">
-                                  ₹{record.actualAmountCr.toLocaleString('en-IN')} Cr
-                                </td>
-                                <td className="px-3.5 py-2 text-right font-bold text-emerald-800">
-                                  {formatInLakhCrore(record.actualAmountCr)}
-                                </td>
-                                <td className="px-3.5 py-2 text-right font-bold font-sans">
-                                  {record.budgetEstimateCr != null ? (
-                                    (() => {
-                                      const diff = record.actualAmountCr - record.budgetEstimateCr;
-                                      const diffPct = ((diff / record.budgetEstimateCr) * 100).toFixed(1);
-                                      if (diff === 0) return <span className="text-slate-500">0.0% (Exact)</span>;
-                                      return diff > 0 ? (
-                                        <span className="text-emerald-700">+{diffPct}% (+{formatInLakhCrore(diff)})</span>
-                                      ) : (
-                                        <span className="text-rose-700">{diffPct}% (-{formatInLakhCrore(Math.abs(diff))})</span>
-                                      );
-                                    })()
-                                  ) : (
-                                    '—'
-                                  )}
-                                </td>
-                                <td className="px-3.5 py-2 font-sans text-[11px] text-slate-600">
-                                  Recorded cash accounts (CGA / Treasury)
-                                </td>
-                              </tr>
-                            )}
-                            {record.previousYearAmountCr != null && (
-                              <tr className="hover:bg-slate-50/50 text-slate-600">
-                                <td className="px-3.5 py-2 font-sans font-medium text-slate-600">
-                                  Prior Financial Year Actual
-                                </td>
-                                <td className="px-3.5 py-2 text-right text-slate-700">
-                                  ₹{record.previousYearAmountCr.toLocaleString('en-IN')} Cr
-                                </td>
-                                <td className="px-3.5 py-2 text-right text-slate-600">
-                                  {formatInLakhCrore(record.previousYearAmountCr)}
-                                </td>
-                                <td className="px-3.5 py-2 text-right font-sans">
-                                  {record.actualAmountCr != null ? (
-                                    (() => {
-                                      const yoy = record.actualAmountCr - record.previousYearAmountCr;
-                                      const yoyPct = ((yoy / record.previousYearAmountCr) * 100).toFixed(1);
-                                      return yoy >= 0 ? (
-                                        <span className="text-emerald-700 font-semibold">+{yoyPct}% YoY</span>
-                                      ) : (
-                                        <span className="text-rose-700 font-semibold">{yoyPct}% YoY</span>
-                                      );
-                                    })()
-                                  ) : (
-                                    '—'
-                                  )}
-                                </td>
-                                <td className="px-3.5 py-2 font-sans text-[11px] text-slate-500">
-                                  Historical audited baseline
-                                </td>
-                              </tr>
-                            )}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    {/* Progress / Utilization rates where available */}
-                    {record.details?.utilizationRatePct != null && (
-                      <div className="mt-3">
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="font-semibold text-slate-600">Fund Utilization Rate:</span>
-                          <span className="font-bold text-slate-900">
-                            {record.details.utilizationRatePct}%
-                          </span>
-                        </div>
-                        <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-slate-100">
-                          <div
-                            className={`h-full rounded-full ${
-                              record.details.utilizationRatePct > 95
-                                ? 'bg-emerald-500'
-                                : record.details.utilizationRatePct > 80
-                                ? 'bg-amber-500'
-                                : 'bg-rose-500'
-                            }`}
-                            style={{ width: `${Math.min(100, record.details.utilizationRatePct)}%` }}
-                          />
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Scheme physical progress badge */}
-                    {record.details?.physicalProgress && (
-                      <div className="mt-3 flex items-center gap-2 rounded-lg bg-emerald-50 border border-emerald-100 px-3 py-2 text-xs text-emerald-900">
-                        <CheckCircle2 size={14} strokeWidth={1.5} className="shrink-0 text-emerald-600" />
-                        <span>
-                          <strong>Physical Ground Delivery:</strong> {record.details.physicalProgress}
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Audit observation specific notice */}
-                    {record.details?.cagReportNumber && (
-                      <div className="mt-3 flex items-start gap-2 rounded-lg bg-rose-50 border border-rose-100 px-3 py-2 text-xs text-rose-900">
-                        <ShieldCheck size={14} strokeWidth={1.5} className="shrink-0 text-rose-600 mt-0.5" />
-                        <div>
-                          <span className="font-bold">CAG Report ID:</span> {record.details.cagReportNumber}
-                          {record.details.ministryResponseStatus && (
-                            <span className="ml-2 rounded-md bg-white border border-rose-200 px-1.5 py-0.2 text-[10px] font-bold text-rose-800">
-                              Status: {record.details.ministryResponseStatus.replace('_', ' ').toUpperCase()}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Procurement specific award method */}
-                    {record.details?.awardMethod && (
-                      <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-slate-600">
-                        <span className="rounded-md bg-slate-100 px-2 py-0.5 font-semibold text-slate-800">
-                          Portal: {record.details.procurementPortal}
-                        </span>
-                        <span className="rounded-md bg-slate-100 px-2 py-0.5 font-semibold text-slate-800">
-                          Method: {record.details.awardMethod.replace('_', ' ')}
-                        </span>
-                        {record.details.vendorName && (
-                          <span className="text-slate-500">
-                            Vendor: <strong>{record.details.vendorName}</strong>
-                          </span>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Multi-Year Trend Visualizer for YoY section */}
-                    {record.details?.multiYearTrend && (
-                      <div className="mt-4 rounded-xl border border-slate-100 bg-slate-50/60 p-4">
-                        <p className="text-xs font-bold text-slate-700">
-                          {record.details.trendMetricName || 'Multi-Year Trajectory'}
-                        </p>
-                        <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-5">
-                          {record.details.multiYearTrend.map((pt, idx) => (
-                            <div key={idx} className="rounded-lg bg-white border border-slate-200 p-2.5 text-center">
-                              <p className="text-[11px] font-semibold text-slate-500">{pt.year}</p>
-                              <p className="mt-1 text-xs font-black text-slate-900">
-                                {formatInLakhCrore(pt.amountCr)}
-                              </p>
-                              {pt.gdpPct && (
-                                <p className="text-[10px] font-semibold text-[#1A3D2F]">
-                                  {pt.gdpPct}% of GDP
-                                </p>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
                   </div>
 
-                  {/* Toggle Drawer Button */}
+                  {/* Expand / Collapse Action Bar */}
                   <div className="border-t border-slate-100 bg-slate-50/70 px-5 py-2.5 sm:px-6">
                     <button
                       onClick={() => toggleExpand(record.id)}
-                      className="flex w-full items-center justify-between text-xs font-bold text-slate-700 hover:text-slate-900"
+                      className="flex w-full items-center justify-between text-xs font-bold text-slate-700 hover:text-slate-900 cursor-pointer"
                     >
                       <span className="flex items-center gap-1.5">
                         <FileCheck2 size={14} strokeWidth={1.5} className="text-[#1A3D2F]" />
-                        <span>Source & Audit Methodology Dossier</span>
+                        <span>
+                          {isExpanded
+                            ? 'Hide Fiscal Breakdown & Verification Citations'
+                            : 'View Full Fiscal Breakdown, Calculations & Citations'}
+                        </span>
                       </span>
                       <span className="flex items-center gap-1 text-slate-500">
-                        <span>{isExpanded ? 'Hide Citation & Math' : 'Verify Sources & Calculations'}</span>
                         {isExpanded ? <ChevronUp size={14} strokeWidth={1.5} /> : <ChevronDown size={14} strokeWidth={1.5} />}
                       </span>
                     </button>
                   </div>
 
-                  {/* 9. Expandable Methodology & Sources Dossier Drawer */}
+                  {/* Expandable Section: Full BE vs RE vs Actual Variance, Citations & Methodology */}
                   {isExpanded && (
-                    <div className="border-t border-slate-200 bg-slate-50 p-5 sm:p-6">
-                      <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5 shadow-xs">
-                        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <div className="border-t border-slate-200 bg-white p-5 sm:p-6 space-y-4">
+                      {/* 1. BE vs RE vs Actual Dynamic Variance Table */}
+                      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+                        <div className="border-b border-slate-100 bg-slate-50/70 px-3 py-2 flex items-center justify-between">
+                          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700">
+                            Fiscal Accounting Breakdown & Dynamic Variance: {record.financialYear}
+                          </span>
+                          <span className="text-[10px] text-slate-500 font-mono">Figures in ₹ Crore</span>
+                        </div>
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-left text-xs">
+                            <thead className="bg-[#FAF8F5] text-slate-600 border-b border-slate-100 font-semibold text-[11px]">
+                              <tr>
+                                <th className="px-3.5 py-2">Measure</th>
+                                <th className="px-3.5 py-2 text-right">Value (₹ Cr)</th>
+                                <th className="px-3.5 py-2 text-right">In Lakh Crore</th>
+                                <th className="px-3.5 py-2 text-right">Variance vs BE</th>
+                                <th className="px-3.5 py-2">Classification Nature</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-100 font-mono">
+                              {record.budgetEstimateCr != null && (
+                                <tr className="hover:bg-slate-50/50">
+                                  <td className="px-3.5 py-2 font-sans font-semibold text-[#1A3D2F]">
+                                    Budget Estimate (BE)
+                                  </td>
+                                  <td className="px-3.5 py-2 text-right font-bold text-slate-900">
+                                    ₹{record.budgetEstimateCr.toLocaleString('en-IN')} Cr
+                                  </td>
+                                  <td className="px-3.5 py-2 text-right text-slate-700">
+                                    {formatInLakhCrore(record.budgetEstimateCr)}
+                                  </td>
+                                  <td className="px-3.5 py-2 text-right text-slate-400 font-sans">
+                                    Baseline target
+                                  </td>
+                                  <td className="px-3.5 py-2 font-sans text-[11px] text-slate-500">
+                                    Initial approved authorization ceiling
+                                  </td>
+                                </tr>
+                              )}
+                              {record.revisedEstimateCr != null && (
+                                <tr className="hover:bg-slate-50/50">
+                                  <td className="px-3.5 py-2 font-sans font-semibold text-amber-800">
+                                    Revised Estimate (RE)
+                                  </td>
+                                  <td className="px-3.5 py-2 text-right font-bold text-amber-900">
+                                    ₹{record.revisedEstimateCr.toLocaleString('en-IN')} Cr
+                                  </td>
+                                  <td className="px-3.5 py-2 text-right text-amber-800">
+                                    {formatInLakhCrore(record.revisedEstimateCr)}
+                                  </td>
+                                  <td className="px-3.5 py-2 text-right font-bold font-sans">
+                                    {record.budgetEstimateCr != null ? (
+                                      (() => {
+                                        const diff = record.revisedEstimateCr - record.budgetEstimateCr;
+                                        const diffPct = ((diff / record.budgetEstimateCr) * 100).toFixed(1);
+                                        if (diff === 0) return <span className="text-slate-500">0.0% (Matched)</span>;
+                                        return diff > 0 ? (
+                                          <span className="text-emerald-700">+{diffPct}% (+{formatInLakhCrore(diff)})</span>
+                                        ) : (
+                                          <span className="text-rose-700">{diffPct}% (-{formatInLakhCrore(Math.abs(diff))})</span>
+                                        );
+                                      })()
+                                    ) : (
+                                      '—'
+                                    )}
+                                  </td>
+                                  <td className="px-3.5 py-2 font-sans text-[11px] text-slate-500">
+                                    Mid-year calibrated projection
+                                  </td>
+                                </tr>
+                              )}
+                              {record.actualAmountCr != null && (
+                                <tr className="hover:bg-slate-50/50 bg-emerald-50/20">
+                                  <td className="px-3.5 py-2 font-sans font-bold text-emerald-900">
+                                    Audited / Confirmed Actual
+                                  </td>
+                                  <td className="px-3.5 py-2 text-right font-black text-emerald-900">
+                                    ₹{record.actualAmountCr.toLocaleString('en-IN')} Cr
+                                  </td>
+                                  <td className="px-3.5 py-2 text-right font-bold text-emerald-800">
+                                    {formatInLakhCrore(record.actualAmountCr)}
+                                  </td>
+                                  <td className="px-3.5 py-2 text-right font-bold font-sans">
+                                    {record.budgetEstimateCr != null ? (
+                                      (() => {
+                                        const diff = record.actualAmountCr - record.budgetEstimateCr;
+                                        const diffPct = ((diff / record.budgetEstimateCr) * 100).toFixed(1);
+                                        if (diff === 0) return <span className="text-slate-500">0.0% (Exact)</span>;
+                                        return diff > 0 ? (
+                                          <span className="text-emerald-700">+{diffPct}% (+{formatInLakhCrore(diff)})</span>
+                                        ) : (
+                                          <span className="text-rose-700">{diffPct}% (-{formatInLakhCrore(Math.abs(diff))})</span>
+                                        );
+                                      })()
+                                    ) : (
+                                      '—'
+                                    )}
+                                  </td>
+                                  <td className="px-3.5 py-2 font-sans text-[11px] text-slate-600">
+                                    Recorded cash accounts (CGA / Treasury)
+                                  </td>
+                                </tr>
+                              )}
+                              {record.previousYearAmountCr != null && (
+                                <tr className="hover:bg-slate-50/50 text-slate-600">
+                                  <td className="px-3.5 py-2 font-sans font-medium text-slate-600">
+                                    Prior Financial Year Actual
+                                  </td>
+                                  <td className="px-3.5 py-2 text-right text-slate-700">
+                                    ₹{record.previousYearAmountCr.toLocaleString('en-IN')} Cr
+                                  </td>
+                                  <td className="px-3.5 py-2 text-right text-slate-600">
+                                    {formatInLakhCrore(record.previousYearAmountCr)}
+                                  </td>
+                                  <td className="px-3.5 py-2 text-right font-sans">
+                                    {record.actualAmountCr != null ? (
+                                      (() => {
+                                        const yoy = record.actualAmountCr - record.previousYearAmountCr;
+                                        const yoyPct = ((yoy / record.previousYearAmountCr) * 100).toFixed(1);
+                                        return yoy >= 0 ? (
+                                          <span className="text-emerald-700 font-semibold">+{yoyPct}% YoY</span>
+                                        ) : (
+                                          <span className="text-rose-700 font-semibold">{yoyPct}% YoY</span>
+                                        );
+                                      })()
+                                    ) : (
+                                      '—'
+                                    )}
+                                  </td>
+                                  <td className="px-3.5 py-2 font-sans text-[11px] text-slate-500">
+                                    Historical audited baseline
+                                  </td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+                      {/* 2. Progress / Utilization / CAG details where available */}
+                      {record.details?.utilizationRatePct != null && (
+                        <div>
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="font-semibold text-slate-600">Fund Utilization Rate:</span>
+                            <span className="font-bold text-slate-900">
+                              {record.details.utilizationRatePct}%
+                            </span>
+                          </div>
+                          <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-slate-100">
+                            <div
+                              className={`h-full rounded-full ${
+                                record.details.utilizationRatePct > 95
+                                  ? 'bg-emerald-500'
+                                  : record.details.utilizationRatePct > 80
+                                  ? 'bg-amber-500'
+                                  : 'bg-rose-500'
+                              }`}
+                              style={{ width: `${Math.min(100, record.details.utilizationRatePct)}%` }}
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {record.details?.physicalProgress && (
+                        <div className="flex items-center gap-2 rounded-lg bg-emerald-50 border border-emerald-100 px-3 py-2 text-xs text-emerald-900">
+                          <CheckCircle2 size={14} strokeWidth={1.5} className="shrink-0 text-emerald-600" />
+                          <span>
+                            <strong>Physical Ground Delivery:</strong> {record.details.physicalProgress}
+                          </span>
+                        </div>
+                      )}
+
+                      {record.details?.cagReportNumber && (
+                        <div className="flex items-start gap-2 rounded-lg bg-rose-50 border border-rose-100 px-3 py-2 text-xs text-rose-900">
+                          <ShieldCheck size={14} strokeWidth={1.5} className="shrink-0 text-rose-600 mt-0.5" />
+                          <div>
+                            <span className="font-bold">CAG Report ID:</span> {record.details.cagReportNumber}
+                            {record.details.ministryResponseStatus && (
+                              <span className="ml-2 rounded-md bg-white border border-rose-200 px-1.5 py-0.2 text-[10px] font-bold text-rose-800">
+                                Status: {record.details.ministryResponseStatus.replace('_', ' ').toUpperCase()}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {record.details?.awardMethod && (
+                        <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
+                          <span className="rounded-md bg-slate-100 px-2 py-0.5 font-semibold text-slate-800">
+                            Portal: {record.details.procurementPortal}
+                          </span>
+                          <span className="rounded-md bg-slate-100 px-2 py-0.5 font-semibold text-slate-800">
+                            Method: {record.details.awardMethod.replace('_', ' ')}
+                          </span>
+                          {record.details.vendorName && (
+                            <span className="text-slate-500">
+                              Vendor: <strong>{record.details.vendorName}</strong>
+                            </span>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Multi-Year Trend Visualizer where available */}
+                      {record.details?.multiYearTrend && (
+                        <div className="rounded-xl border border-slate-100 bg-slate-50/60 p-4">
+                          <p className="text-xs font-bold text-slate-700">
+                            {record.details.trendMetricName || 'Multi-Year Trajectory'}
+                          </p>
+                          <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-5">
+                            {record.details.multiYearTrend.map((pt, idx) => (
+                              <div key={idx} className="rounded-lg bg-white border border-slate-200 p-2.5 text-center">
+                                <p className="text-[11px] font-semibold text-slate-500">{pt.year}</p>
+                                <p className="mt-1 text-xs font-black text-slate-900 font-mono">
+                                  {formatInLakhCrore(pt.amountCr)}
+                                </p>
+                                {pt.gdpPct && (
+                                  <p className="text-[10px] font-semibold text-[#1A3D2F]">
+                                    {pt.gdpPct}% of GDP
+                                  </p>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 3. Official Source Dossier & Primary Citation */}
+                      <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-4 shadow-2xs">
+                        <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
                           <span className="text-xs font-bold uppercase tracking-wider text-[#1A3D2F]">
-                            Verification Dossier & Citations
+                            Primary Source Dossier & Verification
                           </span>
                           <span className="text-[11px] text-slate-400">
-                            Last checked: {record.source.lastUpdated}
+                            Verified on: {record.source.lastUpdated}
                           </span>
                         </div>
 
-                        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
                           <div>
                             <p className="text-[11px] font-bold text-slate-500">Official Document Title</p>
                             <p className="text-xs font-semibold text-slate-900 mt-0.5">
@@ -1748,17 +2212,17 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                           </div>
                         </div>
 
-                        <div className="mt-4 border-t border-slate-100 pt-3">
+                        <div className="mt-3 border-t border-slate-200 pt-2.5">
                           <p className="text-[11px] font-bold text-slate-500">
                             Calculation Methodology & Arithmetic
                           </p>
-                          <p className="mt-0.5 text-xs text-slate-700 leading-relaxed font-mono bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                          <p className="mt-0.5 text-xs text-slate-700 leading-relaxed font-mono bg-white p-2.5 rounded-lg border border-slate-200">
                             {record.source.calculationMethod}
                           </p>
                         </div>
 
                         {record.source.coverageNotes && (
-                          <div className="mt-3 border-t border-slate-100 pt-3">
+                          <div className="mt-2.5 border-t border-slate-200 pt-2.5">
                             <p className="text-[11px] font-bold text-slate-500">
                               Accounting Coverage & Scope Disclosures
                             </p>
@@ -1769,12 +2233,12 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                         )}
 
                         {record.source.sourceUrl && (
-                          <div className="mt-4 flex items-center justify-end pt-2">
+                          <div className="mt-3 flex items-center justify-end pt-1">
                             <a
                               href={record.source.sourceUrl}
                               target="_blank"
                               rel="noreferrer"
-                              className="inline-flex items-center gap-1.5 rounded-lg bg-[#FAF8F5] border border-[#E5E0D8] px-3 py-1.5 text-xs font-bold text-[#1A3D2F] transition hover:bg-[#F5F2EB]"
+                              className="inline-flex items-center gap-1.5 rounded-lg bg-white border border-[#D5CFBF] px-3 py-1.5 text-xs font-bold text-[#1A3D2F] transition hover:bg-[#FAF8F5]"
                             >
                               <span>Open Official Government Portal</span>
                               <ExternalLink size={13} strokeWidth={1.5} />
@@ -1791,7 +2255,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
         )}
       </section>
 
-      {/* 10. Citizen Rights & Transparency Callout */}
+      {/* 9. Constitutional Accountability & Public Audit Callout */}
       <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
         <div className="rounded-2xl border border-[#143025] bg-[#1A3D2F] p-6 text-white sm:p-8 shadow-md">
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-start">
@@ -1848,7 +2312,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 <span>1. How Spending Is Documented</span>
               </div>
               <p className="mt-2 text-xs leading-relaxed text-slate-300">
-                All Union ministries and Centrally Sponsored Schemes route disbursements through the <strong>Public Financial Management System (PFMS)</strong> and Single Nodal Agency (SNA) accounts. Every rupee is assigned a multi-digit budget classification head (Major, Minor, and Object Head) under the Controller General of Accounts (CGA).
+                All Union ministries and Centrally Sponsored Schemes route disbursements through the <strong>Public Financial Management System (PFMS)</strong> and Single Nodal Agency (SNA) accounts. Every rupee is assigned a multi-digit budget classification head under the Controller General of Accounts (CGA).
               </p>
             </div>
 
