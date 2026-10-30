@@ -1,4 +1,8 @@
-import type { PublicFinanceRecord, FinancialSectionId } from '@/types/finance';
+import type {
+  PublicFinanceRecord,
+  FinancialSectionId,
+  CitizenRupeeDataset,
+} from '@/types/finance';
 
 export interface SectionMeta {
   id: FinancialSectionId;
@@ -105,38 +109,401 @@ export const FINANCIAL_SECTIONS: SectionMeta[] = [
 /**
  * Macro Citizen Dashboard Data: "The Citizen's Rupee"
  * Visual representation of 1 Rupee (100 Paise) of Union Receipts & Expenditure
- * Sourced directly from Union Budget 2024-25 (July 2024 Final Outlay, Ministry of Finance)
+ * Sourced directly from official Union Budget documents (Ministry of Finance, Government of India)
  */
-export const CITIZEN_RUPEE_BREAKDOWN = {
-  financialYear: 'FY 2024-25 (Budget Estimates & Revised Outlays)',
-  where1RupeeComesFrom: [
-    { source: 'Borrowings & Other Liabilities', paise: 27, color: '#B45309' }, // Deficit liability
-    { source: 'Income Tax', paise: 19, color: '#1A3D2F' }, // Primary direct tax
-    { source: 'Goods & Services Tax (GST)', paise: 18, color: '#275240' },
-    { source: 'Corporation Tax', paise: 17, color: '#366852' },
-    { source: 'Non-Tax Receipts (RBI / PSUs)', paise: 9, color: '#4B7F67' },
-    { source: 'Union Excise Duties', paise: 5, color: '#689880' },
-    { source: 'Customs Duties', paise: 4, color: '#87B09B' },
-    { source: 'Non-Debt Capital Receipts', paise: 1, color: '#A7C8B6' },
-  ],
-  where1RupeeGoes: [
-    { destination: 'Interest Payments on Past Debt', paise: 19, color: '#B45309' }, // Debt servicing
-    { destination: 'States’ Share of Taxes & Duties', paise: 21, color: '#1A3D2F' }, // Constitutional devolution
-    { destination: 'Central Sector Schemes (Full Central Funding)', paise: 16, color: '#275240' },
-    { destination: 'Finance Commission & Other Transfers', paise: 9, color: '#366852' },
-    { destination: 'Centrally Sponsored Schemes (Centre-State Sharing)', paise: 8, color: '#4B7F67' },
-    { destination: 'Defence Outlay', paise: 8, color: '#5C9078' },
-    { destination: 'Subsidies (Food, Fertilizer, Fuel)', paise: 6, color: '#73A58D' },
-    { destination: 'Pensions', paise: 4, color: '#8EBBA5' },
-    { destination: 'Other Operational Expenditure', paise: 9, color: '#ABD1BD' },
-  ],
-  macroTotals: {
-    totalBudgetOutlayCr: 4820512, // ₹48.21 Lakh Crore
-    totalRevenueReceiptsCr: 3129185,
-    capitalExpenditureCr: 1111111, // ₹11.11 Lakh Cr direct central capex
-    fiscalDeficitTargetPct: 4.9, // 4.9% of GDP target for FY 2024-25
+export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
+  {
+    yearId: '2024-25',
+    financialYear: 'FY 2024-25 (July 2024 Full Budget BE & Revised Outlays)',
+    budgetBasis: 'Union Budget 2024-25 (July 23, 2024 Full Budget) & Union Budget 2025-26 (Revised Estimates)',
+    macroTotals: {
+      totalBudgetOutlayCr: 4820512,       // BE ₹48.21 Lakh Cr
+      totalBudgetOutlayReCr: 4716487,     // RE ₹47.16 Lakh Cr
+      totalRevenueReceiptsCr: 3129185,    // BE ₹31.29 Lakh Cr
+      totalRevenueReceiptsReCr: 3087960,  // RE ₹30.88 Lakh Cr
+      capitalExpenditureCr: 1111111,      // BE Direct Capex ₹11.11 Lakh Cr (3.4% of GDP)
+      capitalExpenditureReCr: 1018048,    // RE Direct Capex ₹10.18 Lakh Cr (3.1% of GDP)
+      effectiveCapexCr: 1501648,          // BE Effective Capex ₹15.02 Lakh Cr (4.6% of GDP)
+      effectiveCapexReCr: 1390000,        // RE Effective Capex ₹13.90 Lakh Cr
+      fiscalDeficitTargetPct: 4.9,        // BE 4.9% of GDP
+      fiscalDeficitRePct: 4.8,            // RE 4.8% of GDP
+      fiscalDeficitCr: 1613312,           // BE ₹16.13 Lakh Cr
+      fiscalDeficitReCr: 1577249,          // RE ₹15.77 Lakh Cr
+    },
+    where1RupeeComesFrom: [
+      {
+        source: 'Borrowings & Other Liabilities',
+        paise: 27,
+        color: '#B45309',
+        categoryType: 'borrowing_liability',
+        categoryLabel: 'Financing Source (Debt Liability)',
+        description:
+          'Deficit financing borrowed through government dated securities, treasury bills, and small savings to bridge total expenditure. This is a repayable debt obligation, not tax revenue.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        source: 'Income Tax',
+        paise: 19,
+        color: '#1A3D2F',
+        categoryType: 'direct_tax',
+        categoryLabel: 'Direct Tax',
+        description:
+          'Direct tax paid by individual citizens, Hindu Undivided Families (HUFs), and securities transaction taxes (STT).',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        source: 'Goods & Services Tax (GST)',
+        paise: 18,
+        color: '#275240',
+        categoryType: 'indirect_tax',
+        categoryLabel: 'Indirect Tax',
+        description:
+          'Comprehensive consumption tax on goods and services; includes Central GST (CGST) and GST Compensation Cess.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        source: 'Corporation Tax',
+        paise: 17,
+        color: '#366852',
+        categoryType: 'direct_tax',
+        categoryLabel: 'Direct Tax',
+        description:
+          'Direct tax paid by incorporated companies and commercial businesses on their annual net taxable earnings.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        source: 'Non-Tax Receipts',
+        paise: 9,
+        color: '#4B7F67',
+        categoryType: 'non_tax',
+        categoryLabel: 'Non-Tax Revenue',
+        description:
+          'Income earned without taxes: historic ₹2.11L Cr RBI surplus transfer, CPSE dividends, spectrum usage charges, and administrative fees.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        source: 'Union Excise Duties',
+        paise: 5,
+        color: '#689880',
+        categoryType: 'indirect_tax',
+        categoryLabel: 'Indirect Tax',
+        description:
+          'Central excise duty levied on petroleum crude, high-speed diesel, motor spirit (petrol), natural gas, and aviation turbine fuel.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        source: 'Customs Duties',
+        paise: 4,
+        color: '#87B09B',
+        categoryType: 'indirect_tax',
+        categoryLabel: 'Indirect Tax',
+        description:
+          'Tariffs levied on goods imported into or exported out of India across international borders and ports.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        source: 'Non-Debt Capital Receipts',
+        paise: 1,
+        color: '#A7C8B6',
+        categoryType: 'capital_receipt',
+        categoryLabel: 'Capital Receipt',
+        description:
+          'Cash realized from recovery of loans extended to state governments and minor public asset disinvestment proceeds that do not create new debt.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+    ],
+    where1RupeeGoes: [
+      {
+        destination: 'States’ Share of Taxes & Duties',
+        paise: 21,
+        color: '#1A3D2F',
+        categoryType: 'mandatory_transfer',
+        categoryLabel: 'Federal Devolution',
+        description:
+          'Constitutional devolution under Article 280 (15th Finance Commission 41% net tax formula) transferred directly across 28 state governments.',
+        officialSourceUrl: 'https://fincomindia.nic.in/',
+      },
+      {
+        destination: 'Interest Payments on Past Debt',
+        paise: 19,
+        color: '#B45309',
+        categoryType: 'debt_servicing',
+        categoryLabel: 'Debt Servicing',
+        description:
+          'Committed statutory interest expenditure required to service accumulated national public debt and sovereign securities.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        destination: 'Central Sector Schemes (Full Central Funding)',
+        paise: 16,
+        color: '#275240',
+        categoryType: 'development_schemes',
+        categoryLabel: 'Central Schemes',
+        description:
+          'Nationwide development schemes fully funded (100%) by the Union (e.g. PM-KISAN, crop insurance, fertilizer subsidy support).',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        destination: 'Finance Commission & Other Transfers',
+        paise: 8,
+        color: '#366852',
+        categoryType: 'mandatory_transfer',
+        categoryLabel: 'Federal Grants',
+        description:
+          'Statutory grants to panchayats and municipalities, disaster relief funds (SDRF/NDRF), and post-devolution revenue deficit assistance.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        destination: 'Centrally Sponsored Schemes (Centre-State Sharing)',
+        paise: 8,
+        color: '#4B7F67',
+        categoryType: 'development_schemes',
+        categoryLabel: 'Shared Schemes',
+        description:
+          'Major welfare programs funded jointly by the Centre and States (e.g. Jal Jeevan Mission, PMAY rural housing, MGNREGA).',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        destination: 'Defence Outlay',
+        paise: 8,
+        color: '#5C9078',
+        categoryType: 'defence_security',
+        categoryLabel: 'National Security',
+        description:
+          'Operational readiness, modernization, arms acquisition, equipment maintenance, and border security for armed forces.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        destination: 'Other Operational Expenditure',
+        paise: 10,
+        color: '#ABD1BD',
+        categoryType: 'operations',
+        categoryLabel: 'Administration',
+        description:
+          'Day-to-day administrative machinery of central ministries, legislative organs, judiciary, diplomatic missions, and autonomous bodies.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        destination: 'Subsidies (Food, Fertilizer, Fuel)',
+        paise: 6,
+        color: '#73A58D',
+        categoryType: 'social_subsidies',
+        categoryLabel: 'Social Welfare',
+        description:
+          'Free foodgrain supply to 81 crore citizens under PM Garib Kalyan Anna Yojana / NFSA, urea price support, and LPG subsidies.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        destination: 'Pensions',
+        paise: 4,
+        color: '#8EBBA5',
+        categoryType: 'pensions',
+        categoryLabel: 'Retirement Commitments',
+        description:
+          'Statutory pensions and retirement benefits for armed forces veterans (including OROP) and central civil government staff.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+    ],
   },
-};
+  {
+    yearId: '2025-26',
+    financialYear: 'FY 2025-26 (Budget Estimates)',
+    budgetBasis: 'Union Budget 2025-26 (Budget at a Glance, Ministry of Finance, February 1, 2025)',
+    macroTotals: {
+      totalBudgetOutlayCr: 5065345,       // BE ₹50.65 Lakh Cr
+      totalBudgetOutlayReCr: 5065345,     // Baseline BE
+      totalRevenueReceiptsCr: 3420409,    // BE ₹34.20 Lakh Cr
+      totalRevenueReceiptsReCr: 3420409,  // Baseline BE
+      capitalExpenditureCr: 1121090,      // BE Direct Capex ₹11.21 Lakh Cr (3.1% of GDP)
+      capitalExpenditureReCr: 1121090,    // Baseline BE
+      effectiveCapexCr: 1548282,          // BE Effective Capex ₹15.48 Lakh Cr (4.3% of GDP)
+      effectiveCapexReCr: 1548282,        // Baseline BE
+      fiscalDeficitTargetPct: 4.4,        // BE 4.4% of GDP
+      fiscalDeficitRePct: 4.4,
+      fiscalDeficitCr: 1568936,           // BE ₹15.69 Lakh Cr
+      fiscalDeficitReCr: 1568936,
+    },
+    where1RupeeComesFrom: [
+      {
+        source: 'Borrowings & Other Liabilities',
+        paise: 24,
+        color: '#B45309',
+        categoryType: 'borrowing_liability',
+        categoryLabel: 'Financing Source (Debt Liability)',
+        description:
+          'Targeted market borrowings reduced to 24p to maintain the FRBM fiscal deficit glide path below 4.5% of GDP. This is debt financing, not tax revenue.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        source: 'Income Tax',
+        paise: 22,
+        color: '#1A3D2F',
+        categoryType: 'direct_tax',
+        categoryLabel: 'Direct Tax',
+        description:
+          'Personal income tax and securities transaction taxes reflecting expanded taxpayer base under the simplified tax regime.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        source: 'Goods & Services Tax (GST)',
+        paise: 18,
+        color: '#275240',
+        categoryType: 'indirect_tax',
+        categoryLabel: 'Indirect Tax',
+        description:
+          'Central GST, share of integrated GST (IGST), and GST Compensation Cess.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        source: 'Corporation Tax',
+        paise: 17,
+        color: '#366852',
+        categoryType: 'direct_tax',
+        categoryLabel: 'Direct Tax',
+        description:
+          'Direct tax paid by registered corporate entities on corporate operating profits.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        source: 'Non-Tax Receipts',
+        paise: 9,
+        color: '#4B7F67',
+        categoryType: 'non_tax',
+        categoryLabel: 'Non-Tax Revenue',
+        description:
+          'Earnings from RBI surplus transfers, public sector enterprise dividends, interest receipts, and spectrum auctions.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        source: 'Union Excise Duties',
+        paise: 5,
+        color: '#689880',
+        categoryType: 'indirect_tax',
+        categoryLabel: 'Indirect Tax',
+        description:
+          'Central excise duties on petroleum products, diesel, and motor spirit.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        source: 'Customs Duties',
+        paise: 4,
+        color: '#87B09B',
+        categoryType: 'indirect_tax',
+        categoryLabel: 'Indirect Tax',
+        description:
+          'Tariffs on international cross-border cargo imports and export trade.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        source: 'Non-Debt Capital Receipts',
+        paise: 1,
+        color: '#A7C8B6',
+        categoryType: 'capital_receipt',
+        categoryLabel: 'Capital Receipt',
+        description:
+          'Recoveries of loans from state governments and public asset monetization proceeds.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+    ],
+    where1RupeeGoes: [
+      {
+        destination: 'States’ Share of Taxes & Duties',
+        paise: 22,
+        color: '#1A3D2F',
+        categoryType: 'mandatory_transfer',
+        categoryLabel: 'Federal Devolution',
+        description:
+          'Constitutional tax devolution of 41% divisible central tax pool to 28 state governments.',
+        officialSourceUrl: 'https://fincomindia.nic.in/',
+      },
+      {
+        destination: 'Interest Payments on Past Debt',
+        paise: 20,
+        color: '#B45309',
+        categoryType: 'debt_servicing',
+        categoryLabel: 'Debt Servicing',
+        description:
+          'Annual interest liability required to service central government accumulated public debt.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        destination: 'Central Sector Schemes (Full Central Funding)',
+        paise: 16,
+        color: '#275240',
+        categoryType: 'development_schemes',
+        categoryLabel: 'Central Schemes',
+        description:
+          'Development programs funded 100% directly by the Union government.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        destination: 'Defence Outlay',
+        paise: 8,
+        color: '#5C9078',
+        categoryType: 'defence_security',
+        categoryLabel: 'National Security',
+        description:
+          'Capital acquisition and revenue outlays for armed forces modernization and defense preparedness.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        destination: 'Centrally Sponsored Schemes (Centre-State Sharing)',
+        paise: 8,
+        color: '#4B7F67',
+        categoryType: 'development_schemes',
+        categoryLabel: 'Shared Schemes',
+        description:
+          'Priority welfare programs funded jointly by the Centre and States (health, rural housing, water).',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        destination: 'Finance Commission & Other Transfers',
+        paise: 8,
+        color: '#366852',
+        categoryType: 'mandatory_transfer',
+        categoryLabel: 'Federal Grants',
+        description:
+          'Grants to local bodies (panchayats and municipalities) and disaster management funds.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        destination: 'Other Operational Expenditure',
+        paise: 8,
+        color: '#ABD1BD',
+        categoryType: 'operations',
+        categoryLabel: 'Administration',
+        description:
+          'Operational expenses across central government ministries, commissions, and departments.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        destination: 'Major Subsidies (Food, Fertilizer, Fuel)',
+        paise: 6,
+        color: '#73A58D',
+        categoryType: 'social_subsidies',
+        categoryLabel: 'Social Welfare',
+        description:
+          'Targeted welfare assistance for food security, fertilizer supply, and clean cooking fuel.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+      {
+        destination: 'Pensions',
+        paise: 4,
+        color: '#8EBBA5',
+        categoryType: 'pensions',
+        categoryLabel: 'Retirement Commitments',
+        description:
+          'Statutory pension obligations for civilian and armed forces pensioners.',
+        officialSourceUrl: 'https://www.indiabudget.gov.in/',
+      },
+    ],
+  },
+];
+
+/**
+ * Backward compatibility export for HomePage.tsx and legacy components
+ */
+export const CITIZEN_RUPEE_BREAKDOWN = CITIZEN_RUPEE_DATASETS[0];
 
 /**
  * Verified Public Finance Records for the 10 Financial Sections.
@@ -150,10 +517,10 @@ export const SAMPLE_FINANCE_RECORDS: PublicFinanceRecord[] = [
   {
     id: 'rev-sample-01',
     section: 'revenue',
-    title: 'Goods and Services Tax (Central GST & Share of Integrated GST)',
+    title: 'Goods and Services Tax (Central GST, Integrated GST Share & Cess)',
     plainSummary:
-      'Indirect tax collected on goods and services manufactured and sold within India, shared between the Union and the States.',
-    financialYear: 'FY 2024-25 (BE)',
+      'Indirect tax collected on goods and services manufactured and sold within India. Sourced from the official Receipt Budget, the FY 2024-25 collection target was ₹10,67,650 Cr (Interim BE) / ₹10,61,899 Cr (Receipt Budget BE), Revised Estimates stood at ₹10,61,899 Cr, and final audited actuals for FY 2023-24 were ₹9,57,208 Cr.',
+    financialYear: 'FY 2024-25 (BE & RE)',
     govLevel: 'union',
     departmentOrMinistry: 'Department of Revenue, Ministry of Finance',
     sectorTag: 'Indirect Taxation',
@@ -161,22 +528,24 @@ export const SAMPLE_FINANCE_RECORDS: PublicFinanceRecord[] = [
     amountCr: 1067650,
     figureType: 'budget_estimate',
     budgetEstimateCr: 1067650,
-    revisedEstimateCr: 956600,
-    actualAmountCr: 819300,
-    previousYearAmountCr: 819300,
+    revisedEstimateCr: 1061899,
+    actualAmountCr: 957208,
+    previousYearAmountCr: 957208,
     details: {
       revenueType: 'indirect_tax',
-      collectionEfficiencyPct: 98.4,
+      collectionEfficiencyPct: 99.5,
     },
     source: {
-      documentTitle: 'Union Budget 2024-25: Receipt Budget',
-      publishingAuthority: 'Ministry of Finance, Government of India',
-      publicationDate: 'July 23, 2024',
-      tableOrPageReference: 'Statement 1: Revenue Receipts, Page 4, Table 2.1',
+      documentTitle: 'Union Budget 2024-25 & 2025-26: Receipt Budget',
+      publishingAuthority: 'Department of Revenue, Ministry of Finance, Government of India',
+      publicationDate: 'July 23, 2024 & February 1, 2025',
+      tableOrPageReference: 'Statement 1: Abstract of Receipts, Tax Revenue, Table 2.1',
       sourceUrl: 'https://www.indiabudget.gov.in/',
-      calculationMethod: 'Reported directly as Central GST + estimated share of unapportioned IGST.',
-      coverageNotes: 'Excludes state GST (SGST) collected directly by state governments into their respective treasuries.',
-      lastUpdated: '2026-10-20',
+      calculationMethod:
+        'Reported directly as Central GST (CGST) + share of unapportioned IGST + GST Compensation Cess. BE target was ₹10,67,650 Cr (Interim) / ₹10,61,899 Cr (Receipt Budget), RE was reconciled to ₹10,61,899 Cr, and FY 2023-24 audited actual was ₹9,57,208 Cr.',
+      coverageNotes:
+        'Reflects Union Government receipts only. Excludes State GST (SGST) collected directly by state governments into their respective state consolidated funds.',
+      lastUpdated: '2026-10-30',
     },
   },
   {
@@ -184,63 +553,101 @@ export const SAMPLE_FINANCE_RECORDS: PublicFinanceRecord[] = [
     section: 'revenue',
     title: 'Corporation Tax (Corporate Income Tax Receipts)',
     plainSummary:
-      'Direct taxes paid by registered companies and corporate enterprises on their annual taxable net profits.',
-    financialYear: 'FY 2024-25 (BE)',
+      'Direct taxes paid by registered companies and corporate enterprises on their annual taxable net profits. The original FY 2024-25 BE in the Interim Budget was ₹10,42,830 Cr (~₹10.43 Lakh Cr), adjusted to ₹10,20,000 Cr in the July 2024 full budget, with Revised Estimates standing at ₹9,80,000 Cr, and FY 2023-24 audited actuals at ₹9,11,280 Cr.',
+    financialYear: 'FY 2024-25 (BE & RE)',
     govLevel: 'union',
     departmentOrMinistry: 'Central Board of Direct Taxes (CBDT), Ministry of Finance',
     sectorTag: 'Direct Taxation',
     status: 'official_verified',
-    amountCr: 1020000,
+    amountCr: 1042830,
     figureType: 'budget_estimate',
-    budgetEstimateCr: 1020000,
-    revisedEstimateCr: 922675,
-    actualAmountCr: 825834,
-    previousYearAmountCr: 825834,
+    budgetEstimateCr: 1042830,
+    revisedEstimateCr: 980000,
+    actualAmountCr: 911280,
+    previousYearAmountCr: 911280,
     details: {
       revenueType: 'direct_tax',
-      collectionEfficiencyPct: 99.1,
+      collectionEfficiencyPct: 98.8,
     },
     source: {
-      documentTitle: 'Union Budget 2024-25: Receipt Budget',
-      publishingAuthority: 'Ministry of Finance, Government of India',
-      publicationDate: 'July 23, 2024',
-      tableOrPageReference: 'Receipt Budget, Annexure 1: Direct Tax Receipts, Page 12',
+      documentTitle: 'Union Budget 2024-25 & 2025-26: Receipt Budget',
+      publishingAuthority: 'Central Board of Direct Taxes (CBDT), Ministry of Finance',
+      publicationDate: 'July 23, 2024 & February 1, 2025',
+      tableOrPageReference: 'Receipt Budget, Statement 1: Abstract of Receipts & Annexure 1: Direct Taxes',
       sourceUrl: 'https://www.indiabudget.gov.in/',
-      calculationMethod: 'Reported as gross corporate tax receipts minus refunds issued during the financial year.',
-      coverageNotes: 'Reflects the post-2019 corporate tax rate structure (22% base rate for domestic manufacturing entities).',
-      lastUpdated: '2026-10-20',
+      calculationMethod:
+        'Reported as gross corporate tax receipts minus refunds issued. Original BE of ₹10,42,830 Cr (~₹10.43L Cr) reported in Interim Budget Statement 1; adjusted to ₹10,20,000 Cr in July 2024 full budget; revised mid-year to ₹9,80,000 Cr in Budget 2025-26; audited actual for FY 2023-24 was ₹9,11,280 Cr.',
+      coverageNotes:
+        'Reflects the post-2019 corporate tax regime (22% base rate for domestic manufacturing entities under Section 115BAA).',
+      lastUpdated: '2026-10-30',
     },
   },
   {
     id: 'rev-sample-03',
     section: 'revenue',
-    title: 'Non-Tax Revenue: Reserve Bank of India Surplus Transfer & PSU Dividends',
+    title: 'Union Non-Tax Revenue (Dividends, Spectrum, & Administrative Earnings)',
     plainSummary:
-      'Income earned by the Union Government without levying taxes, primarily through the annual surplus dividend transferred by the Reserve Bank of India.',
-    financialYear: 'FY 2024-25 (BE)',
+      'Total non-tax earnings of the Union Government, budgeted at ₹5,45,701 Cr (~₹5.46 Lakh Cr) in FY 2024-25 BE (revised to ₹5,31,000 Cr; FY 2023-24 actual ₹4,01,785 Cr). It combines the historic ₹2,10,874 Cr RBI surplus transfer, CPSE dividends (₹56,260 Cr), telecom spectrum license fees, and administrative charges.',
+    financialYear: 'FY 2024-25 (BE & RE)',
     govLevel: 'union',
     departmentOrMinistry: 'Department of Economic Affairs, Ministry of Finance',
     sectorTag: 'Non-Tax Revenue',
     status: 'official_verified',
-    amountCr: 210874,
+    amountCr: 545701,
     figureType: 'budget_estimate',
-    budgetEstimateCr: 210874,
-    revisedEstimateCr: 104400,
-    actualAmountCr: 87400,
-    previousYearAmountCr: 87400,
+    budgetEstimateCr: 545701,
+    revisedEstimateCr: 531000,
+    actualAmountCr: 401785,
+    previousYearAmountCr: 401785,
     details: {
       revenueType: 'non_tax',
       collectionEfficiencyPct: 100.0,
     },
     source: {
-      documentTitle: 'RBI Annual Report & Union Budget Receipt Budget',
+      documentTitle: 'Union Budget 2024-25 & 2025-26: Budget at a Glance & Receipt Budget',
+      publishingAuthority: 'Ministry of Finance, Government of India',
+      publicationDate: 'July 23, 2024 & February 1, 2025',
+      tableOrPageReference: 'Budget at a Glance, Statement 1: Summary of Receipts & Receipt Budget Statement 2 (Dividends and Profits)',
+      sourceUrl: 'https://www.indiabudget.gov.in/',
+      calculationMethod:
+        'Sum of Dividends and Profits (₹3,07,175 Cr including RBI ₹2.11L Cr and CPSEs ₹56,260 Cr), Interest Receipts (₹33,000 Cr), and Other Non-Tax Receipts (telecom spectrum, fees, charges: ₹2,05,526 Cr).',
+      coverageNotes:
+        'Represents comprehensive Union Non-Tax Revenue. Do not confuse the total non-tax figure (₹5.46L Cr) with its individual sub-component dividend transfers.',
+      lastUpdated: '2026-10-30',
+    },
+  },
+  {
+    id: 'rev-sample-04',
+    section: 'revenue',
+    title: 'Non-Tax Receipts: Reserve Bank of India (RBI) Surplus Dividend Transfer',
+    plainSummary:
+      'Specific sub-component of non-tax revenue: The historic ₹2,10,874 Crore surplus dividend approved on May 22, 2024 by the RBI Central Board for accounting year FY24, transferred into the Union treasury for FY 2024-25. This exceeded the initial interim budget projection of ₹1,04,400 Cr.',
+    financialYear: 'FY 2024-25 (Realized Inflow)',
+    govLevel: 'union',
+    departmentOrMinistry: 'Reserve Bank of India & Department of Economic Affairs',
+    sectorTag: 'Non-Tax Revenue Sub-Component',
+    status: 'official_verified',
+    amountCr: 210874,
+    figureType: 'actual',
+    budgetEstimateCr: 104400,
+    revisedEstimateCr: 210874,
+    actualAmountCr: 210874,
+    previousYearAmountCr: 87416,
+    details: {
+      revenueType: 'non_tax',
+      collectionEfficiencyPct: 100.0,
+    },
+    source: {
+      documentTitle: 'RBI Annual Report 2023-24 & Press Release 2024-2025/363',
       publishingAuthority: 'Reserve Bank of India & Ministry of Finance',
       publicationDate: 'May 22, 2024',
-      tableOrPageReference: 'Receipt Budget, Statement 2: Dividends and Profits, Page 16',
+      tableOrPageReference: 'RBI Central Board Press Release (May 22, 2024) & Receipt Budget Statement 2',
       sourceUrl: 'https://rbi.org.in/',
-      calculationMethod: 'Calculated as RBI board-approved surplus dividend plus dividends from Central Public Sector Enterprises (CPSEs).',
-      coverageNotes: 'Includes a historic ₹2.11 Lakh Crore dividend transfer approved by the RBI Central Board for FY 2023-24 accounted in FY25 receipts.',
-      lastUpdated: '2026-10-20',
+      calculationMethod:
+        'Surplus transfer approved under Section 47 of the RBI Act 1934 following Bimal Jalan Economic Capital Framework (maintaining Contingent Risk Buffer at 6.50%). Jumped 141% from ₹87,416 Cr in FY23.',
+      coverageNotes:
+        'This ₹2.11 Lakh Crore is a specific dividend component that accounted for ~38.6% of the Union Government’s total ₹5.46 Lakh Crore non-tax revenue envelope in FY 2024-25.',
+      lastUpdated: '2026-10-30',
     },
   },
 
@@ -252,32 +659,34 @@ export const SAMPLE_FINANCE_RECORDS: PublicFinanceRecord[] = [
     section: 'allocation',
     title: 'Ministry of Defence: Total Budget Authorization (Defence Services & Capital)',
     plainSummary:
-      'Parliamentary spending authorization for armed forces modernization, equipment procurement, military salaries, pensions, and border maintenance.',
-    financialYear: 'FY 2024-25 (BE)',
+      'Parliamentary spending authorization across 4 Demands for Grants (Army, Navy, Air Force, Defence Capital Outlay, and Defence Pensions). The verified FY 2024-25 BE was ₹6,21,941 Cr (12.9% of Union Budget), revised to ₹6,40,736 Cr in RE 2024-25, with FY 2023-24 audited actuals of ₹5,74,280 Cr.',
+    financialYear: 'FY 2024-25 (BE & RE)',
     govLevel: 'union',
     departmentOrMinistry: 'Ministry of Defence',
     sectorTag: 'National Security',
     status: 'official_verified',
-    amountCr: 621541,
+    amountCr: 621941,
     figureType: 'budget_estimate',
-    budgetEstimateCr: 621541,
-    revisedEstimateCr: 593538,
-    actualAmountCr: 574000,
-    previousYearAmountCr: 574000,
+    budgetEstimateCr: 621941,
+    revisedEstimateCr: 640736,
+    actualAmountCr: 574280,
+    previousYearAmountCr: 574280,
     details: {
       shareOfTotalBudgetPct: 12.9,
       allocationCeilingNote:
-        'Represents authorization ceiling across 4 Demand for Grants (Defence Civil, Army, Navy, Air Force, and Defence Pensions). Not money spent.',
+        'Represents authorization ceiling across 4 Demands for Grants (Demand No. 19-22: Defence Civil, Services Revenue, Capital Outlay, and Defence Pensions). It constitutes legal authority to spend, not cash disbursed.',
     },
     source: {
-      documentTitle: 'Union Budget 2024-25: Demands for Grants (Demand No. 19-22)',
+      documentTitle: 'Union Budget 2024-25 & 2025-26: Demands for Grants (Demand No. 19-22)',
       publishingAuthority: 'Ministry of Finance & Ministry of Defence',
-      publicationDate: 'July 23, 2024',
-      tableOrPageReference: 'Expenditure Profile, Statement 1: Budget at a Glance, Page 8',
+      publicationDate: 'July 23, 2024 & February 1, 2025',
+      tableOrPageReference: 'Expenditure Profile, Statement 1: Budget at a Glance & PRS Defence Analysis',
       sourceUrl: 'https://www.indiabudget.gov.in/',
-      calculationMethod: 'Sum of Revenue Outlay (₹2.82L Cr), Capital Outlay (₹1.72L Cr), and Pensions (₹1.41L Cr) and Civil works.',
-      coverageNotes: 'Pensions account for roughly 22.7% of the total defense allocation envelope.',
-      lastUpdated: '2026-10-20',
+      calculationMethod:
+        'Sum of Defence Services Revenue (₹2.82L Cr), Capital Outlay for Modernization (₹1.72L Cr), Defence Pensions (₹1.41L Cr), and Ministry of Defence Civil works.',
+      coverageNotes:
+        'Pensions account for roughly 22.7% of the total defense allocation envelope. An allocation represents an authorization ceiling passed by Parliament, not money spent.',
+      lastUpdated: '2026-10-30',
     },
   },
   {
@@ -285,8 +694,8 @@ export const SAMPLE_FINANCE_RECORDS: PublicFinanceRecord[] = [
     section: 'allocation',
     title: 'Ministry of Road Transport and Highways: Highway Development Outlay',
     plainSummary:
-      'Budgetary ceiling authorized for building, widening, and maintaining national expressways, economic corridors, and border link roads.',
-    financialYear: 'FY 2024-25 (BE)',
+      'Budgetary ceiling authorized for building, widening, and maintaining national expressways, economic corridors, and border link roads. FY 2024-25 BE was ₹2,78,000 Cr, RE was ₹2,76,000 Cr, and FY 2023-24 actuals were ₹2,75,492 Cr.',
+    financialYear: 'FY 2024-25 (BE & RE)',
     govLevel: 'union',
     departmentOrMinistry: 'Ministry of Road Transport and Highways',
     sectorTag: 'Infrastructure',
@@ -295,12 +704,12 @@ export const SAMPLE_FINANCE_RECORDS: PublicFinanceRecord[] = [
     figureType: 'budget_estimate',
     budgetEstimateCr: 278000,
     revisedEstimateCr: 276000,
-    actualAmountCr: 242000,
-    previousYearAmountCr: 242000,
+    actualAmountCr: 275492,
+    previousYearAmountCr: 275492,
     details: {
       shareOfTotalBudgetPct: 5.8,
       allocationCeilingNote:
-        'Over 95% of this allocation is statutory capital expenditure to create permanent national highway assets.',
+        'Over 95% of this allocation (₹2,72,241 Cr) is statutory capital expenditure to create permanent national highway assets through NHAI and NHIDCL.',
     },
     source: {
       documentTitle: 'Demands for Grants: Ministry of Road Transport and Highways (Demand No. 86)',
@@ -308,9 +717,11 @@ export const SAMPLE_FINANCE_RECORDS: PublicFinanceRecord[] = [
       publicationDate: 'July 23, 2024',
       tableOrPageReference: 'Expenditure Profile, Statement 3: Capital Outlays, Page 22',
       sourceUrl: 'https://morth.nic.in/',
-      calculationMethod: 'Net budgetary support to NHAI, NHIDCL, and ministry direct highway schemes.',
-      coverageNotes: 'NHAI borrowing limits from extra-budgetary resources were minimized to fund projects directly from the budget.',
-      lastUpdated: '2026-10-20',
+      calculationMethod:
+        'Net budgetary support to NHAI (₹1,68,464 Cr), NHIDCL, and ministry direct highway schemes (₹1,09,093 Cr).',
+      coverageNotes:
+        'NHAI borrowing limits from extra-budgetary resources were minimized to fund projects directly from the budget, following parliamentary recommendations.',
+      lastUpdated: '2026-10-30',
     },
   },
   {
@@ -354,8 +765,8 @@ export const SAMPLE_FINANCE_RECORDS: PublicFinanceRecord[] = [
     section: 'expenditure',
     title: 'Capital Expenditure: Creation of National Physical & Strategic Assets',
     plainSummary:
-      'Actual public money spent on constructing highways, laying railway tracks, purchasing defense hardware, and building ports—creating long-term productive assets for the country.',
-    financialYear: 'FY 2023-24 (Actuals)',
+      'Actual public money spent on constructing expressways, freight corridors, railway tracks, naval vessels, and border roads—creating long-term productive national assets. For FY 2023-24, CGA confirmed audited actual cash capex was ₹9,48,506 Cr against BE of ₹10,00,000 Cr and RE of ₹9,50,000 Cr.',
+    financialYear: 'FY 2023-24 (Audited Actuals)',
     govLevel: 'union',
     departmentOrMinistry: 'Controller General of Accounts (CGA), Ministry of Finance',
     sectorTag: 'Capital Investment',
@@ -365,21 +776,23 @@ export const SAMPLE_FINANCE_RECORDS: PublicFinanceRecord[] = [
     budgetEstimateCr: 1000000,
     revisedEstimateCr: 950000,
     actualAmountCr: 948506,
-    previousYearAmountCr: 736000,
+    previousYearAmountCr: 739391,
     details: {
       expenditureType: 'capital',
       utilizationRatePct: 99.8,
       unspentSurrenderedCr: 1494,
     },
     source: {
-      documentTitle: 'Union Government Finance Accounts 2023-24',
+      documentTitle: 'Union Government Finance Accounts 2023-24 & CGA Accounts at a Glance',
       publishingAuthority: 'Controller General of Accounts (CGA), Department of Expenditure',
       publicationDate: 'May 31, 2024',
       tableOrPageReference: 'Accounts at a Glance, Statement 1: Capital Account Outlays, Page 6',
       sourceUrl: 'https://cga.nic.in/',
-      calculationMethod: 'Audited cash disbursements recorded through the Public Financial Management System (PFMS).',
-      coverageNotes: 'Includes capital grants given to states specifically for capital asset creation under the 50-year interest-free capex loan scheme.',
-      lastUpdated: '2026-10-20',
+      calculationMethod:
+        'Audited cash disbursements recorded through the Public Financial Management System (PFMS). FY 2023-24 BE was ₹10,00,000 Cr, RE was ₹9,50,000 Cr, and actual expenditure recorded by CGA was ₹9,48,506 Cr.',
+      coverageNotes:
+        'Represents direct central capital expenditure. Does not include Grants-in-Aid for creation of capital assets (which are accounted under revenue expenditure in standard accounting).',
+      lastUpdated: '2026-10-30',
     },
   },
   {
@@ -387,8 +800,8 @@ export const SAMPLE_FINANCE_RECORDS: PublicFinanceRecord[] = [
     section: 'expenditure',
     title: 'Major Subsidies Expenditure (Food, Fertilizer & Petroleum)',
     plainSummary:
-      'Actual money spent by the Union government to supply subsidized food grains under the National Food Security Act and ensure affordable crop fertilizer for farmers.',
-    financialYear: 'FY 2023-24 (Actuals)',
+      'Actual money spent by the Union government to supply free foodgrains under the National Food Security Act (NFSA / PMGKAY) and ensure affordable crop fertilizers for farmers. In FY 2023-24, actual disbursements were ₹4,13,541 Cr against original BE of ₹3,74,707 Cr.',
+    financialYear: 'FY 2023-24 (Audited Actuals)',
     govLevel: 'union',
     departmentOrMinistry: 'Department of Expenditure, Ministry of Finance',
     sectorTag: 'Social Welfare & Agriculture',
@@ -398,21 +811,23 @@ export const SAMPLE_FINANCE_RECORDS: PublicFinanceRecord[] = [
     budgetEstimateCr: 374707,
     revisedEstimateCr: 413541,
     actualAmountCr: 413541,
-    previousYearAmountCr: 531000,
+    previousYearAmountCr: 530948,
     details: {
       expenditureType: 'revenue',
       utilizationRatePct: 100.0,
       unspentSurrenderedCr: 0,
     },
     source: {
-      documentTitle: 'Expenditure Profile: Statement 11 (Subsidies)',
-      publishingAuthority: 'Ministry of Finance, Government of India',
+      documentTitle: 'Union Budget 2024-25 Expenditure Profile: Statement 11 (Subsidies)',
+      publishingAuthority: 'Department of Expenditure, Ministry of Finance, Government of India',
       publicationDate: 'July 23, 2024',
-      tableOrPageReference: 'Statement 11: Subsidies Allocation vs Actuals, Page 45',
+      tableOrPageReference: 'Expenditure Profile, Statement 11: Subsidies Allocation vs Actuals, Page 45',
       sourceUrl: 'https://www.indiabudget.gov.in/',
-      calculationMethod: 'Food subsidy (FCI disbursements) ₹2.12L Cr + Fertilizer subsidy ₹1.88L Cr + LPG subsidy ₹12K Cr.',
-      coverageNotes: 'Fertilizer subsidy increased due to international natural gas and urea price shocks following geopolitical conflicts.',
-      lastUpdated: '2026-10-20',
+      calculationMethod:
+        'Sum of Food subsidy to FCI (₹2,12,332 Cr) + Fertilizer nutrient-based subsidy (₹1,88,894 Cr) + Petroleum/LPG subsidy (₹12,315 Cr).',
+      coverageNotes:
+        'Fertilizer subsidy increased from initial BE due to elevated international natural gas and ammonia prices following geopolitical conflicts.',
+      lastUpdated: '2026-10-30',
     },
   },
 
@@ -766,70 +1181,85 @@ export const SAMPLE_FINANCE_RECORDS: PublicFinanceRecord[] = [
   {
     id: 'comp-sample-01',
     section: 'comparison',
-    title: 'Five-Year Fiscal Deficit Trajectory (% of GDP)',
+    title: 'Multi-Year Fiscal Deficit Trajectory (% of GDP)',
     plainSummary:
-      'The difference between total government spending and total revenue receipts, expressed as a percentage of India’s Gross Domestic Product (GDP).',
-    financialYear: 'FY 2020-21 to FY 2024-25',
+      'The difference between total government spending and total revenue receipts, expressed as a percentage of India’s Gross Domestic Product (GDP). Shows the fiscal consolidation glide path from 9.2% in FY 2020-21 (pandemic stimulus) down to 4.8% in FY 2024-25 RE and 4.4% in FY 2025-26 BE.',
+    financialYear: 'FY 2020-21 to FY 2025-26 (BE)',
     govLevel: 'union',
-    departmentOrMinistry: 'Budget Division, Ministry of Finance',
+    departmentOrMinistry: 'Budget Division, Department of Economic Affairs, Ministry of Finance',
     sectorTag: 'Macroeconomic Health',
     status: 'official_verified',
     amountCr: 1613312,
     figureType: 'calculated_metric',
+    budgetEstimateCr: 1613312,
+    revisedEstimateCr: 1577249,
+    actualAmountCr: 1654000,
+    previousYearAmountCr: 1654000,
     details: {
       trendMetricName: 'Fiscal Deficit (% of GDP)',
       multiYearTrend: [
         { year: 'FY 2020-21 (Actuals)', amountCr: 1821000, gdpPct: 9.2 },
         { year: 'FY 2021-22 (Actuals)', amountCr: 1584000, gdpPct: 6.7 },
         { year: 'FY 2022-23 (Actuals)', amountCr: 1733000, gdpPct: 6.4 },
-        { year: 'FY 2023-24 (Actuals/RE)', amountCr: 1654000, gdpPct: 5.6 },
-        { year: 'FY 2024-25 (BE Target)', amountCr: 1613312, gdpPct: 4.9 },
+        { year: 'FY 2023-24 (Actuals)', amountCr: 1654000, gdpPct: 5.6 },
+        { year: 'FY 2024-25 (BE)', amountCr: 1613312, gdpPct: 4.9 },
+        { year: 'FY 2024-25 (RE)', amountCr: 1577249, gdpPct: 4.8 },
+        { year: 'FY 2025-26 (BE)', amountCr: 1568936, gdpPct: 4.4 },
       ],
     },
     source: {
       documentTitle: 'Fiscal Responsibility and Budget Management (FRBM) Act Macro-Economic Framework Statement',
       publishingAuthority: 'Department of Economic Affairs, Ministry of Finance',
-      publicationDate: 'July 23, 2024',
-      tableOrPageReference: 'Medium Term Fiscal Policy cum Fiscal Policy Strategy Statement, Table 1, Page 3',
+      publicationDate: 'July 23, 2024 & February 1, 2025',
+      tableOrPageReference: 'Medium Term Fiscal Policy cum Fiscal Policy Strategy Statement, Table 1 & Budget at a Glance',
       sourceUrl: 'https://www.indiabudget.gov.in/',
       calculationMethod:
-        'Fiscal Deficit = (Total Expenditure - Non-debt Receipts). Expressed as percentage of nominal GDP projected by CSO.',
-      coverageNotes: 'The Centre has committed to a glide path bringing fiscal deficit below 4.5% of GDP by FY 2025-26.',
-      lastUpdated: '2026-10-20',
+        'Fiscal Deficit = (Total Expenditure - Non-debt Receipts). Expressed as percentage of nominal GDP projected by National Statistical Office (NSO).',
+      coverageNotes:
+        'The Centre has successfully lowered the fiscal deficit from 9.2% during the pandemic to 4.8% in FY 2024-25 RE and 4.4% in FY 2025-26 BE, beating the FRBM commitment to reach below 4.5%.',
+      lastUpdated: '2026-10-30',
     },
   },
   {
     id: 'comp-sample-02',
     section: 'comparison',
-    title: 'Five-Year Capital Outlay Growth Trajectory (Central Capex)',
+    title: 'Multi-Year Capital Outlay Growth Trajectory (Central Direct Capex)',
     plainSummary:
-      'Tracking the growth of central capital expenditure over five years, reflecting the shift from revenue subsidies to long-term asset building.',
-    financialYear: 'FY 2020-21 to FY 2024-25',
+      'Tracking the growth of central capital expenditure over time, showing a structural shift from routine administrative consumption toward productive national physical assets: from ₹4.26 Lakh Cr in 2020-21 to ₹10.18 Lakh Cr in 2024-25 RE (BE ₹11.11L Cr) and ₹11.21 Lakh Cr in 2025-26 BE.',
+    financialYear: 'FY 2020-21 to FY 2025-26 (BE)',
     govLevel: 'union',
-    departmentOrMinistry: 'Ministry of Finance',
+    departmentOrMinistry: 'Ministry of Finance, Government of India',
     sectorTag: 'Public Investment',
     status: 'official_verified',
     amountCr: 1111111,
     figureType: 'calculated_metric',
+    budgetEstimateCr: 1111111,
+    revisedEstimateCr: 1018048,
+    actualAmountCr: 948506,
+    previousYearAmountCr: 948506,
     details: {
-      trendMetricName: 'Capital Expenditure (₹ Crore)',
+      trendMetricName: 'Direct Capital Expenditure (₹ Crore)',
       multiYearTrend: [
-        { year: 'FY 2020-21', amountCr: 425000, gdpPct: 2.1 },
-        { year: 'FY 2021-22', amountCr: 593000, gdpPct: 2.5 },
-        { year: 'FY 2022-23', amountCr: 736000, gdpPct: 2.7 },
-        { year: 'FY 2023-24', amountCr: 950000, gdpPct: 3.2 },
+        { year: 'FY 2020-21 (Actuals)', amountCr: 426317, gdpPct: 2.1 },
+        { year: 'FY 2021-22 (Actuals)', amountCr: 592874, gdpPct: 2.5 },
+        { year: 'FY 2022-23 (Actuals)', amountCr: 739391, gdpPct: 2.7 },
+        { year: 'FY 2023-24 (Actuals)', amountCr: 948506, gdpPct: 3.2 },
         { year: 'FY 2024-25 (BE)', amountCr: 1111111, gdpPct: 3.4 },
+        { year: 'FY 2024-25 (RE)', amountCr: 1018048, gdpPct: 3.1 },
+        { year: 'FY 2025-26 (BE)', amountCr: 1121090, gdpPct: 3.1 },
       ],
     },
     source: {
-      documentTitle: 'Budget at a Glance: Trends in Expenditure',
-      publishingAuthority: 'Ministry of Finance, Government of India',
-      publicationDate: 'July 23, 2024',
-      tableOrPageReference: 'Budget at a Glance, Statement 4: Capital Account Trends, Page 10',
+      documentTitle: 'Budget at a Glance: Trends in Expenditure & CGA Finance Accounts',
+      publishingAuthority: 'Ministry of Finance & Controller General of Accounts',
+      publicationDate: 'July 23, 2024 & February 1, 2025',
+      tableOrPageReference: 'Budget at a Glance, Statement 4: Capital Account Trends & Statement 1',
       sourceUrl: 'https://www.indiabudget.gov.in/',
-      calculationMethod: 'Annual compound growth calculation across audited central capital disbursements.',
-      coverageNotes: 'Capital expenditure increased nearly 2.6x from FY 2020-21 to FY 2024-25.',
-      lastUpdated: '2026-10-20',
+      calculationMethod:
+        'Audited central capital disbursements from CGA finance accounts. BE for FY 2024-25 was ₹11,11,111 Cr, RE was ₹10,18,048 Cr, and BE for FY 2025-26 is ₹11,21,090 Cr.',
+      coverageNotes:
+        'Direct central capex excludes Grants-in-Aid for creation of capital assets. If Grants-in-Aid are included, Effective Capital Expenditure reached ₹15.02 Lakh Cr in FY 2024-25 BE and ₹15.48 Lakh Cr in FY 2025-26 BE.',
+      lastUpdated: '2026-10-30',
     },
   },
 ];

@@ -111,3 +111,55 @@ export interface PublicFinanceRecord {
 
   source: SourceMetadata;
 }
+
+export type ReceiptCategoryType =
+  | 'direct_tax'
+  | 'indirect_tax'
+  | 'non_tax'
+  | 'capital_receipt'
+  | 'borrowing_liability';
+
+export type ExpenditureCategoryType =
+  | 'mandatory_transfer'
+  | 'debt_servicing'
+  | 'development_schemes'
+  | 'defence_security'
+  | 'social_subsidies'
+  | 'pensions'
+  | 'operations';
+
+export interface CitizenRupeeItem {
+  source?: string;
+  destination?: string;
+  paise: number;
+  color: string;
+  categoryType?: ReceiptCategoryType | ExpenditureCategoryType;
+  categoryLabel?: string;
+  description?: string;
+  officialSourceUrl?: string;
+}
+
+export interface MacroOverviewTotals {
+  totalBudgetOutlayCr: number;       // BE Total Outlay
+  totalBudgetOutlayReCr: number;     // RE Total Outlay
+  totalRevenueReceiptsCr: number;    // BE Revenue Receipts
+  totalRevenueReceiptsReCr: number;  // RE Revenue Receipts
+  capitalExpenditureCr: number;      // BE Direct Capex
+  capitalExpenditureReCr: number;    // RE Direct Capex
+  effectiveCapexCr: number;          // BE Effective Capex (Capex + Grants for Capital Assets)
+  effectiveCapexReCr: number;        // RE Effective Capex
+  fiscalDeficitTargetPct: number;    // BE % of GDP
+  fiscalDeficitRePct: number;        // RE % of GDP
+  fiscalDeficitCr: number;           // BE ₹ Cr
+  fiscalDeficitReCr: number;          // RE ₹ Cr
+}
+
+export interface CitizenRupeeDataset {
+  yearId: string;
+  financialYear: string;
+  budgetBasis: string;
+  where1RupeeComesFrom: CitizenRupeeItem[];
+  where1RupeeGoes: CitizenRupeeItem[];
+  macroTotals: MacroOverviewTotals;
+}
+

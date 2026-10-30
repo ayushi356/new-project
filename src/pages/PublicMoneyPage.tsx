@@ -17,7 +17,6 @@ import {
   ChevronDown,
   ChevronUp,
   ExternalLink,
-  AlertCircle,
   CheckCircle2,
   HelpCircle,
   Building2,
@@ -25,31 +24,44 @@ import {
   Layers,
   ArrowUpRight,
   ShieldCheck,
-  Percent,
+  Info,
+  FileText,
 } from 'lucide-react';
 import {
   FINANCIAL_SECTIONS,
-  CITIZEN_RUPEE_BREAKDOWN,
+  CITIZEN_RUPEE_DATASETS,
   SAMPLE_FINANCE_RECORDS,
-  type SectionMeta,
 } from '@/data/publicFinanceData';
 import type {
-  PublicFinanceRecord,
   FinancialSectionId,
   FigureType,
-  GovLevel,
 } from '@/types/finance';
 import { useNavigate } from '@/lib/router';
-import { AccessibleChart } from '@/components/AccessibleChart';
+import { AccessibleChart, type DataPoint } from '@/components/AccessibleChart';
 
-const CAPEX_TREND_DATA = [
-  { label: '2014-15', value: 1.96, note: '₹1.96L Cr (11.8% of Total Budget)', color: '#1A3D2F' },
-  { label: '2016-17', value: 2.84, note: '₹2.84L Cr (14.4% of Total Budget)', color: '#1A3D2F' },
-  { label: '2018-19', value: 3.03, note: '₹3.03L Cr (13.1% of Total Budget)', color: '#1A3D2F' },
-  { label: '2020-21', value: 4.12, note: '₹4.12L Cr (11.7% - Pandemic Relief)', color: '#1A3D2F' },
-  { label: '2022-23', value: 7.36, note: '₹7.36L Cr (17.6% of Total Budget)', color: '#1A3D2F' },
-  { label: '2024-25', value: 11.11, note: '₹11.11L Cr RE (23.0% of Total Budget)', color: '#1A3D2F' },
-  { label: '2025-26', value: 11.90, note: '₹11.90L Cr BE (23.3% of Total Budget)', color: '#1A3D2F' },
+// 1. Direct Central Capital Outlay (Infrastructure & Asset Creation)
+// Verified against Union Budget Expenditure Statements and CGA Audited Finance Accounts
+const DIRECT_CAPEX_TREND_DATA: DataPoint[] = [
+  { label: '2014-15', value: 1.96, formattedValue: '₹1.96 Lakh Cr', note: 'Audited Actual · 11.8% of Total Outlay', color: '#1A3D2F' },
+  { label: '2016-17', value: 2.84, formattedValue: '₹2.84 Lakh Cr', note: 'Audited Actual · 14.4% of Total Outlay', color: '#1A3D2F' },
+  { label: '2018-19', value: 3.03, formattedValue: '₹3.03 Lakh Cr', note: 'Audited Actual · 13.1% of Total Outlay', color: '#1A3D2F' },
+  { label: '2020-21', value: 4.26, formattedValue: '₹4.26 Lakh Cr', note: 'Audited Actual · 12.1% of Total Outlay', color: '#1A3D2F' },
+  { label: '2022-23', value: 7.39, formattedValue: '₹7.39 Lakh Cr', note: 'Audited Actual · 17.6% of Total Outlay', color: '#1A3D2F' },
+  { label: '2023-24', value: 9.49, formattedValue: '₹9.49 Lakh Cr', note: 'CGA Audited Actual · 21.1% of Total Outlay', color: '#1A3D2F' },
+  { label: '2024-25', value: 10.18, secondaryValue: 11.11, secondaryLabel: 'Budget Estimate (BE)', formattedValue: '₹10.18 Lakh Cr (RE)', note: 'Revised Estimate · BE was ₹11.11L Cr', color: '#1A3D2F' },
+  { label: '2025-26', value: 11.21, formattedValue: '₹11.21 Lakh Cr (BE)', note: 'Budget Estimate · 22.1% of Total Outlay', color: '#1A3D2F' },
+];
+
+// 2. Direct Capex vs Effective Capital Expenditure (Including Grants-in-Aid for Capital Asset Creation)
+const EFFECTIVE_CAPEX_TREND_DATA: DataPoint[] = [
+  { label: '2014-15', value: 1.96, secondaryValue: 2.65, secondaryLabel: 'Effective Capex', formattedValue: '₹1.96L Cr (Direct)', note: 'Effective: ₹2.65L Cr', color: '#1A3D2F' },
+  { label: '2016-17', value: 2.84, secondaryValue: 3.75, secondaryLabel: 'Effective Capex', formattedValue: '₹2.84L Cr (Direct)', note: 'Effective: ₹3.75L Cr', color: '#1A3D2F' },
+  { label: '2018-19', value: 3.03, secondaryValue: 4.28, secondaryLabel: 'Effective Capex', formattedValue: '₹3.03L Cr (Direct)', note: 'Effective: ₹4.28L Cr', color: '#1A3D2F' },
+  { label: '2020-21', value: 4.26, secondaryValue: 6.36, secondaryLabel: 'Effective Capex', formattedValue: '₹4.26L Cr (Direct)', note: 'Effective: ₹6.36L Cr', color: '#1A3D2F' },
+  { label: '2022-23', value: 7.39, secondaryValue: 10.53, secondaryLabel: 'Effective Capex', formattedValue: '₹7.39L Cr (Direct)', note: 'Effective: ₹10.53L Cr', color: '#1A3D2F' },
+  { label: '2023-24', value: 9.49, secondaryValue: 12.71, secondaryLabel: 'Effective Capex', formattedValue: '₹9.49L Cr (Direct)', note: 'Effective: ₹12.71L Cr', color: '#1A3D2F' },
+  { label: '2024-25', value: 10.18, secondaryValue: 15.02, secondaryLabel: 'Effective Capex (BE)', formattedValue: '₹10.18L Cr (RE)', note: 'Effective BE: ₹15.02L Cr', color: '#1A3D2F' },
+  { label: '2025-26', value: 11.21, secondaryValue: 15.48, secondaryLabel: 'Effective Capex (BE)', formattedValue: '₹11.21L Cr (BE)', note: 'Effective BE: ₹15.48L Cr', color: '#1A3D2F' },
 ];
 
 // Icon resolver for sections
@@ -150,8 +162,17 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
 
   const [activeSection, setActiveSection] = useState<FinancialSectionId>(validSectionId);
   const [rupeeTab, setRupeeTab] = useState<'comes' | 'goes'>('comes');
+  const [selectedRupeeYear, setSelectedRupeeYear] = useState<string>('2024-25');
+  const [capexView, setCapexView] = useState<'direct' | 'effective'>('direct');
   const [showGlossary, setShowGlossary] = useState(false);
   const [expandedRecordIds, setExpandedRecordIds] = useState<Record<string, boolean>>({});
+
+  const currentRupeeData = useMemo(() => {
+    return (
+      CITIZEN_RUPEE_DATASETS.find((d) => d.yearId === selectedRupeeYear) ||
+      CITIZEN_RUPEE_DATASETS[0]
+    );
+  }, [selectedRupeeYear]);
 
   // Filters
   const [searchQuery, setSearchQuery] = useState('');
@@ -432,71 +453,210 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
             <div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1A3D2F]">
                 <PieChart size={15} strokeWidth={1.5} />
-                <span>Macro Overview · {CITIZEN_RUPEE_BREAKDOWN.financialYear}</span>
+                <span>Macro Overview · {currentRupeeData.financialYear}</span>
               </div>
               <h2 className="mt-1 text-xl font-extrabold text-slate-900 sm:text-2xl">
                 The Citizen’s Rupee: Where 100 Paise Come From & Go
               </h2>
               <p className="mt-1 text-xs text-slate-500 sm:text-sm">
-                If the entire Government of India budget were scaled down to a single 1 Rupee (100
-                paise) coin:
+                Scaled visualization of Union Budget Receipts & Outlays. Basis: {currentRupeeData.budgetBasis}
               </p>
             </div>
 
-            {/* Toggle Tab */}
-            <div className="flex rounded-lg border border-slate-200 bg-slate-100 p-1">
-              <button
-                onClick={() => setRupeeTab('comes')}
-                className={`rounded-md px-3.5 py-1.5 text-xs font-bold transition ${
-                  rupeeTab === 'comes'
-                    ? 'bg-white text-slate-900 shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                Where 1 Rupee Comes From
-              </button>
-              <button
-                onClick={() => setRupeeTab('goes')}
-                className={`rounded-md px-3.5 py-1.5 text-xs font-bold transition ${
-                  rupeeTab === 'goes'
-                    ? 'bg-white text-slate-900 shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                Where 1 Rupee Goes
-              </button>
+            {/* Selectors: Financial Year & Flow Direction */}
+            <div className="flex flex-wrap items-center gap-2">
+              {/* Financial Year Selector */}
+              <div className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-1 text-xs">
+                <button
+                  onClick={() => setSelectedRupeeYear('2024-25')}
+                  className={`rounded-md px-3 py-1.5 font-bold transition cursor-pointer ${
+                    selectedRupeeYear === '2024-25'
+                      ? 'bg-white text-slate-900 shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  FY 2024–25 (BE & RE)
+                </button>
+                <button
+                  onClick={() => setSelectedRupeeYear('2025-26')}
+                  className={`rounded-md px-3 py-1.5 font-bold transition cursor-pointer ${
+                    selectedRupeeYear === '2025-26'
+                      ? 'bg-white text-slate-900 shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  FY 2025–26 (BE)
+                </button>
+              </div>
+
+              {/* Inflow vs Outflow Toggle */}
+              <div className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-1 text-xs">
+                <button
+                  onClick={() => setRupeeTab('comes')}
+                  className={`rounded-md px-3 py-1.5 font-bold transition cursor-pointer ${
+                    rupeeTab === 'comes'
+                      ? 'bg-[#1A3D2F] text-white shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  Where 1 Rupee Comes From
+                </button>
+                <button
+                  onClick={() => setRupeeTab('goes')}
+                  className={`rounded-md px-3 py-1.5 font-bold transition cursor-pointer ${
+                    rupeeTab === 'goes'
+                      ? 'bg-[#1A3D2F] text-white shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  Where 1 Rupee Goes
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* Macro Key Metrics */}
-          <div className="mt-6 grid grid-cols-2 gap-3 border-y border-slate-100 py-4 lg:grid-cols-4">
-            <div>
-              <p className="text-xs font-medium text-slate-500">Total Union Outlay</p>
-              <p className="mt-0.5 text-lg font-extrabold text-slate-900 sm:text-xl">
-                {formatInLakhCrore(CITIZEN_RUPEE_BREAKDOWN.macroTotals.totalBudgetOutlayCr)}
-              </p>
-              <span className="text-[11px] text-slate-400">Total expenditure BE</span>
+          {/* Macro Key Metrics: Clear separation of Budget Estimates (BE) and Revised Estimates (RE) */}
+          <div className="mt-6 grid grid-cols-1 gap-3 border-y border-slate-100 py-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3.5">
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-semibold text-slate-500">Total Union Outlay</p>
+                <span className="rounded-md bg-slate-200/70 px-1.5 py-0.2 text-[10px] font-bold text-slate-700">
+                  Total Expenditure
+                </span>
+              </div>
+              <div className="mt-2 flex items-baseline justify-between">
+                <div>
+                  <span className="text-[10px] font-bold text-[#1A3D2F] uppercase block">Budget Estimate (BE)</span>
+                  <p className="text-base font-extrabold text-slate-900 sm:text-lg">
+                    {formatInLakhCrore(currentRupeeData.macroTotals.totalBudgetOutlayCr)}
+                  </p>
+                  <span className="text-[10px] font-mono text-slate-500">
+                    ₹{currentRupeeData.macroTotals.totalBudgetOutlayCr.toLocaleString('en-IN')} Cr
+                  </span>
+                </div>
+                {currentRupeeData.macroTotals.totalBudgetOutlayReCr && currentRupeeData.macroTotals.totalBudgetOutlayReCr !== currentRupeeData.macroTotals.totalBudgetOutlayCr && (
+                  <div className="text-right">
+                    <span className="text-[10px] font-bold text-amber-800 uppercase block">Revised Outlay (RE)</span>
+                    <p className="text-base font-extrabold text-amber-900 sm:text-lg">
+                      {formatInLakhCrore(currentRupeeData.macroTotals.totalBudgetOutlayReCr)}
+                    </p>
+                    <span className="text-[10px] font-mono text-amber-700">
+                      -₹{Math.abs(currentRupeeData.macroTotals.totalBudgetOutlayCr - currentRupeeData.macroTotals.totalBudgetOutlayReCr).toLocaleString('en-IN')} Cr
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
-            <div>
-              <p className="text-xs font-medium text-slate-500">Revenue Receipts</p>
-              <p className="mt-0.5 text-lg font-extrabold text-slate-900 sm:text-xl">
-                {formatInLakhCrore(CITIZEN_RUPEE_BREAKDOWN.macroTotals.totalRevenueReceiptsCr)}
-              </p>
-              <span className="text-[11px] text-slate-400">Net tax + non-tax receipts</span>
+
+            <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3.5">
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-semibold text-slate-500">Revenue Receipts</p>
+                <span className="rounded-md bg-slate-200/70 px-1.5 py-0.2 text-[10px] font-bold text-slate-700">
+                  Tax + Non-Tax
+                </span>
+              </div>
+              <div className="mt-2 flex items-baseline justify-between">
+                <div>
+                  <span className="text-[10px] font-bold text-[#1A3D2F] uppercase block">Budget Estimate (BE)</span>
+                  <p className="text-base font-extrabold text-slate-900 sm:text-lg">
+                    {formatInLakhCrore(currentRupeeData.macroTotals.totalRevenueReceiptsCr)}
+                  </p>
+                  <span className="text-[10px] font-mono text-slate-500">
+                    ₹{currentRupeeData.macroTotals.totalRevenueReceiptsCr.toLocaleString('en-IN')} Cr
+                  </span>
+                </div>
+                {currentRupeeData.macroTotals.totalRevenueReceiptsReCr && currentRupeeData.macroTotals.totalRevenueReceiptsReCr !== currentRupeeData.macroTotals.totalRevenueReceiptsCr && (
+                  <div className="text-right">
+                    <span className="text-[10px] font-bold text-amber-800 uppercase block">Revised Receipts (RE)</span>
+                    <p className="text-base font-extrabold text-amber-900 sm:text-lg">
+                      {formatInLakhCrore(currentRupeeData.macroTotals.totalRevenueReceiptsReCr)}
+                    </p>
+                    <span className="text-[10px] font-mono text-amber-700">
+                      -₹{Math.abs(currentRupeeData.macroTotals.totalRevenueReceiptsCr - currentRupeeData.macroTotals.totalRevenueReceiptsReCr).toLocaleString('en-IN')} Cr
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
-            <div>
-              <p className="text-xs font-medium text-slate-500">Capital Capex (Asset Building)</p>
-              <p className="mt-0.5 text-lg font-extrabold text-emerald-600 sm:text-xl">
-                {formatInLakhCrore(CITIZEN_RUPEE_BREAKDOWN.macroTotals.capitalExpenditureCr)}
-              </p>
-              <span className="text-[11px] text-emerald-600 font-semibold">3.4% of GDP</span>
+
+            <div className="rounded-xl border border-emerald-100 bg-emerald-50/40 p-3.5">
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-semibold text-emerald-900">Capital Expenditure (Capex)</p>
+                <span className="rounded-md bg-emerald-100 px-1.5 py-0.2 text-[10px] font-bold text-emerald-800">
+                  Direct Asset Creation
+                </span>
+              </div>
+              <div className="mt-2 flex items-baseline justify-between">
+                <div>
+                  <span className="text-[10px] font-bold text-[#1A3D2F] uppercase block">Budget Estimate (BE)</span>
+                  <p className="text-base font-extrabold text-emerald-900 sm:text-lg">
+                    {formatInLakhCrore(currentRupeeData.macroTotals.capitalExpenditureCr)}
+                  </p>
+                  <span className="text-[10px] font-medium text-emerald-700">
+                    3.4% of GDP
+                  </span>
+                </div>
+                {currentRupeeData.macroTotals.capitalExpenditureReCr && currentRupeeData.macroTotals.capitalExpenditureReCr !== currentRupeeData.macroTotals.capitalExpenditureCr && (
+                  <div className="text-right">
+                    <span className="text-[10px] font-bold text-amber-800 uppercase block">Revised Capex (RE)</span>
+                    <p className="text-base font-extrabold text-amber-900 sm:text-lg">
+                      {formatInLakhCrore(currentRupeeData.macroTotals.capitalExpenditureReCr)}
+                    </p>
+                    <span className="text-[10px] font-medium text-amber-700">
+                      3.1% of GDP
+                    </span>
+                  </div>
+                )}
+              </div>
+              {currentRupeeData.macroTotals.effectiveCapexCr && (
+                <div className="mt-2 border-t border-emerald-100 pt-1.5 text-[10px] text-emerald-800">
+                  <span>Eff-Capex (incl. grants): <strong>{formatInLakhCrore(currentRupeeData.macroTotals.effectiveCapexCr)}</strong></span>
+                </div>
+              )}
             </div>
-            <div>
-              <p className="text-xs font-medium text-slate-500">Fiscal Deficit Target</p>
-              <p className="mt-0.5 text-lg font-extrabold text-[#1A3D2F] sm:text-xl">
-                {CITIZEN_RUPEE_BREAKDOWN.macroTotals.fiscalDeficitTargetPct}% of GDP
-              </p>
-              <span className="text-[11px] text-slate-400">FRBM statutory glide path</span>
+
+            <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3.5">
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-semibold text-slate-500">Fiscal Deficit</p>
+                <span className="rounded-md bg-[#1A3D2F]/10 px-1.5 py-0.2 text-[10px] font-bold text-[#1A3D2F]">
+                  FRBM Glide Path
+                </span>
+              </div>
+              <div className="mt-2 flex items-baseline justify-between">
+                <div>
+                  <span className="text-[10px] font-bold text-[#1A3D2F] uppercase block">Budget Target (BE)</span>
+                  <p className="text-base font-extrabold text-[#1A3D2F] sm:text-lg">
+                    {currentRupeeData.macroTotals.fiscalDeficitTargetPct}% of GDP
+                  </p>
+                  <span className="text-[10px] font-mono text-slate-500">
+                    ₹{currentRupeeData.macroTotals.fiscalDeficitCr.toLocaleString('en-IN')} Cr
+                  </span>
+                </div>
+                {currentRupeeData.macroTotals.fiscalDeficitRePct && currentRupeeData.macroTotals.fiscalDeficitRePct !== currentRupeeData.macroTotals.fiscalDeficitTargetPct && (
+                  <div className="text-right">
+                    <span className="text-[10px] font-bold text-emerald-800 uppercase block">Revised Target (RE)</span>
+                    <p className="text-base font-extrabold text-emerald-700 sm:text-lg">
+                      {currentRupeeData.macroTotals.fiscalDeficitRePct}% of GDP
+                    </p>
+                    <span className="text-[10px] font-mono text-emerald-700">
+                      -10 bps consolidation
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Civic Budget Accounting Balancing Principle */}
+          <div className="mt-4 rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-3 text-xs text-[#5C645E]">
+            <div className="flex items-start gap-2">
+              <Info size={16} strokeWidth={1.5} className="mt-0.5 text-[#1A3D2F] shrink-0" />
+              <div>
+                <span className="font-bold text-[#181A19]">Constitutional Accounting Identity: </span>
+                <span className="leading-relaxed">
+                  Total Union Outlay (Expenditure) always equals Total Financing. Total Receipts = Revenue Receipts ({formatInLakhCrore(currentRupeeData.macroTotals.totalRevenueReceiptsCr)} BE) + Non-Debt Capital Receipts (~₹78,000 Cr) + Debt Borrowings & Liabilities ({formatInLakhCrore(currentRupeeData.macroTotals.fiscalDeficitCr)} BE). <strong>Borrowings and liabilities represent repayable debt to finance the fiscal gap, not tax revenue.</strong>
+                </span>
+              </div>
             </div>
           </div>
 
@@ -504,8 +664,8 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
           <div className="mt-6">
             <div className="flex h-6 w-full overflow-hidden rounded-lg bg-slate-100 shadow-inner">
               {(rupeeTab === 'comes'
-                ? CITIZEN_RUPEE_BREAKDOWN.where1RupeeComesFrom
-                : CITIZEN_RUPEE_BREAKDOWN.where1RupeeGoes
+                ? currentRupeeData.where1RupeeComesFrom
+                : currentRupeeData.where1RupeeGoes
               ).map((item, idx) => (
                 <div
                   key={idx}
@@ -513,7 +673,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                     width: `${item.paise}%`,
                     backgroundColor: item.color,
                   }}
-                  title={`${'source' in item ? item.source : item.destination}: ${item.paise} paise`}
+                  title={`${'source' in item && item.source ? item.source : item.destination}: ${item.paise} paise (${item.paise}%)`}
                   className="transition-all hover:opacity-85"
                 />
               ))}
@@ -524,52 +684,174 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
             </div>
           </div>
 
-          {/* Visual Legend / Breakdown Cards */}
+          {/* Visual Legend / Breakdown Cards with Category Tagging */}
           <div className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
             {(rupeeTab === 'comes'
-              ? CITIZEN_RUPEE_BREAKDOWN.where1RupeeComesFrom
-              : CITIZEN_RUPEE_BREAKDOWN.where1RupeeGoes
+              ? currentRupeeData.where1RupeeComesFrom
+              : currentRupeeData.where1RupeeGoes
             ).map((item, idx) => {
-              const label = 'source' in item ? item.source : item.destination;
+              const label = 'source' in item && item.source ? item.source : item.destination;
+              const isBorrowing = item.categoryType === 'borrowing_liability';
               return (
                 <div
                   key={idx}
-                  className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50/70 p-2.5 text-xs"
+                  className={`flex flex-col justify-between rounded-xl border p-3 text-xs transition ${
+                    isBorrowing
+                      ? 'border-amber-300 bg-amber-50/60'
+                      : 'border-slate-100 bg-slate-50/70 hover:border-slate-200'
+                  }`}
                 >
-                  <div className="flex items-center gap-2 overflow-hidden pr-2">
-                    <span
-                      className="h-3 w-3 shrink-0 rounded-xs"
-                      style={{ backgroundColor: item.color }}
-                    />
-                    <span className="truncate font-medium text-slate-700" title={label}>
-                      {label}
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-center gap-2 overflow-hidden pr-1">
+                      <span
+                        className="h-3 w-3 shrink-0 rounded-xs"
+                        style={{ backgroundColor: item.color }}
+                      />
+                      <span className="font-bold text-slate-900" title={label}>
+                        {label}
+                      </span>
+                    </div>
+                    <span className="shrink-0 font-black text-slate-900">
+                      {item.paise}p{' '}
+                      <span className="font-normal text-[11px] text-slate-500">
+                        ({item.paise}%)
+                      </span>
                     </span>
                   </div>
-                  <span className="shrink-0 font-extrabold text-slate-900">
-                    {item.paise}p{' '}
-                    <span className="font-normal text-[11px] text-slate-500">
-                      ({item.paise}%)
-                    </span>
-                  </span>
+
+                  {item.categoryLabel && (
+                    <div className="mt-2 flex items-center gap-1.5">
+                      <span
+                        className={`rounded-md px-1.5 py-0.2 text-[9px] font-bold uppercase tracking-wider ${
+                          isBorrowing
+                            ? 'bg-amber-200 text-amber-900'
+                            : 'bg-[#1A3D2F]/10 text-[#1A3D2F]'
+                        }`}
+                      >
+                        {item.categoryLabel}
+                      </span>
+                    </div>
+                  )}
+
+                  {item.description && (
+                    <p className="mt-1.5 text-[11px] leading-relaxed text-slate-600">
+                      {item.description}
+                    </p>
+                  )}
+
+                  {item.officialSourceUrl && (
+                    <div className="mt-2 pt-1 border-t border-slate-100 flex justify-end">
+                      <a
+                        href={item.officialSourceUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-[10px] text-[#1A3D2F] font-semibold hover:underline inline-flex items-center gap-0.5"
+                      >
+                        <span>Official Source Citation</span>
+                        <ExternalLink size={9} strokeWidth={1.5} />
+                      </a>
+                    </div>
+                  )}
                 </div>
               );
             })}
+          </div>
+
+          {/* Civic Primer on Receipts Categories */}
+          <div className="mt-6 border-t border-slate-100 pt-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+              Citizen Guide: Understanding Budget Receipts Classification
+            </h4>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 text-xs">
+              <div className="rounded-xl border border-slate-200 bg-white p-3">
+                <span className="font-bold text-[#1A3D2F] block">Direct Taxes</span>
+                <p className="mt-1 text-[11px] text-slate-600 leading-relaxed">
+                  Compulsory statutory taxes levied on the earnings of citizens and corporate entities (Income Tax, Corporation Tax). The liability cannot be shifted to consumers.
+                </p>
+              </div>
+              <div className="rounded-xl border border-slate-200 bg-white p-3">
+                <span className="font-bold text-[#1A3D2F] block">Indirect Taxes</span>
+                <p className="mt-1 text-[11px] text-slate-600 leading-relaxed">
+                  Taxes charged on consumption, manufacturing, and trade of goods and services (GST, Customs, Union Excise). Shifted onto the final consumer in retail prices.
+                </p>
+              </div>
+              <div className="rounded-xl border border-slate-200 bg-white p-3">
+                <span className="font-bold text-[#1A3D2F] block">Non-Tax Revenue</span>
+                <p className="mt-1 text-[11px] text-slate-600 leading-relaxed">
+                  Earnings realized from services provided by the Union: RBI surplus transfers (₹2.11L Cr), CPSE dividends, spectrum usage charges, and administrative user fees.
+                </p>
+              </div>
+              <div className="rounded-xl border border-amber-200 bg-amber-50/50 p-3">
+                <span className="font-bold text-amber-900 block">Borrowings (Financing)</span>
+                <p className="mt-1 text-[11px] text-amber-800 leading-relaxed">
+                  Market debt borrowed via government bonds and treasury bills to finance the fiscal deficit gap. This creates future interest repayment obligations; it is not tax revenue.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Visual Storytelling: Capital Spending Trend Chart */}
       <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
-        <AccessibleChart
-          title="Union Capital Outlay (Infrastructure & Asset Creation) Trend: 2014 to 2026"
-          unit="₹ Lakh Crore"
-          referencePeriod="FY 2014-15 to FY 2025-26 (BE)"
-          takeaway="Central Capital Expenditure (railways, highways, defence equipment, port infrastructure) grew more than 6-fold from ₹1.96 Lakh Crore (11.8% of total budget) in 2014-15 to ₹11.90 Lakh Crore (23.3% of total budget) in 2025-26, reflecting a structural shift from routine administrative consumption toward productive national physical assets."
-          sourceName="Union Budget Receipts and Disbursements Statements & Controller General of Accounts (CGA) Audited Actuals"
-          sourceUrl="https://www.indiabudget.gov.in/"
-          limitations="FY 2024-25 figures represent Revised Estimates (RE) and FY 2025-26 represent Budget Estimates (BE) approved by Parliament; final audited actuals are confirmed by CGA 18-24 months after financial year conclusion."
-          data={CAPEX_TREND_DATA}
-        />
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              Historical Public Investment Trajectory
+            </span>
+            <p className="text-xs text-slate-600">
+              Distinguishing direct central capital outlays from grants-in-aid for state asset creation.
+            </p>
+          </div>
+
+          {/* Toggle View: Direct Capex vs Effective Capex */}
+          <div className="inline-flex rounded-lg border border-[#E5E0D8] bg-[#F5F2EB] p-1 text-xs font-semibold">
+            <button
+              onClick={() => setCapexView('direct')}
+              className={`rounded-md px-3 py-1.5 transition cursor-pointer ${
+                capexView === 'direct'
+                  ? 'bg-white text-[#181A19] shadow-xs font-bold'
+                  : 'text-[#5C645E] hover:text-[#181A19]'
+              }`}
+            >
+              Direct Capital Expenditure
+            </button>
+            <button
+              onClick={() => setCapexView('effective')}
+              className={`rounded-md px-3 py-1.5 transition cursor-pointer ${
+                capexView === 'effective'
+                  ? 'bg-white text-[#181A19] shadow-xs font-bold'
+                  : 'text-[#5C645E] hover:text-[#181A19]'
+              }`}
+            >
+              Direct vs Effective Capex (incl. Grants-in-Aid)
+            </button>
+          </div>
+        </div>
+
+        {capexView === 'direct' ? (
+          <AccessibleChart
+            title="Union Capital Outlay (Direct Physical Asset Creation) Trend: FY 2014-15 to FY 2025-26"
+            unit="₹ Lakh Crore"
+            referencePeriod="FY 2014-15 to FY 2025-26 (BE)"
+            takeaway="Central Capital Expenditure (expressways, freight corridors, railway modernization, defense hardware, port infrastructure) grew nearly 6-fold from ₹1.96 Lakh Crore (11.8% of total budget) in FY 2014-15 to ₹10.18 Lakh Crore (RE) in FY 2024-25 and ₹11.21 Lakh Crore (BE) in FY 2025-26. Note: FY 2024-25 was originally budgeted at ₹11.11 Lakh Crore (BE) and revised mid-year to ₹10.18 Lakh Crore (RE); FY 2025-26 BE stands at ₹11.21 Lakh Crore."
+            sourceName="Union Budget Trends in Expenditure (Statement 4) & CGA Audited Finance Accounts"
+            sourceUrl="https://www.indiabudget.gov.in/"
+            limitations="Figures from FY 2014-15 to FY 2023-24 represent audited actuals confirmed by Controller General of Accounts (CGA). FY 2024-25 figures represent Revised Estimates (RE) alongside original BE (₹11.11L Cr). FY 2025-26 represents parliamentary Budget Estimates (BE). Effective Capex including grants to states is presented separately."
+            data={DIRECT_CAPEX_TREND_DATA}
+          />
+        ) : (
+          <AccessibleChart
+            title="Direct Capital Outlay vs Effective Capital Expenditure (Including Grants-in-Aid to States)"
+            unit="₹ Lakh Crore"
+            referencePeriod="FY 2014-15 to FY 2025-26"
+            takeaway="Effective Capital Expenditure includes direct central capital spending plus Grants-in-Aid provided to State Governments specifically earmarked for creating durable physical assets (such as PMGSY rural roads and irrigation). In FY 2024-25, Effective Capex BE reached ₹15.02 Lakh Crore (4.6% of GDP) vs direct Capex of ₹11.11 Lakh Crore. In FY 2025-26, Effective Capex BE is ₹15.48 Lakh Crore (4.3% of GDP) vs direct Capex of ₹11.21 Lakh Crore."
+            sourceName="Union Budget at a Glance (Statement 1) & Budget Highlights, Ministry of Finance"
+            sourceUrl="https://www.indiabudget.gov.in/"
+            limitations="Under constitutional accounting standards, Grants-in-Aid transferred to states are accounted under the Revenue Account because asset ownership vests with the state, not the Union. The Ministry of Finance reports 'Effective Capital Expenditure' as an analytical consolidation of total national public investment."
+            data={EFFECTIVE_CAPEX_TREND_DATA}
+          />
+        )}
       </section>
 
       {/* Visual Storytelling: How Public Money Moves Through Government */}
@@ -581,7 +863,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
           </div>
           <h2 className="mt-1 text-xl font-bold text-slate-900">How Tax Money Moves Through Indian Government</h2>
           <p className="mt-1 text-xs text-slate-600">
-            Understand how citizen taxes move from revenue collection to parliamentary authorization, actual ground release, and final constitutional audit.
+            A transparent walkthrough of public finance: from tax collection to parliamentary approval, mid-year recalibration, cash accounting, and independent constitutional audit.
           </p>
 
           <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
@@ -589,35 +871,35 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#181A19] text-xs font-bold text-white mb-2">1</span>
               <h3 className="font-serif font-bold text-[#181A19] text-xs">Revenue Inflow</h3>
               <p className="text-[11px] text-[#5C645E] mt-1 leading-relaxed">
-                Taxes (GST, Income Tax, Corporate Tax) and non-tax receipts enter the Consolidated Fund of India (Article 266).
+                Taxes (direct and indirect), non-tax earnings (like RBI surplus dividends and CPSE profits), and capital receipts flow into the Consolidated Fund of India (Article 266).
               </p>
             </div>
             <div className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-4 relative">
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#1A3D2F] text-xs font-bold text-white mb-2">2</span>
-              <h3 className="font-serif font-bold text-[#181A19] text-xs">Budget Ceiling (BE)</h3>
+              <h3 className="font-serif font-bold text-[#181A19] text-xs">Budget Estimates (BE)</h3>
               <p className="text-[11px] text-[#5C645E] mt-1 leading-relaxed">
-                Parliament passes the Appropriation Bill in March. This authorizes maximum permissible spending, not cash spent.
+                Original government budget projections approved by Parliament in the annual Appropriation Act. An approved BE is a statutory spending authorization ceiling, not money actually spent.
               </p>
             </div>
             <div className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-4 relative">
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#181A19] text-xs font-bold text-white mb-2">3</span>
-              <h3 className="font-serif font-bold text-[#181A19] text-xs">Mid-Year Review (RE)</h3>
+              <h3 className="font-serif font-bold text-[#181A19] text-xs">Revised Estimates (RE)</h3>
               <p className="text-[11px] text-[#5C645E] mt-1 leading-relaxed">
-                Ministries adjust targets in December based on ground pace, monsoon variations, and supplementary demand grants.
+                Updated projections reflecting mid-year adjustments, ground execution pace, and supplementary grants. RE is a revised operational projection presented to Parliament, not an audited result.
               </p>
             </div>
             <div className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-4 relative">
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#1A3D2F] text-xs font-bold text-white mb-2">4</span>
-              <h3 className="font-serif font-bold text-[#181A19] text-xs">Actual Outflow</h3>
+              <h3 className="font-serif font-bold text-[#181A19] text-xs">Actual Accounts</h3>
               <p className="text-[11px] text-[#5C645E] mt-1 leading-relaxed">
-                Ministries release funds to contractors, states, and DBT bank accounts via CGA and PFMS accounting systems.
+                Recorded cash receipts and disbursements documented by ministries through the Controller General of Accounts (CGA) and the Public Financial Management System (PFMS).
               </p>
             </div>
             <div className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-4 relative">
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#B45309] text-xs font-bold text-white mb-2">5</span>
               <h3 className="font-serif font-bold text-[#181A19] text-xs">CAG Constitutional Audit</h3>
               <p className="text-[11px] text-[#5C645E] mt-1 leading-relaxed">
-                The Comptroller & Auditor General examines accounts for waste, delays, or unauthorized diversions, tabled before PAC.
+                Independent constitutional audit under Article 151 examining legal regularity, financial propriety, and project delays. An audit evaluates compliance and identifies systemic flaws; it does not automatically certify that every scheme fulfilled its intended social outcome.
               </p>
             </div>
           </div>
@@ -716,7 +998,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
         <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
           <div className="grid grid-cols-1 gap-3 md:grid-cols-12">
             {/* Search */}
-            <div className="relative md:col-span-4">
+            <div className="relative md:col-span-3">
               <Search
                 size={16}
                 strokeWidth={1.5}
@@ -745,6 +1027,21 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
               </select>
             </div>
 
+            {/* Financial Year Filter */}
+            <div className="md:col-span-2">
+              <select
+                value={selectedFY}
+                onChange={(e) => setSelectedFY(e.target.value)}
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs text-slate-700 focus:border-slate-400 focus:bg-white focus:outline-hidden"
+              >
+                <option value="all">All Financial Years</option>
+                <option value="2024-25">FY 2024-25</option>
+                <option value="2023-24">FY 2023-24</option>
+                <option value="2025-26">FY 2025-26</option>
+                <option value="2022-23">FY 2022-23</option>
+              </select>
+            </div>
+
             {/* Ministry */}
             <div className="md:col-span-3">
               <select
@@ -762,7 +1059,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
             </div>
 
             {/* Figure Type */}
-            <div className="md:col-span-3">
+            <div className="md:col-span-2">
               <select
                 value={selectedFigureType}
                 onChange={(e) => setSelectedFigureType(e.target.value)}
@@ -926,40 +1223,143 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                       </div>
                     </div>
 
-                    {/* Specific Details depending on section */}
-                    <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                      {record.budgetEstimateCr != null && (
-                        <div className="rounded-lg border border-slate-100 bg-slate-50/70 p-2.5">
-                          <p className="text-[10px] font-medium text-slate-500">Budget Estimate (BE)</p>
-                          <p className="mt-0.5 text-xs font-bold text-[#1A3D2F]">
-                            {formatInLakhCrore(record.budgetEstimateCr)}
-                          </p>
-                        </div>
-                      )}
-                      {record.revisedEstimateCr != null && (
-                        <div className="rounded-lg border border-slate-100 bg-slate-50/70 p-2.5">
-                          <p className="text-[10px] font-medium text-slate-500">Revised Estimate (RE)</p>
-                          <p className="mt-0.5 text-xs font-bold text-amber-700">
-                            {formatInLakhCrore(record.revisedEstimateCr)}
-                          </p>
-                        </div>
-                      )}
-                      {record.actualAmountCr != null && (
-                        <div className="rounded-lg border border-slate-100 bg-slate-50/70 p-2.5">
-                          <p className="text-[10px] font-medium text-slate-500">Audited Actual</p>
-                          <p className="mt-0.5 text-xs font-bold text-emerald-700">
-                            {formatInLakhCrore(record.actualAmountCr)}
-                          </p>
-                        </div>
-                      )}
-                      {record.previousYearAmountCr != null && (
-                        <div className="rounded-lg border border-slate-100 bg-slate-50/70 p-2.5">
-                          <p className="text-[10px] font-medium text-slate-500">Prior Financial Year</p>
-                          <p className="mt-0.5 text-xs font-bold text-slate-700">
-                            {formatInLakhCrore(record.previousYearAmountCr)}
-                          </p>
-                        </div>
-                      )}
+                    {/* Specific Details & Compact BE vs RE vs Actual Variance Table */}
+                    <div className="mt-4 overflow-hidden rounded-xl border border-slate-200 bg-white">
+                      <div className="border-b border-slate-100 bg-slate-50/70 px-3 py-2 flex items-center justify-between">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700">
+                          Fiscal Accounting Breakdown & Dynamic Variance: {record.financialYear}
+                        </span>
+                        <span className="text-[10px] text-slate-500 font-mono">Figures in ₹ Crore</span>
+                      </div>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left text-xs">
+                          <thead className="bg-[#FAF8F5] text-slate-600 border-b border-slate-100 font-semibold text-[11px]">
+                            <tr>
+                              <th className="px-3.5 py-2">Measure</th>
+                              <th className="px-3.5 py-2 text-right">Value (₹ Cr)</th>
+                              <th className="px-3.5 py-2 text-right">In Lakh Crore</th>
+                              <th className="px-3.5 py-2 text-right">Variance vs BE</th>
+                              <th className="px-3.5 py-2">Classification Nature</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-100 font-mono">
+                            {record.budgetEstimateCr != null && (
+                              <tr className="hover:bg-slate-50/50">
+                                <td className="px-3.5 py-2 font-sans font-semibold text-[#1A3D2F]">
+                                  Budget Estimate (BE)
+                                </td>
+                                <td className="px-3.5 py-2 text-right font-bold text-slate-900">
+                                  ₹{record.budgetEstimateCr.toLocaleString('en-IN')} Cr
+                                </td>
+                                <td className="px-3.5 py-2 text-right text-slate-700">
+                                  {formatInLakhCrore(record.budgetEstimateCr)}
+                                </td>
+                                <td className="px-3.5 py-2 text-right text-slate-400 font-sans">
+                                  Baseline target
+                                </td>
+                                <td className="px-3.5 py-2 font-sans text-[11px] text-slate-500">
+                                  Initial approved authorization ceiling
+                                </td>
+                              </tr>
+                            )}
+                            {record.revisedEstimateCr != null && (
+                              <tr className="hover:bg-slate-50/50">
+                                <td className="px-3.5 py-2 font-sans font-semibold text-amber-800">
+                                  Revised Estimate (RE)
+                                </td>
+                                <td className="px-3.5 py-2 text-right font-bold text-amber-900">
+                                  ₹{record.revisedEstimateCr.toLocaleString('en-IN')} Cr
+                                </td>
+                                <td className="px-3.5 py-2 text-right text-amber-800">
+                                  {formatInLakhCrore(record.revisedEstimateCr)}
+                                </td>
+                                <td className="px-3.5 py-2 text-right font-bold font-sans">
+                                  {record.budgetEstimateCr != null ? (
+                                    (() => {
+                                      const diff = record.revisedEstimateCr - record.budgetEstimateCr;
+                                      const diffPct = ((diff / record.budgetEstimateCr) * 100).toFixed(1);
+                                      if (diff === 0) return <span className="text-slate-500">0.0% (Matched)</span>;
+                                      return diff > 0 ? (
+                                        <span className="text-emerald-700">+{diffPct}% (+{formatInLakhCrore(diff)})</span>
+                                      ) : (
+                                        <span className="text-rose-700">{diffPct}% (-{formatInLakhCrore(Math.abs(diff))})</span>
+                                      );
+                                    })()
+                                  ) : (
+                                    '—'
+                                  )}
+                                </td>
+                                <td className="px-3.5 py-2 font-sans text-[11px] text-slate-500">
+                                  Mid-year calibrated projection
+                                </td>
+                              </tr>
+                            )}
+                            {record.actualAmountCr != null && (
+                              <tr className="hover:bg-slate-50/50 bg-emerald-50/20">
+                                <td className="px-3.5 py-2 font-sans font-bold text-emerald-900">
+                                  Audited / Confirmed Actual
+                                </td>
+                                <td className="px-3.5 py-2 text-right font-black text-emerald-900">
+                                  ₹{record.actualAmountCr.toLocaleString('en-IN')} Cr
+                                </td>
+                                <td className="px-3.5 py-2 text-right font-bold text-emerald-800">
+                                  {formatInLakhCrore(record.actualAmountCr)}
+                                </td>
+                                <td className="px-3.5 py-2 text-right font-bold font-sans">
+                                  {record.budgetEstimateCr != null ? (
+                                    (() => {
+                                      const diff = record.actualAmountCr - record.budgetEstimateCr;
+                                      const diffPct = ((diff / record.budgetEstimateCr) * 100).toFixed(1);
+                                      if (diff === 0) return <span className="text-slate-500">0.0% (Exact)</span>;
+                                      return diff > 0 ? (
+                                        <span className="text-emerald-700">+{diffPct}% (+{formatInLakhCrore(diff)})</span>
+                                      ) : (
+                                        <span className="text-rose-700">{diffPct}% (-{formatInLakhCrore(Math.abs(diff))})</span>
+                                      );
+                                    })()
+                                  ) : (
+                                    '—'
+                                  )}
+                                </td>
+                                <td className="px-3.5 py-2 font-sans text-[11px] text-slate-600">
+                                  Recorded cash accounts (CGA / Treasury)
+                                </td>
+                              </tr>
+                            )}
+                            {record.previousYearAmountCr != null && (
+                              <tr className="hover:bg-slate-50/50 text-slate-600">
+                                <td className="px-3.5 py-2 font-sans font-medium text-slate-600">
+                                  Prior Financial Year Actual
+                                </td>
+                                <td className="px-3.5 py-2 text-right text-slate-700">
+                                  ₹{record.previousYearAmountCr.toLocaleString('en-IN')} Cr
+                                </td>
+                                <td className="px-3.5 py-2 text-right text-slate-600">
+                                  {formatInLakhCrore(record.previousYearAmountCr)}
+                                </td>
+                                <td className="px-3.5 py-2 text-right font-sans">
+                                  {record.actualAmountCr != null ? (
+                                    (() => {
+                                      const yoy = record.actualAmountCr - record.previousYearAmountCr;
+                                      const yoyPct = ((yoy / record.previousYearAmountCr) * 100).toFixed(1);
+                                      return yoy >= 0 ? (
+                                        <span className="text-emerald-700 font-semibold">+{yoyPct}% YoY</span>
+                                      ) : (
+                                        <span className="text-rose-700 font-semibold">{yoyPct}% YoY</span>
+                                      );
+                                    })()
+                                  ) : (
+                                    '—'
+                                  )}
+                                </td>
+                                <td className="px-3.5 py-2 font-sans text-[11px] text-slate-500">
+                                  Historical audited baseline
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
 
                     {/* Progress / Utilization rates where available */}
@@ -1159,27 +1559,27 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
       {/* 10. Citizen Rights & Transparency Callout */}
       <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
         <div className="rounded-2xl border border-[#143025] bg-[#1A3D2F] p-6 text-white sm:p-8 shadow-md">
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-start">
             <div className="max-w-2xl">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-emerald-300">
-                <ShieldCheck size={14} strokeWidth={1.5} /> Constitutional Accountability
+                <ShieldCheck size={14} strokeWidth={1.5} /> Constitutional Accountability & Public Audit
               </span>
-              <h3 className="mt-3 text-xl font-extrabold sm:text-2xl">
+              <h3 className="mt-3 text-xl font-extrabold sm:text-2xl font-serif">
                 How Can You Audit Public Expenditure in Your Area?
               </h3>
               <p className="mt-2 text-xs leading-relaxed text-slate-300 sm:text-sm">
                 Every citizen has the legal right to inspect expenditure records of gram panchayats,
-                municipal wards, and central schemes under the Right to Information (RTI) Act 2005.
-                You can review real-time panchayat budgets on the e-GramSwaraj portal and central
-                disbursements on the Public Financial Management System (PFMS).
+                municipal bodies, and public schemes under the Right to Information (RTI) Act 2005.
+                Public finance tracking requires understanding where data is documented, what audits examine,
+                and how to verify whether approved budgets reached actual physical implementation.
               </p>
             </div>
-            <div className="flex shrink-0 flex-col gap-2.5 sm:flex-row">
+            <div className="flex shrink-0 flex-wrap gap-2.5 sm:flex-row">
               <a
                 href="https://egramswaraj.gov.in/"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-xs font-bold text-slate-900 transition hover:bg-slate-100"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-3.5 py-2 text-xs font-bold text-slate-900 transition hover:bg-slate-100"
               >
                 <span>e-GramSwaraj Portal</span>
                 <ArrowUpRight size={14} strokeWidth={1.5} />
@@ -1188,11 +1588,75 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 href="https://pfms.nic.in/"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 text-xs font-bold text-white transition hover:bg-white/20"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-3.5 py-2 text-xs font-bold text-white transition hover:bg-white/20"
               >
                 <span>PFMS Disbursements</span>
                 <ArrowUpRight size={14} strokeWidth={1.5} />
               </a>
+              <a
+                href="https://cag.gov.in/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-400/30 bg-emerald-950/40 px-3.5 py-2 text-xs font-bold text-emerald-300 transition hover:bg-emerald-900/60"
+              >
+                <span>CAG Audit Reports</span>
+                <ArrowUpRight size={14} strokeWidth={1.5} />
+              </a>
+            </div>
+          </div>
+
+          {/* Structured Civic Audit Framework Grid */}
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+              <div className="flex items-center gap-2 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+                <FileText size={15} strokeWidth={1.5} />
+                <span>1. How Spending Is Documented</span>
+              </div>
+              <p className="mt-2 text-xs leading-relaxed text-slate-300">
+                All Union ministries and Centrally Sponsored Schemes route disbursements through the <strong>Public Financial Management System (PFMS)</strong> and Single Nodal Agency (SNA) accounts. Every rupee is assigned a multi-digit budget classification head (Major, Minor, and Object Head) under the Controller General of Accounts (CGA).
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+              <div className="flex items-center gap-2 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+                <Search size={15} strokeWidth={1.5} />
+                <span>2. Where Spending Data Lives</span>
+              </div>
+              <p className="mt-2 text-xs leading-relaxed text-slate-300">
+                • <strong>Gram Panchayats:</strong> e-GramSwaraj shows approved Gram Panchayat Development Plans (GPDP), vendor payments, and geotagged works.<br />
+                • <strong>Direct Benefit Transfers:</strong> PFMS portal tracks individual DBT payments.<br />
+                • <strong>National Accounts:</strong> Monthly receipts and expenditure summaries are published by CGA at <em>cga.nic.in</em>.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+              <div className="flex items-center gap-2 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+                <ShieldCheck size={15} strokeWidth={1.5} />
+                <span>3. What CAG Audits Reveal</span>
+              </div>
+              <p className="mt-2 text-xs leading-relaxed text-slate-300">
+                The CAG performs constitutional audits under Article 151 covering compliance, financial accuracy, and scheme performance. Audits reveal cost overruns, idle assets, diversions, or procedural lapses. <em>A CAG audit tests systemic compliance; it does not verify every single transaction across India.</em>
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+              <div className="flex items-center gap-2 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+                <PieChart size={15} strokeWidth={1.5} />
+                <span>4. Comparing Allocations vs Actuals</span>
+              </div>
+              <p className="mt-2 text-xs leading-relaxed text-slate-300">
+                Citizens can cross-reference the <strong>Demands for Grants</strong> (approved BE limit) with <strong>Appropriation Accounts</strong> (actual audited spending tabled two years later). This comparison reveals whether a department under-utilized funds or surrendered budgeted allocations at fiscal year-end.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-amber-400/20 bg-amber-950/20 p-4 sm:col-span-2">
+              <div className="flex items-center gap-2 text-amber-300 text-xs font-bold uppercase tracking-wider">
+                <Info size={15} strokeWidth={1.5} />
+                <span>5. Transparency Boundaries: What Is Not Publicly Available</span>
+              </div>
+              <p className="mt-2 text-xs leading-relaxed text-amber-100/90">
+                While governance transparency in India is statutory, not every financial transaction is directly searchable in real time by the general public. Under <strong>Section 8 of the RTI Act 2005</strong>, information affecting national sovereignty, military operations, strategic defense procurements, intelligence budgets, and confidential personal banking details are legally exempt from public disclosure.
+              </p>
             </div>
           </div>
         </div>
