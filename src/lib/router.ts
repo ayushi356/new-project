@@ -13,6 +13,9 @@ export type Route =
   | { name: 'promises' }
   | { name: 'incidents' }
   | { name: 'public-money'; section?: string }
+  | { name: 'public-money-explorer'; section?: string; recordId?: string }
+  | { name: 'budget-explained' }
+  | { name: 'citizen-toolkit' }
   | { name: 'press-freedom' }
   | { name: 'environment' }
   | { name: 'society' }
@@ -37,7 +40,18 @@ function parseHash(): Route {
   if (parts[0] === 'yojnas') return { name: 'yojnas' };
   if (parts[0] === 'promises') return { name: 'promises' };
   if (parts[0] === 'incidents') return { name: 'incidents' };
-  if (parts[0] === 'public-money') return { name: 'public-money', section: parts[1] };
+  if (parts[0] === 'public-money') {
+    if (parts[1] === 'explorer') return { name: 'public-money-explorer', section: parts[2], recordId: parts[3] };
+    if (parts[1] === 'explained' || parts[1] === 'budget-explained') return { name: 'budget-explained' };
+    if (parts[1] === 'toolkit' || parts[1] === 'citizen-toolkit') return { name: 'citizen-toolkit' };
+    return { name: 'public-money', section: parts[1] };
+  }
+  if (parts[0] === 'public-money-explorer' || parts[0] === 'financial-explorer')
+    return { name: 'public-money-explorer', section: parts[1], recordId: parts[2] };
+  if (parts[0] === 'budget-explained' || parts[0] === 'budget-process')
+    return { name: 'budget-explained' };
+  if (parts[0] === 'citizen-toolkit' || parts[0] === 'accountability-toolkit')
+    return { name: 'citizen-toolkit' };
   if (parts[0] === 'press-freedom') return { name: 'press-freedom' };
   if (parts[0] === 'environment') return { name: 'environment' };
   if (parts[0] === 'society' || parts[0] === 'rights-society' || parts[0] === 'women') return { name: 'society' };

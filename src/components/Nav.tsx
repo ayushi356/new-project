@@ -62,7 +62,7 @@ export function Navbar() {
   const isHomeActive = route.name === 'home';
   const isPartiesActive = route.name === 'parties' || route.name === 'party';
   const isGovernanceActive = ['works', 'work', 'yojnas', 'promises', 'leaders', 'leader', 'ministers'].includes(route.name);
-  const isPublicMoneyActive = route.name === 'public-money';
+  const isPublicMoneyActive = ['public-money', 'public-money-explorer', 'budget-explained', 'citizen-toolkit'].includes(route.name);
   const isSocietyActive = ['society', 'environment', 'press-freedom', 'incidents'].includes(route.name);
   const isAboutActive = route.name === 'about';
 
@@ -75,12 +75,10 @@ export function Navbar() {
   ];
 
   const publicMoneyItems: NavDropdownItem[] = [
-    { path: '/public-money', label: 'Treasury & Spending Overview', description: 'Where ₹1 comes from & goes: ₹48.2 Lakh Cr Union Budget' },
-    { path: '/public-money/revenue', label: '1. Revenue Sources', description: 'Direct and indirect taxes, GST, and non-tax receipts' },
-    { path: '/public-money/allocations', label: '2. Budget Allocations', description: 'Ministry-wise ceilings authorized by Parliament' },
-    { path: '/public-money/expenditure', label: '3. Actual Expenditure', description: 'Actual disbursements compared against estimates' },
-    { path: '/public-money/audits', label: '6. Audits & CAG Findings', description: 'Constitutional audit findings on cost overruns & lapses' },
-    { path: '/public-money/debt', label: '8. Debt & Financial Liabilities', description: 'Public debt, market borrowings and interest servicing' },
+    { path: '/public-money', label: 'Treasury & Spending Overview', description: 'Clean overview: Citizen’s Rupee, macroeconomic totals & Capex trends' },
+    { path: '/public-money/explorer', label: 'Financial Data Explorer', description: 'Filter and inspect all public finance records, allocations & audits' },
+    { path: '/public-money/explained', label: 'Budget & Expenditure Explained', description: 'Plain-language guide to BE, RE, Actuals, Capex vs Outlay & CAG audits' },
+    { path: '/public-money/toolkit', label: 'Citizen Accountability Toolkit', description: 'Tools and sources (PFMS, e-GramSwaraj, CAG) to audit local spending' },
   ];
 
   const societyItems: NavDropdownItem[] = [

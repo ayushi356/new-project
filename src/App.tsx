@@ -12,6 +12,9 @@ import { YojnasPage } from '@/pages/YojnasPage';
 import { PromisesPage } from '@/pages/PromisesPage';
 import { IncidentsPage } from '@/pages/IncidentsPage';
 import { PublicMoneyPage } from '@/pages/PublicMoneyPage';
+import { FinancialDataExplorerPage } from '@/pages/FinancialDataExplorerPage';
+import { BudgetExplainedPage } from '@/pages/BudgetExplainedPage';
+import { CitizenToolkitPage } from '@/pages/CitizenToolkitPage';
 import { MediaFreedomPage } from '@/pages/MediaFreedomPage';
 import { EnvironmentPage } from '@/pages/EnvironmentPage';
 import { SocietyPage } from '@/pages/SocietyPage';
@@ -60,6 +63,20 @@ function App() {
       break;
     case 'public-money':
       page = <PublicMoneyPage initialSection={route.section} />;
+      break;
+    case 'public-money-explorer':
+      page = (
+        <FinancialDataExplorerPage
+          initialSection={route.section}
+          initialRecordId={route.recordId}
+        />
+      );
+      break;
+    case 'budget-explained':
+      page = <BudgetExplainedPage />;
+      break;
+    case 'citizen-toolkit':
+      page = <CitizenToolkitPage />;
       break;
     case 'press-freedom':
       page = <MediaFreedomPage />;
