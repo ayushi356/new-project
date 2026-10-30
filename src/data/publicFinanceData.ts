@@ -107,8 +107,8 @@ export const FINANCIAL_SECTIONS: SectionMeta[] = [
 ];
 
 /**
- * Macro Citizen Dashboard Data: "The Citizen's Rupee"
- * Visual representation of 1 Rupee (100 Paise) of Union Receipts & Expenditure
+ * Macro Citizen Dashboard Data: Percentage-Based Distribution of Union Money
+ * Visual representation of 100% of Union Receipts & Expenditure
  * Sourced directly from official Union Budget documents (Ministry of Finance, Government of India)
  */
 export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
@@ -133,6 +133,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
     where1RupeeComesFrom: [
       {
         source: 'Borrowings & Other Liabilities',
+        percentage: 27,
+        exactAmountCr: 1301538,
         paise: 27,
         color: '#B45309',
         categoryType: 'borrowing_liability',
@@ -143,6 +145,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         source: 'Income Tax',
+        percentage: 19,
+        exactAmountCr: 915897,
         paise: 19,
         color: '#1A3D2F',
         categoryType: 'direct_tax',
@@ -153,6 +157,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         source: 'Goods & Services Tax (GST)',
+        percentage: 18,
+        exactAmountCr: 867692,
         paise: 18,
         color: '#275240',
         categoryType: 'indirect_tax',
@@ -163,6 +169,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         source: 'Corporation Tax',
+        percentage: 17,
+        exactAmountCr: 819487,
         paise: 17,
         color: '#366852',
         categoryType: 'direct_tax',
@@ -173,6 +181,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         source: 'Non-Tax Receipts',
+        percentage: 9,
+        exactAmountCr: 433846,
         paise: 9,
         color: '#4B7F67',
         categoryType: 'non_tax',
@@ -183,6 +193,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         source: 'Union Excise Duties',
+        percentage: 5,
+        exactAmountCr: 241026,
         paise: 5,
         color: '#689880',
         categoryType: 'indirect_tax',
@@ -193,6 +205,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         source: 'Customs Duties',
+        percentage: 4,
+        exactAmountCr: 192820,
         paise: 4,
         color: '#87B09B',
         categoryType: 'indirect_tax',
@@ -203,6 +217,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         source: 'Non-Debt Capital Receipts',
+        percentage: 1,
+        exactAmountCr: 48205,
         paise: 1,
         color: '#A7C8B6',
         categoryType: 'capital_receipt',
@@ -215,6 +231,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
     where1RupeeGoes: [
       {
         destination: 'States’ Share of Taxes & Duties',
+        percentage: 21,
+        exactAmountCr: 1012308,
         paise: 21,
         color: '#1A3D2F',
         categoryType: 'mandatory_transfer',
@@ -225,6 +243,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         destination: 'Interest Payments on Past Debt',
+        percentage: 19,
+        exactAmountCr: 915897,
         paise: 19,
         color: '#B45309',
         categoryType: 'debt_servicing',
@@ -235,6 +255,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         destination: 'Central Sector Schemes (Full Central Funding)',
+        percentage: 16,
+        exactAmountCr: 771282,
         paise: 16,
         color: '#275240',
         categoryType: 'development_schemes',
@@ -245,6 +267,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         destination: 'Finance Commission & Other Transfers',
+        percentage: 8,
+        exactAmountCr: 385641,
         paise: 8,
         color: '#366852',
         categoryType: 'mandatory_transfer',
@@ -255,6 +279,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         destination: 'Centrally Sponsored Schemes (Centre-State Sharing)',
+        percentage: 8,
+        exactAmountCr: 385641,
         paise: 8,
         color: '#4B7F67',
         categoryType: 'development_schemes',
@@ -265,6 +291,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         destination: 'Defence Outlay',
+        percentage: 8,
+        exactAmountCr: 385641,
         paise: 8,
         color: '#5C9078',
         categoryType: 'defence_security',
@@ -275,6 +303,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         destination: 'Other Operational Expenditure',
+        percentage: 10,
+        exactAmountCr: 482051,
         paise: 10,
         color: '#ABD1BD',
         categoryType: 'operations',
@@ -285,6 +315,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         destination: 'Subsidies (Food, Fertilizer, Fuel)',
+        percentage: 6,
+        exactAmountCr: 289231,
         paise: 6,
         color: '#73A58D',
         categoryType: 'social_subsidies',
@@ -295,6 +327,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         destination: 'Pensions',
+        percentage: 4,
+        exactAmountCr: 192820,
         paise: 4,
         color: '#8EBBA5',
         categoryType: 'pensions',
@@ -326,16 +360,20 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
     where1RupeeComesFrom: [
       {
         source: 'Borrowings & Other Liabilities',
+        percentage: 24,
+        exactAmountCr: 1215683,
         paise: 24,
         color: '#B45309',
         categoryType: 'borrowing_liability',
         categoryLabel: 'Financing Source (Debt Liability)',
         description:
-          'Targeted market borrowings reduced to 24p to maintain the FRBM fiscal deficit glide path below 4.5% of GDP. This is debt financing, not tax revenue.',
+          'Targeted market borrowings reduced to 24% of total budget to maintain the FRBM fiscal deficit glide path below 4.5% of GDP. This is debt financing, not tax revenue.',
         officialSourceUrl: 'https://www.indiabudget.gov.in/',
       },
       {
         source: 'Income Tax',
+        percentage: 22,
+        exactAmountCr: 1114376,
         paise: 22,
         color: '#1A3D2F',
         categoryType: 'direct_tax',
@@ -346,6 +384,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         source: 'Goods & Services Tax (GST)',
+        percentage: 18,
+        exactAmountCr: 911762,
         paise: 18,
         color: '#275240',
         categoryType: 'indirect_tax',
@@ -356,6 +396,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         source: 'Corporation Tax',
+        percentage: 17,
+        exactAmountCr: 861109,
         paise: 17,
         color: '#366852',
         categoryType: 'direct_tax',
@@ -366,6 +408,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         source: 'Non-Tax Receipts',
+        percentage: 9,
+        exactAmountCr: 455881,
         paise: 9,
         color: '#4B7F67',
         categoryType: 'non_tax',
@@ -376,6 +420,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         source: 'Union Excise Duties',
+        percentage: 5,
+        exactAmountCr: 253267,
         paise: 5,
         color: '#689880',
         categoryType: 'indirect_tax',
@@ -386,6 +432,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         source: 'Customs Duties',
+        percentage: 4,
+        exactAmountCr: 202614,
         paise: 4,
         color: '#87B09B',
         categoryType: 'indirect_tax',
@@ -396,6 +444,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         source: 'Non-Debt Capital Receipts',
+        percentage: 1,
+        exactAmountCr: 50653,
         paise: 1,
         color: '#A7C8B6',
         categoryType: 'capital_receipt',
@@ -408,6 +458,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
     where1RupeeGoes: [
       {
         destination: 'States’ Share of Taxes & Duties',
+        percentage: 22,
+        exactAmountCr: 1114376,
         paise: 22,
         color: '#1A3D2F',
         categoryType: 'mandatory_transfer',
@@ -418,6 +470,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         destination: 'Interest Payments on Past Debt',
+        percentage: 20,
+        exactAmountCr: 1013069,
         paise: 20,
         color: '#B45309',
         categoryType: 'debt_servicing',
@@ -428,6 +482,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         destination: 'Central Sector Schemes (Full Central Funding)',
+        percentage: 16,
+        exactAmountCr: 810455,
         paise: 16,
         color: '#275240',
         categoryType: 'development_schemes',
@@ -438,6 +494,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         destination: 'Defence Outlay',
+        percentage: 8,
+        exactAmountCr: 405228,
         paise: 8,
         color: '#5C9078',
         categoryType: 'defence_security',
@@ -448,6 +506,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         destination: 'Centrally Sponsored Schemes (Centre-State Sharing)',
+        percentage: 8,
+        exactAmountCr: 405228,
         paise: 8,
         color: '#4B7F67',
         categoryType: 'development_schemes',
@@ -458,6 +518,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         destination: 'Finance Commission & Other Transfers',
+        percentage: 8,
+        exactAmountCr: 405228,
         paise: 8,
         color: '#366852',
         categoryType: 'mandatory_transfer',
@@ -468,6 +530,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         destination: 'Other Operational Expenditure',
+        percentage: 8,
+        exactAmountCr: 405228,
         paise: 8,
         color: '#ABD1BD',
         categoryType: 'operations',
@@ -478,6 +542,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         destination: 'Major Subsidies (Food, Fertilizer, Fuel)',
+        percentage: 6,
+        exactAmountCr: 303921,
         paise: 6,
         color: '#73A58D',
         categoryType: 'social_subsidies',
@@ -488,6 +554,8 @@ export const CITIZEN_RUPEE_DATASETS: CitizenRupeeDataset[] = [
       },
       {
         destination: 'Pensions',
+        percentage: 4,
+        exactAmountCr: 202614,
         paise: 4,
         color: '#8EBBA5',
         categoryType: 'pensions',

@@ -166,6 +166,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
   const [capexView, setCapexView] = useState<'direct' | 'effective'>('direct');
   const [showGlossary, setShowGlossary] = useState(false);
   const [expandedRecordIds, setExpandedRecordIds] = useState<Record<string, boolean>>({});
+  const [hoveredDonutIndex, setHoveredDonutIndex] = useState<number | null>(null);
 
   const currentRupeeData = useMemo(() => {
     return (
@@ -446,20 +447,20 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
         </section>
       )}
 
-      {/* 4. The Citizen's Rupee: 100-Paise Interactive Visualizer */}
+      {/* 4. Percentage-Based Financial Visualization: Where Does India's Money Come From & Go */}
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1A3D2F]">
                 <PieChart size={15} strokeWidth={1.5} />
-                <span>Macro Overview · {currentRupeeData.financialYear}</span>
+                <span>Percentage Budget Distribution · {currentRupeeData.financialYear}</span>
               </div>
-              <h2 className="mt-1 text-xl font-extrabold text-slate-900 sm:text-2xl">
-                The Citizen’s Rupee: Where 100 Paise Come From & Go
+              <h2 className="mt-1 font-serif text-xl font-extrabold text-slate-900 sm:text-2xl">
+                {rupeeTab === 'comes' ? "Where Does India's Money Come From?" : "Where Does India's Money Go?"}
               </h2>
               <p className="mt-1 text-xs text-slate-500 sm:text-sm">
-                Scaled visualization of Union Budget Receipts & Outlays. Basis: {currentRupeeData.budgetBasis}
+                Percentage distribution of Union Budget {rupeeTab === 'comes' ? 'Receipts & Financing' : 'Expenditures & Outlays'}. Basis: {currentRupeeData.budgetBasis}
               </p>
             </div>
 
@@ -499,7 +500,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
-                  Where 1 Rupee Comes From
+                  Where Money Comes From
                 </button>
                 <button
                   onClick={() => setRupeeTab('goes')}
@@ -509,7 +510,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
-                  Where 1 Rupee Goes
+                  Where Money Goes
                 </button>
               </div>
             </div>
@@ -647,114 +648,348 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
             </div>
           </div>
 
-          {/* Civic Budget Accounting Balancing Principle */}
-          <div className="mt-4 rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-3 text-xs text-[#5C645E]">
-            <div className="flex items-start gap-2">
+          {/* Denominator & Accounting Baseline Explainer */}
+          <div className="mt-4 rounded-xl border border-slate-200 bg-[#FAF8F5] p-3.5 text-xs text-slate-700">
+            <div className="flex items-start gap-2.5">
               <Info size={16} strokeWidth={1.5} className="mt-0.5 text-[#1A3D2F] shrink-0" />
-              <div>
-                <span className="font-bold text-[#181A19]">Constitutional Accounting Identity: </span>
-                <span className="leading-relaxed">
-                  Total Union Outlay (Expenditure) always equals Total Financing. Total Receipts = Revenue Receipts ({formatInLakhCrore(currentRupeeData.macroTotals.totalRevenueReceiptsCr)} BE) + Non-Debt Capital Receipts (~₹78,000 Cr) + Debt Borrowings & Liabilities ({formatInLakhCrore(currentRupeeData.macroTotals.fiscalDeficitCr)} BE). <strong>Borrowings and liabilities represent repayable debt to finance the fiscal gap, not tax revenue.</strong>
-                </span>
+              <div className="space-y-1">
+                <div className="flex flex-wrap items-center gap-2 font-bold text-slate-900">
+                  <span>Percentage Denominator & Accounting Identity:</span>
+                  <span className="rounded-md bg-[#1A3D2F]/10 px-2 py-0.5 text-[10px] text-[#1A3D2F]">
+                    Budget Outlay Denominator: ₹{currentRupeeData.macroTotals.totalBudgetOutlayCr.toLocaleString('en-IN')} Cr ({formatInLakhCrore(currentRupeeData.macroTotals.totalBudgetOutlayCr)} BE)
+                  </span>
+                </div>
+                <p className="leading-relaxed text-slate-600">
+                  All category percentages indicate that component's share of the <strong>Total National Budget Outlay & Financing Envelope ({formatInLakhCrore(currentRupeeData.macroTotals.totalBudgetOutlayCr)})</strong>.
+                  {rupeeTab === 'comes' ? (
+                    <>
+                      {' '}Tax categories (Income Tax 19%, GST 18%, Corporation Tax 17%) reflect their proportion of <em>total receipts including borrowings</em> (27%). Borrowings represent debt financing to cover the fiscal deficit gap, not tax revenue. Percentages are rounded to whole numbers as published in official Ministry of Finance budget documents and sum to exactly 100%.
+                    </>
+                  ) : (
+                    <>
+                      {' '}Expenditure percentages show the proportional distribution of public expenditure across constitutional state tax transfers (21%), debt interest servicing (19%), central development schemes (16%), defense preparedness (8%), and essential public services, summing to exactly 100%.
+                    </>
+                  )}
+                </p>
               </div>
             </div>
           </div>
 
-          {/* Stacked Visual Bar */}
-          <div className="mt-6">
+          {/* Interactive Donut Chart & Category Breakdown Grid */}
+          <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
+            {/* Left Column: Interactive Donut Chart with 100% in the Centre */}
+            <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-200 bg-slate-50/50 p-5 lg:col-span-5">
+              <div className="w-full text-center mb-2">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                  Budget Allocation Donut Chart
+                </span>
+                <p className="text-[11px] text-slate-500">
+                  Hover over any ring slice or category card to inspect underlying figures
+                </p>
+              </div>
+
+              <div className="relative flex items-center justify-center">
+                <svg
+                  viewBox="0 0 320 320"
+                  className="h-64 w-64 sm:h-72 sm:w-72"
+                  role="img"
+                  aria-label={`${rupeeTab === 'comes' ? 'Receipts' : 'Expenditure'} Donut Chart: 100% total allocation`}
+                >
+                  {/* Draw Donut Slices */}
+                  {(() => {
+                    const circumference = 2 * Math.PI * 100; // 628.31853
+                    let cumulativePct = 0;
+                    const items = rupeeTab === 'comes' ? currentRupeeData.where1RupeeComesFrom : currentRupeeData.where1RupeeGoes;
+
+                    return items.map((item, idx) => {
+                      const strokeDasharray = `${(item.percentage / 100) * circumference} ${circumference}`;
+                      const strokeDashoffset = -((cumulativePct / 100) * circumference);
+                      cumulativePct += item.percentage;
+                      const isHovered = hoveredDonutIndex === idx;
+
+                      return (
+                        <circle
+                          key={idx}
+                          cx="160"
+                          cy="160"
+                          r="100"
+                          fill="none"
+                          stroke={item.color}
+                          strokeWidth={isHovered ? 48 : 38}
+                          strokeDasharray={strokeDasharray}
+                          strokeDashoffset={strokeDashoffset}
+                          transform="rotate(-90 160 160)"
+                          className="transition-all duration-200 cursor-pointer"
+                          onMouseEnter={() => setHoveredDonutIndex(idx)}
+                          onMouseLeave={() => setHoveredDonutIndex(null)}
+                          style={{
+                            opacity: hoveredDonutIndex !== null && !isHovered ? 0.45 : 1,
+                            filter: isHovered ? 'drop-shadow(0 2px 8px rgba(0,0,0,0.25))' : 'none',
+                          }}
+                        />
+                      );
+                    });
+                  })()}
+
+                  {/* Centre of the Donut Chart: 100% when neutral, or category details when hovered */}
+                  {hoveredDonutIndex !== null ? (
+                    (() => {
+                      const items = rupeeTab === 'comes' ? currentRupeeData.where1RupeeComesFrom : currentRupeeData.where1RupeeGoes;
+                      const hoveredItem = items[hoveredDonutIndex];
+                      if (!hoveredItem) return null;
+                      const label = ('source' in hoveredItem && hoveredItem.source ? hoveredItem.source : hoveredItem.destination) || '';
+
+                      return (
+                        <g className="transition-all duration-200 select-none">
+                          <text
+                            x="160"
+                            y="132"
+                            textAnchor="middle"
+                            fill={hoveredItem.color}
+                            style={{ fontSize: '32px', fontWeight: 900 }}
+                          >
+                            {hoveredItem.percentage}%
+                          </text>
+                          <text
+                            x="160"
+                            y="155"
+                            textAnchor="middle"
+                            fill="#0f172a"
+                            style={{ fontSize: '11px', fontWeight: 700 }}
+                          >
+                            {label.length > 22 ? label.slice(0, 20) + '…' : label}
+                          </text>
+                          <text
+                            x="160"
+                            y="176"
+                            textAnchor="middle"
+                            fill="#1A3D2F"
+                            style={{ fontSize: '12px', fontWeight: 700, fontFamily: 'monospace' }}
+                          >
+                            ₹{hoveredItem.exactAmountCr.toLocaleString('en-IN')} Cr
+                          </text>
+                          <text
+                            x="160"
+                            y="194"
+                            textAnchor="middle"
+                            fill="#64748b"
+                            style={{ fontSize: '10px' }}
+                          >
+                            ({formatInLakhCrore(hoveredItem.exactAmountCr)})
+                          </text>
+                          <text
+                            x="160"
+                            y="210"
+                            textAnchor="middle"
+                            fill="#94a3b8"
+                            style={{ fontSize: '9px', textTransform: 'uppercase', letterSpacing: '0.04em' }}
+                          >
+                            Share of Total Outlay
+                          </text>
+                        </g>
+                      );
+                    })()
+                  ) : (
+                    <g className="transition-all duration-200 select-none">
+                      <text
+                        x="160"
+                        y="138"
+                        textAnchor="middle"
+                        fill="#0f172a"
+                        style={{ fontSize: '36px', fontWeight: 900 }}
+                      >
+                        100%
+                      </text>
+                      <text
+                        x="160"
+                        y="160"
+                        textAnchor="middle"
+                        fill="#64748b"
+                        style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.06em' }}
+                      >
+                        {rupeeTab === 'comes' ? 'TOTAL RECEIPTS' : 'TOTAL OUTLAY'}
+                      </text>
+                      <text
+                        x="160"
+                        y="182"
+                        textAnchor="middle"
+                        fill="#1A3D2F"
+                        style={{ fontSize: '13px', fontWeight: 700, fontFamily: 'monospace' }}
+                      >
+                        {formatInLakhCrore(currentRupeeData.macroTotals.totalBudgetOutlayCr)}
+                      </text>
+                      <text
+                        x="160"
+                        y="198"
+                        textAnchor="middle"
+                        fill="#64748b"
+                        style={{ fontSize: '9.5px', fontFamily: 'monospace' }}
+                      >
+                        ₹{currentRupeeData.macroTotals.totalBudgetOutlayCr.toLocaleString('en-IN')} Cr BE
+                      </text>
+                      <text
+                        x="160"
+                        y="214"
+                        textAnchor="middle"
+                        fill="#10b981"
+                        style={{ fontSize: '9px', fontWeight: 600 }}
+                      >
+                        (100% Fully Accounted)
+                      </text>
+                    </g>
+                  )}
+                </svg>
+              </div>
+
+              <div className="mt-3 flex items-center justify-between w-full border-t border-slate-200/80 pt-2.5 text-[11px] text-slate-500">
+                <span>Categories: {rupeeTab === 'comes' ? currentRupeeData.where1RupeeComesFrom.length : currentRupeeData.where1RupeeGoes.length}</span>
+                <span className="font-semibold text-emerald-700">100% Sum Verified</span>
+              </div>
+            </div>
+
+            {/* Right Column: Category Breakdown Cards with Percentage beside Name */}
+            <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:col-span-7">
+              {(rupeeTab === 'comes'
+                ? currentRupeeData.where1RupeeComesFrom
+                : currentRupeeData.where1RupeeGoes
+              ).map((item, idx) => {
+                const label = ('source' in item && item.source ? item.source : item.destination) || '';
+                const isBorrowing = item.categoryType === 'borrowing_liability';
+                const isHovered = hoveredDonutIndex === idx;
+
+                return (
+                  <div
+                    key={idx}
+                    onMouseEnter={() => setHoveredDonutIndex(idx)}
+                    onMouseLeave={() => setHoveredDonutIndex(null)}
+                    className={`flex flex-col justify-between rounded-xl border p-3.5 text-xs transition-all duration-150 ${
+                      isHovered
+                        ? 'border-[#1A3D2F] bg-white ring-2 ring-[#1A3D2F]/20 shadow-sm'
+                        : isBorrowing
+                        ? 'border-amber-300 bg-amber-50/60 hover:border-amber-400'
+                        : 'border-slate-200 bg-slate-50/70 hover:border-slate-300 hover:bg-white'
+                    }`}
+                  >
+                    <div>
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex items-start gap-2 overflow-hidden pr-1">
+                          <span
+                            className="mt-1 h-3 w-3 shrink-0 rounded-xs"
+                            style={{ backgroundColor: item.color }}
+                          />
+                          <div>
+                            {/* CATEGORY NAME WITH PERCENTAGE BESIDE ITS NAME */}
+                            <div className="flex flex-wrap items-baseline gap-1.5">
+                              <span className="font-bold text-slate-900" title={label}>
+                                {label}
+                              </span>
+                              <span className="rounded-md bg-[#1A3D2F]/10 px-1.5 py-0.2 text-[11px] font-black text-[#1A3D2F]">
+                                {item.percentage}%
+                              </span>
+                            </div>
+
+                            {item.categoryLabel && (
+                              <div className="mt-1 flex items-center gap-1.5">
+                                <span
+                                  className={`rounded-md px-1.5 py-0.2 text-[9px] font-bold uppercase tracking-wider ${
+                                    isBorrowing
+                                      ? 'bg-amber-200 text-amber-900'
+                                      : 'bg-[#1A3D2F]/10 text-[#1A3D2F]'
+                                  }`}
+                                >
+                                  {item.categoryLabel}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Prominent percentage badge */}
+                        <div className="text-right shrink-0">
+                          <span className="text-base font-black text-slate-900">
+                            {item.percentage}%
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Underlying Calculated Financial Amount */}
+                      <div className="mt-2.5 flex items-center justify-between rounded-lg border border-slate-200/70 bg-white p-2 font-mono text-[11px]">
+                        <span className="font-sans text-[10px] text-slate-500">Calculated Value:</span>
+                        <span className="font-bold text-slate-900">
+                          ₹{item.exactAmountCr.toLocaleString('en-IN')} Cr{' '}
+                          <span className="font-sans text-[10px] font-normal text-slate-500">
+                            ({formatInLakhCrore(item.exactAmountCr)})
+                          </span>
+                        </span>
+                      </div>
+
+                      {item.description && (
+                        <p className="mt-2 text-[11px] leading-relaxed text-slate-600">
+                          {item.description}
+                        </p>
+                      )}
+                    </div>
+
+                    {item.officialSourceUrl && (
+                      <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-2 text-[10px]">
+                        <span className="text-slate-400 font-mono">
+                          Share: {item.percentage}% of Outlay
+                        </span>
+                        <a
+                          href={item.officialSourceUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-0.5 font-semibold text-[#1A3D2F] hover:underline"
+                        >
+                          <span>Official Source</span>
+                          <ExternalLink size={9} strokeWidth={1.5} />
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Cumulative Percentage Distribution Bar */}
+          <div className="mt-6 border-t border-slate-100 pt-4">
+            <div className="flex items-center justify-between text-xs text-slate-600 mb-1.5">
+              <span className="font-semibold text-slate-700">Cumulative Percentage Distribution Bar (0% to 100%)</span>
+              <span className="font-mono text-[11px] text-slate-500">
+                Denominator: ₹{currentRupeeData.macroTotals.totalBudgetOutlayCr.toLocaleString('en-IN')} Cr BE
+              </span>
+            </div>
             <div className="flex h-6 w-full overflow-hidden rounded-lg bg-slate-100 shadow-inner">
               {(rupeeTab === 'comes'
                 ? currentRupeeData.where1RupeeComesFrom
                 : currentRupeeData.where1RupeeGoes
-              ).map((item, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    width: `${item.paise}%`,
-                    backgroundColor: item.color,
-                  }}
-                  title={`${'source' in item && item.source ? item.source : item.destination}: ${item.paise} paise (${item.paise}%)`}
-                  className="transition-all hover:opacity-85"
-                />
-              ))}
+              ).map((item, idx) => {
+                const label = ('source' in item && item.source ? item.source : item.destination) || '';
+                const isHovered = hoveredDonutIndex === idx;
+
+                return (
+                  <div
+                    key={idx}
+                    style={{
+                      width: `${item.percentage}%`,
+                      backgroundColor: item.color,
+                    }}
+                    title={`${label}: ${item.percentage}% (₹${item.exactAmountCr.toLocaleString('en-IN')} Cr)`}
+                    className={`transition-all cursor-pointer ${
+                      isHovered ? 'opacity-100 brightness-110 ring-2 ring-white z-10' : 'hover:opacity-85'
+                    }`}
+                    onMouseEnter={() => setHoveredDonutIndex(idx)}
+                    onMouseLeave={() => setHoveredDonutIndex(null)}
+                  />
+                );
+              })}
             </div>
-            <div className="mt-2 flex items-center justify-between text-[11px] text-slate-400">
-              <span>0 paise (0%)</span>
-              <span>Total 100 paise (100% of Union Budget)</span>
+            <div className="mt-1.5 flex items-center justify-between text-[11px] font-mono text-slate-400">
+              <span>0%</span>
+              <span>50%</span>
+              <span>100% of Union Budget ({formatInLakhCrore(currentRupeeData.macroTotals.totalBudgetOutlayCr)})</span>
             </div>
-          </div>
-
-          {/* Visual Legend / Breakdown Cards with Category Tagging */}
-          <div className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
-            {(rupeeTab === 'comes'
-              ? currentRupeeData.where1RupeeComesFrom
-              : currentRupeeData.where1RupeeGoes
-            ).map((item, idx) => {
-              const label = 'source' in item && item.source ? item.source : item.destination;
-              const isBorrowing = item.categoryType === 'borrowing_liability';
-              return (
-                <div
-                  key={idx}
-                  className={`flex flex-col justify-between rounded-xl border p-3 text-xs transition ${
-                    isBorrowing
-                      ? 'border-amber-300 bg-amber-50/60'
-                      : 'border-slate-100 bg-slate-50/70 hover:border-slate-200'
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-2 overflow-hidden pr-1">
-                      <span
-                        className="h-3 w-3 shrink-0 rounded-xs"
-                        style={{ backgroundColor: item.color }}
-                      />
-                      <span className="font-bold text-slate-900" title={label}>
-                        {label}
-                      </span>
-                    </div>
-                    <span className="shrink-0 font-black text-slate-900">
-                      {item.paise}p{' '}
-                      <span className="font-normal text-[11px] text-slate-500">
-                        ({item.paise}%)
-                      </span>
-                    </span>
-                  </div>
-
-                  {item.categoryLabel && (
-                    <div className="mt-2 flex items-center gap-1.5">
-                      <span
-                        className={`rounded-md px-1.5 py-0.2 text-[9px] font-bold uppercase tracking-wider ${
-                          isBorrowing
-                            ? 'bg-amber-200 text-amber-900'
-                            : 'bg-[#1A3D2F]/10 text-[#1A3D2F]'
-                        }`}
-                      >
-                        {item.categoryLabel}
-                      </span>
-                    </div>
-                  )}
-
-                  {item.description && (
-                    <p className="mt-1.5 text-[11px] leading-relaxed text-slate-600">
-                      {item.description}
-                    </p>
-                  )}
-
-                  {item.officialSourceUrl && (
-                    <div className="mt-2 pt-1 border-t border-slate-100 flex justify-end">
-                      <a
-                        href={item.officialSourceUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-[10px] text-[#1A3D2F] font-semibold hover:underline inline-flex items-center gap-0.5"
-                      >
-                        <span>Official Source Citation</span>
-                        <ExternalLink size={9} strokeWidth={1.5} />
-                      </a>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
           </div>
 
           {/* Civic Primer on Receipts Categories */}

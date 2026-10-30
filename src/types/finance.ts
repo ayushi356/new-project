@@ -131,7 +131,9 @@ export type ExpenditureCategoryType =
 export interface CitizenRupeeItem {
   source?: string;
   destination?: string;
-  paise: number;
+  percentage: number;                // Percentage share of total budget outlay (e.g. 27 for 27%)
+  exactAmountCr: number;             // Underlying calculated financial amount in ₹ Crore
+  paise: number;                     // Kept for backward compatibility
   color: string;
   categoryType?: ReceiptCategoryType | ExpenditureCategoryType;
   categoryLabel?: string;
