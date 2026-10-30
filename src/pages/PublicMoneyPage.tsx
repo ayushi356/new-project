@@ -12,6 +12,7 @@ import {
   ArrowRight,
   BookOpen,
   ArrowUpRight,
+  Info,
 } from 'lucide-react';
 import {
   CITIZEN_RUPEE_DATASETS,
@@ -37,24 +38,24 @@ const CAPEX_SERIES_MAP: Record<'expenditure' | 'outlay' | 'effective', {
   data: CapexSeriesItem[];
 }> = {
   expenditure: {
-    title: 'Union Government Capital Expenditure · ₹ Lakh Crore',
+    title: 'Union Capital Expenditure Trajectory · ₹ Lakh Crore',
     shortLabel: 'Capital Expenditure',
-    subtitle: 'Total capital disbursements under Article 112, combining central asset creation with 50-year interest-free capital loans to states.',
+    subtitle: 'Total capital disbursements under Article 112, combining central infrastructure creation with 50-year interest-free capital loans to states.',
     denominatorNote: 'Capital Expenditure (₹11.11 Lakh Cr BE in FY 2024–25; revised to ₹10.18 Lakh Cr RE) includes direct central capital outlay PLUS ₹1.92 Lakh Cr in 50-year interest-free capital loans disbursed to state governments under the SASCI scheme.',
     maxY: 15,
     data: [
-      { year: '2020–21', actual: 4.1, actualStatus: 'audited', be: 4.4, re: 4.3, note: 'Audited Finance Accounts (CGA/CAG)' },
-      { year: '2021–22', actual: 5.5, actualStatus: 'audited', be: 5.9, re: 5.7, note: 'Audited Finance Accounts (CGA/CAG)' },
-      { year: '2022–23', actual: 7.5, actualStatus: 'audited', be: 7.3, re: 7.3, note: 'Audited Finance Accounts (CGA/CAG)' },
-      { year: '2023–24', actual: 9.5, actualStatus: 'audited', be: 9.5, re: 9.4, note: 'Audited Finance Accounts (CGA/CAG)' },
-      { year: '2024–25', actual: null, actualStatus: 'provisional_cga', be: 11.1, re: 10.2, note: 'Actual is provisional CGA accounts (~₹9.85L Cr); final audited Finance Accounts pending CAG audit tabling.' },
-      { year: '2025–26', actual: null, actualStatus: 'pending', be: 11.2, re: 11.2, note: 'Budget Estimate approved by Parliament.' },
+      { year: '2020–21', actual: 4.26, actualStatus: 'audited', be: 4.12, re: 4.39, note: 'Audited Finance Accounts (CGA/CAG)' },
+      { year: '2021–22', actual: 5.93, actualStatus: 'audited', be: 5.54, re: 6.03, note: 'Audited Finance Accounts (CGA/CAG)' },
+      { year: '2022–23', actual: 7.36, actualStatus: 'audited', be: 7.50, re: 7.28, note: 'Audited Finance Accounts (CGA/CAG)' },
+      { year: '2023–24', actual: 9.49, actualStatus: 'audited', be: 10.01, re: 9.50, note: 'Audited Finance Accounts (CGA/CAG)' },
+      { year: '2024–25', actual: null, actualStatus: 'provisional_cga', be: 11.11, re: 10.18, note: 'Actuals pending CAG audit. Provisional CGA monthly accounts record ~₹9.85 Lakh Crore.' },
+      { year: '2025–26', actual: null, actualStatus: 'pending', be: 11.21, re: 11.21, note: 'Budget Estimate approved by Parliament.' },
     ],
   },
   outlay: {
-    title: 'Union Government Capital Outlay · ₹ Lakh Crore',
+    title: 'Union Capital Outlay Trajectory · ₹ Lakh Crore',
     shortLabel: 'Capital Outlay',
-    subtitle: 'Direct physical assets created by the Centre: national highways, railway track doubling, defense hardware, and ports.',
+    subtitle: 'Direct physical assets created by the Centre: national highways, railway track doubling, defense equipment, and ports.',
     denominatorNote: 'Capital Outlay measures strictly direct physical asset creation by Union Ministries (₹9.19 Lakh Cr BE in FY 2024–25; revised to ₹8.37 Lakh Cr RE). It excludes loans to states, differentiating it from the ₹11.11 Lakh Cr total Capex figure.',
     maxY: 12,
     data: [
@@ -62,12 +63,12 @@ const CAPEX_SERIES_MAP: Record<'expenditure' | 'outlay' | 'effective', {
       { year: '2021–22', actual: 4.60, actualStatus: 'audited', be: 4.35, re: 4.70, note: 'Audited direct asset creation.' },
       { year: '2022–23', actual: 6.09, actualStatus: 'audited', be: 6.10, re: 5.86, note: 'Audited direct asset creation.' },
       { year: '2023–24', actual: 8.35, actualStatus: 'audited', be: 8.40, re: 8.30, note: 'Audited direct asset creation.' },
-      { year: '2024–25', actual: null, actualStatus: 'provisional_cga', be: 9.19, re: 8.37, note: 'BE of ₹9.19L Cr (~₹9,19,401 Cr) direct outlay, revised to ₹8.37L Cr. Actual provisional CGA.' },
-      { year: '2025–26', actual: null, actualStatus: 'pending', be: 9.38, re: 9.38, note: 'Budget Estimate: ₹9.38L Cr for direct physical asset creation.' },
+      { year: '2024–25', actual: null, actualStatus: 'provisional_cga', be: 9.19, re: 8.37, note: 'Actuals pending CAG audit. Provisional CGA accounts record ~₹8.20 Lakh Crore direct outlay.' },
+      { year: '2025–26', actual: null, actualStatus: 'pending', be: 9.38, re: 9.38, note: 'Budget Estimate: ₹9.38 Lakh Crore for direct physical asset creation.' },
     ],
   },
   effective: {
-    title: 'Union Government Effective Capital Expenditure · ₹ Lakh Crore',
+    title: 'Effective Capital Expenditure Trajectory · ₹ Lakh Crore',
     shortLabel: 'Effective Capex',
     subtitle: 'Consolidated national investment footprint, adding capital grants-in-aid given to states for rural roads, housing, and irrigation.',
     denominatorNote: 'Under constitutional accounting standards, grants given to states for asset creation are accounted under Revenue Account because assets belong to states. Effective Capex consolidates this to show total public investment (₹15.02 Lakh Cr BE in FY 2024–25).',
@@ -98,7 +99,7 @@ interface PublicMoneyPageProps {
 export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
   const navigate = useNavigate();
 
-  // If initial section is 'explorer' or specific section, navigate appropriately
+  // If initial section is 'explorer' or specific subpath, navigate appropriately
   useEffect(() => {
     if (initialSection === 'explorer') {
       navigate('/public-money/explorer');
@@ -111,6 +112,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
 
   // State for Section 1: Financial Year
   const [selectedMacroYear, setSelectedMacroYear] = useState<string>('2024-25');
+  const [activeTooltipCard, setActiveTooltipCard] = useState<string | null>(null);
 
   // State for Section 2: Citizen's Rupee
   const [rupeeTab, setRupeeTab] = useState<'comes' | 'goes'>('comes');
@@ -227,23 +229,19 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
       {/* Main Content Sections Container */}
       <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 space-y-8">
         {/* ========================================================= */}
-        {/* SECTION 2 — UNION GOVERNMENT FINANCES AT A GLANCE (1)    */}
+        {/* SECTION 2 — UNION GOVERNMENT FINANCES AT A GLANCE         */}
+        {/* Clean Editorial Heading (No Numbered Circle)              */}
         {/* ========================================================= */}
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs sm:p-7">
           {/* Header */}
           <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-            <div className="flex items-center gap-3">
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#181A19] text-xs font-bold text-white shrink-0">
-                1
-              </span>
-              <div>
-                <h2 className="font-serif text-lg font-bold text-slate-900 sm:text-xl">
-                  Union Government Finances at a Glance
-                </h2>
-                <p className="text-xs text-slate-500">
-                  Key figures from the Union Budget ({selectedMacroYear === '2024-25' ? 'FY 2024–25' : 'FY 2025–26'})
-                </p>
-              </div>
+            <div>
+              <h2 className="font-serif text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
+                Union Government Finances at a Glance
+              </h2>
+              <p className="mt-0.5 text-xs text-[#5C645E]">
+                Key figures from the Union Budget ({selectedMacroYear === '2024-25' ? 'FY 2024–25' : 'FY 2025–26'})
+              </p>
             </div>
 
             {/* FY Selector Dropdown */}
@@ -259,106 +257,186 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
             </div>
           </div>
 
-          {/* 4 Clean Metric Cards */}
+          {/* 4 Clean Metric Cards with Subtle Tooltips */}
           <div className="mt-6 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
             {/* Card 1: Total Expenditure */}
-            <div className="rounded-xl border border-slate-200 bg-[#FAF8F5] p-4 flex flex-col justify-between">
+            <div className="rounded-xl border border-slate-200 bg-[#FAF8F5] p-4 flex flex-col justify-between relative transition hover:border-slate-300">
               <div>
-                <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[#1A3D2F]/10 text-[#1A3D2F]">
-                    <Landmark size={14} />
-                  </span>
-                  <span>Total Expenditure</span>
+                <div className="flex items-center justify-between text-xs font-semibold text-slate-600">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[#1A3D2F]/10 text-[#1A3D2F]">
+                      <Landmark size={14} />
+                    </span>
+                    <span>Total Expenditure</span>
+                  </div>
+                  <button
+                    onClick={() => setActiveTooltipCard(activeTooltipCard === 'expenditure' ? null : 'expenditure')}
+                    className="text-slate-400 hover:text-slate-700 cursor-pointer p-0.5"
+                    title="View measure definition and source"
+                  >
+                    <Info size={13} />
+                  </button>
                 </div>
-                <p className="mt-3 text-xl font-extrabold font-serif text-slate-900 sm:text-2xl">
+                <p className="mt-3 text-2xl font-extrabold font-serif text-slate-900">
                   {formatInLakhCrore(currentRupeeData.macroTotals.totalBudgetOutlayCr)}
+                </p>
+                <p className="text-[11px] font-mono text-slate-500 mt-0.5">
+                  ₹{currentRupeeData.macroTotals.totalBudgetOutlayCr.toLocaleString('en-IN')} Cr
                 </p>
               </div>
               <div className="mt-3 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[11px] text-slate-500">
-                <span>Budget Estimate (BE)</span>
-                <span title="Total parliamentary spending authorization ceiling under Article 112">ⓘ</span>
+                <span className="font-semibold text-slate-700">Budget Estimate (BE)</span>
+                <span>RE: {formatInLakhCrore(currentRupeeData.macroTotals.totalBudgetOutlayReCr || 4716487)}</span>
               </div>
+
+              {/* Subtle Tooltip Box */}
+              {activeTooltipCard === 'expenditure' && (
+                <div className="absolute left-2 right-2 top-full mt-1.5 z-20 rounded-lg border border-slate-200 bg-white p-3 shadow-md text-xs text-slate-700 space-y-1">
+                  <p><strong>Measure:</strong> Total legal spending ceiling authorized by Parliament under Article 112.</p>
+                  <p><strong>Status:</strong> Budget Estimate (BE 2024–25); revised mid-year to ₹47.16 Lakh Cr (RE).</p>
+                  <p className="text-[11px] text-[#1A3D2F]"><strong>Source:</strong> Union Budget at a Glance, Statement 1.</p>
+                </div>
+              )}
             </div>
 
             {/* Card 2: Revenue Receipts */}
-            <div className="rounded-xl border border-slate-200 bg-[#FAF8F5] p-4 flex flex-col justify-between">
+            <div className="rounded-xl border border-slate-200 bg-[#FAF8F5] p-4 flex flex-col justify-between relative transition hover:border-slate-300">
               <div>
-                <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[#1A3D2F]/10 text-[#1A3D2F]">
-                    <Receipt size={14} />
-                  </span>
-                  <span>Revenue Receipts</span>
+                <div className="flex items-center justify-between text-xs font-semibold text-slate-600">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[#1A3D2F]/10 text-[#1A3D2F]">
+                      <Receipt size={14} />
+                    </span>
+                    <span>Revenue Receipts</span>
+                  </div>
+                  <button
+                    onClick={() => setActiveTooltipCard(activeTooltipCard === 'revenue' ? null : 'revenue')}
+                    className="text-slate-400 hover:text-slate-700 cursor-pointer p-0.5"
+                    title="View measure definition and source"
+                  >
+                    <Info size={13} />
+                  </button>
                 </div>
-                <p className="mt-3 text-xl font-extrabold font-serif text-slate-900 sm:text-2xl">
+                <p className="mt-3 text-2xl font-extrabold font-serif text-slate-900">
                   {formatInLakhCrore(currentRupeeData.macroTotals.totalRevenueReceiptsCr)}
+                </p>
+                <p className="text-[11px] font-mono text-slate-500 mt-0.5">
+                  ₹{currentRupeeData.macroTotals.totalRevenueReceiptsCr.toLocaleString('en-IN')} Cr
                 </p>
               </div>
               <div className="mt-3 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[11px] text-slate-500">
-                <span>Budget Estimate (BE)</span>
-                <span title="Net tax receipts plus non-tax revenues (dividends and fees)">ⓘ</span>
+                <span className="font-semibold text-slate-700">Budget Estimate (BE)</span>
+                <span>RE: {formatInLakhCrore(currentRupeeData.macroTotals.totalRevenueReceiptsReCr || 3087960)}</span>
               </div>
+
+              {/* Subtle Tooltip Box */}
+              {activeTooltipCard === 'revenue' && (
+                <div className="absolute left-2 right-2 top-full mt-1.5 z-20 rounded-lg border border-slate-200 bg-white p-3 shadow-md text-xs text-slate-700 space-y-1">
+                  <p><strong>Measure:</strong> Net tax revenues to Centre (₹25.83L Cr) + Non-tax revenue (₹5.46L Cr).</p>
+                  <p><strong>Status:</strong> Budget Estimate (BE 2024–25); revised mid-year to ₹30.88 Lakh Cr (RE).</p>
+                  <p className="text-[11px] text-[#1A3D2F]"><strong>Source:</strong> Receipt Budget, Statement 1: Summary of Receipts.</p>
+                </div>
+              )}
             </div>
 
             {/* Card 3: Capital Expenditure */}
-            <div className="rounded-xl border border-slate-200 bg-[#FAF8F5] p-4 flex flex-col justify-between">
+            <div className="rounded-xl border border-slate-200 bg-[#FAF8F5] p-4 flex flex-col justify-between relative transition hover:border-slate-300">
               <div>
-                <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[#1A3D2F]/10 text-[#1A3D2F]">
-                    <TrendingUp size={14} />
-                  </span>
-                  <span>Capital Expenditure</span>
+                <div className="flex items-center justify-between text-xs font-semibold text-slate-600">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[#1A3D2F]/10 text-[#1A3D2F]">
+                      <TrendingUp size={14} />
+                    </span>
+                    <span>Capital Expenditure</span>
+                  </div>
+                  <button
+                    onClick={() => setActiveTooltipCard(activeTooltipCard === 'capex' ? null : 'capex')}
+                    className="text-slate-400 hover:text-slate-700 cursor-pointer p-0.5"
+                    title="View measure definition and source"
+                  >
+                    <Info size={13} />
+                  </button>
                 </div>
-                <p className="mt-3 text-xl font-extrabold font-serif text-slate-900 sm:text-2xl">
+                <p className="mt-3 text-2xl font-extrabold font-serif text-slate-900">
                   {formatInLakhCrore(currentRupeeData.macroTotals.capitalExpenditureCr)}
+                </p>
+                <p className="text-[11px] font-mono text-slate-500 mt-0.5">
+                  ₹{currentRupeeData.macroTotals.capitalExpenditureCr.toLocaleString('en-IN')} Cr (3.4% of GDP)
                 </p>
               </div>
               <div className="mt-3 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[11px] text-slate-500">
-                <span>Budget Estimate (BE)</span>
-                <span title="3.4% of GDP. Direct physical assets + loans to states">ⓘ</span>
+                <span className="font-semibold text-slate-700">Budget Estimate (BE)</span>
+                <span>RE: {formatInLakhCrore(currentRupeeData.macroTotals.capitalExpenditureReCr || 1018048)}</span>
               </div>
+
+              {/* Subtle Tooltip Box */}
+              {activeTooltipCard === 'capex' && (
+                <div className="absolute left-2 right-2 top-full mt-1.5 z-20 rounded-lg border border-slate-200 bg-white p-3 shadow-md text-xs text-slate-700 space-y-1">
+                  <p><strong>Measure:</strong> Direct central assets (₹9.19L Cr) + SASCI 50-year loans to states (₹1.92L Cr).</p>
+                  <p><strong>Status:</strong> Budget Estimate (BE 2024–25); revised to ₹10.18L Cr (RE). Outlay is ₹9.19L Cr.</p>
+                  <p className="text-[11px] text-[#1A3D2F]"><strong>Source:</strong> Expenditure Budget Statement 4 & Budget Highlights.</p>
+                </div>
+              )}
             </div>
 
             {/* Card 4: Fiscal Deficit */}
-            <div className="rounded-xl border border-slate-200 bg-[#FAF8F5] p-4 flex flex-col justify-between">
+            <div className="rounded-xl border border-slate-200 bg-[#FAF8F5] p-4 flex flex-col justify-between relative transition hover:border-slate-300">
               <div>
-                <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[#1A3D2F]/10 text-[#1A3D2F]">
-                    <PieChart size={14} />
-                  </span>
-                  <span>Fiscal Deficit</span>
+                <div className="flex items-center justify-between text-xs font-semibold text-slate-600">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[#1A3D2F]/10 text-[#1A3D2F]">
+                      <PieChart size={14} />
+                    </span>
+                    <span>Fiscal Deficit</span>
+                  </div>
+                  <button
+                    onClick={() => setActiveTooltipCard(activeTooltipCard === 'deficit' ? null : 'deficit')}
+                    className="text-slate-400 hover:text-slate-700 cursor-pointer p-0.5"
+                    title="View measure definition and source"
+                  >
+                    <Info size={13} />
+                  </button>
                 </div>
-                <p className="mt-3 text-xl font-extrabold font-serif text-slate-900 sm:text-2xl">
+                <p className="mt-3 text-2xl font-extrabold font-serif text-slate-900">
                   {currentRupeeData.macroTotals.fiscalDeficitTargetPct}% of GDP
+                </p>
+                <p className="text-[11px] font-mono text-slate-500 mt-0.5">
+                  ₹{currentRupeeData.macroTotals.fiscalDeficitCr.toLocaleString('en-IN')} Cr
                 </p>
               </div>
               <div className="mt-3 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[11px] text-slate-500">
-                <span>Budget Estimate (BE)</span>
-                <span title="₹16.13 Lakh Cr gap financed through market borrowings">ⓘ</span>
+                <span className="font-semibold text-slate-700">Budget Target (BE)</span>
+                <span>RE: {currentRupeeData.macroTotals.fiscalDeficitRePct || 4.8}% of GDP</span>
               </div>
+
+              {/* Subtle Tooltip Box */}
+              {activeTooltipCard === 'deficit' && (
+                <div className="absolute left-2 right-2 top-full mt-1.5 z-20 rounded-lg border border-slate-200 bg-white p-3 shadow-md text-xs text-slate-700 space-y-1">
+                  <p><strong>Measure:</strong> Total net market borrowing needed to bridge the gap between outlay and non-debt receipts.</p>
+                  <p><strong>Status:</strong> Target BE 4.9% of GDP (₹16.13L Cr); revised to 4.8% RE (-10 bps consolidation).</p>
+                  <p className="text-[11px] text-[#1A3D2F]"><strong>Source:</strong> FRBM Macroeconomic Framework Statement 2024-25.</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
 
         {/* ========================================================= */}
-        {/* SECTION 3 — CITIZEN'S RUPEE FINANCING (2)                 */}
+        {/* SECTION 3 — CITIZEN'S RUPEE FINANCING                     */}
+        {/* Clean Editorial Heading (No Numbered Circle)              */}
         {/* ========================================================= */}
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs sm:p-7">
           {/* Header & Inflow/Outflow Toggles */}
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-            <div className="flex items-center gap-3">
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#181A19] text-xs font-bold text-white shrink-0">
-                2
-              </span>
-              <div>
-                <h2 className="font-serif text-lg font-bold text-slate-900 sm:text-xl">
-                  {rupeeTab === 'comes'
-                    ? 'How Does the Union Government Finance Its Budget?'
-                    : 'How Does the Union Government Spend Its Outlay?'}
-                </h2>
-                <p className="text-xs text-slate-500">
-                  Share of total receipts and financing · {currentRupeeData.financialYear}
-                </p>
-              </div>
+            <div>
+              <h2 className="font-serif text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
+                {rupeeTab === 'comes'
+                  ? 'How Does the Union Government Finance Its Budget?'
+                  : 'How Does the Union Government Spend Its Outlay?'}
+              </h2>
+              <p className="mt-0.5 text-xs text-[#5C645E]">
+                Share of total receipts and financing · {currentRupeeData.financialYear}
+              </p>
             </div>
 
             {/* Toggle: Where Money Comes From vs Goes */}
@@ -395,15 +473,15 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
           {/* 3-Part Component Anatomy matching Reference: Donut | Compact Legend | Selected Detail Panel */}
           <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
             {/* Left: Donut Chart with Total 100% in Center */}
-            <div className="flex flex-col items-center justify-center rounded-xl border border-slate-200/70 bg-slate-50/40 p-4 lg:col-span-4">
+            <div className="flex flex-col items-center justify-center rounded-xl border border-slate-200/70 bg-slate-50/40 p-4 lg:col-span-4 min-h-[380px]">
               <div className="relative flex items-center justify-center">
                 <svg
                   viewBox="0 0 280 280"
-                  className="h-56 w-56 sm:h-64 sm:w-64"
+                  className="h-60 w-60 sm:h-68 sm:w-68 select-none"
                   role="img"
                   aria-label={`${rupeeTab === 'comes' ? 'Receipts' : 'Expenditure'} Donut Chart: 100% total allocation`}
                 >
-                  {/* Slices */}
+                  {/* Interactive Slices */}
                   {(() => {
                     const circumference = 2 * Math.PI * 88; // 552.92
                     let cumulativePct = 0;
@@ -423,11 +501,11 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                           r="88"
                           fill="none"
                           stroke={item.color}
-                          strokeWidth={isSelected || isHovered ? 40 : 32}
+                          strokeWidth={isSelected ? 42 : isHovered ? 38 : 30}
                           strokeDasharray={strokeDasharray}
                           strokeDashoffset={strokeDashoffset}
                           transform="rotate(-90 140 140)"
-                          className="transition-all duration-150 cursor-pointer"
+                          className="transition-all duration-200 cursor-pointer"
                           onMouseEnter={() => setHoveredSliceIndex(idx)}
                           onMouseLeave={() => setHoveredSliceIndex(null)}
                           onClick={() => setSelectedCategoryIndex(idx)}
@@ -436,9 +514,9 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                               (hoveredSliceIndex !== null || selectedCategoryIndex !== null) &&
                               !isSelected &&
                               !isHovered
-                                ? 0.65
+                                ? 0.55
                                 : 1,
-                            filter: isSelected || isHovered ? 'drop-shadow(0 2px 6px rgba(0,0,0,0.2))' : 'none',
+                            filter: isSelected ? 'drop-shadow(0 3px 8px rgba(0,0,0,0.3))' : isHovered ? 'drop-shadow(0 2px 5px rgba(0,0,0,0.2))' : 'none',
                           }}
                         />
                       );
@@ -449,7 +527,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                   <g className="transition-all duration-150 select-none">
                     <text
                       x="140"
-                      y="132"
+                      y="130"
                       textAnchor="middle"
                       fill="#64748B"
                       style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.04em' }}
@@ -461,7 +539,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                       y="158"
                       textAnchor="middle"
                       fill="#0F172A"
-                      style={{ fontSize: '26px', fontWeight: 900 }}
+                      style={{ fontSize: '28px', fontWeight: 900 }}
                     >
                       100%
                     </text>
@@ -470,15 +548,16 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
               </div>
 
               <span className="mt-2 text-[10px] text-slate-400 font-mono">
-                Click any slice or category to inspect
+                Click any donut segment or legend item to inspect
               </span>
             </div>
 
             {/* Middle: Compact Legend List (Reference B) */}
-            <div className="space-y-1.5 lg:col-span-4">
+            <div className="space-y-1.5 lg:col-span-4 min-h-[380px] flex flex-col justify-between">
               {activeCategoryList.map((item, idx) => {
                 const label = ('source' in item && item.source ? item.source : item.destination) || '';
                 const isSelected = selectedCategoryIndex === idx;
+                const isHovered = hoveredSliceIndex === idx;
 
                 return (
                   <button
@@ -488,14 +567,19 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                     onMouseLeave={() => setHoveredSliceIndex(null)}
                     className={`w-full flex items-center justify-between rounded-lg px-3 py-2 text-xs transition cursor-pointer text-left ${
                       isSelected
-                        ? 'bg-[#1A3D2F]/10 border border-[#1A3D2F]/30 font-bold text-slate-900'
+                        ? 'bg-[#1A3D2F]/10 border border-[#1A3D2F]/40 font-bold text-slate-900 shadow-2xs ring-1 ring-[#1A3D2F]/20'
+                        : isHovered
+                        ? 'bg-slate-100 text-slate-900'
                         : 'hover:bg-slate-50 text-slate-700'
                     }`}
                   >
                     <div className="flex items-center gap-2.5 overflow-hidden pr-2">
                       <span
-                        className="h-2.5 w-2.5 shrink-0 rounded-full"
-                        style={{ backgroundColor: item.color }}
+                        className="h-2.5 w-2.5 shrink-0 rounded-full transition-transform"
+                        style={{
+                          backgroundColor: item.color,
+                          transform: isSelected ? 'scale(1.3)' : 'scale(1)',
+                        }}
                       />
                       <span className="truncate">{label}</span>
                     </div>
@@ -508,11 +592,12 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
             </div>
 
             {/* Right: Selected Category Detail Panel (Reference C) */}
-            <div className="rounded-xl border border-slate-200 bg-[#FAF8F5] p-5 lg:col-span-4 flex flex-col justify-between min-h-[280px]">
+            {/* Stable fixed height (h-[380px]) prevents layout shifting when selection changes */}
+            <div className="rounded-xl border border-slate-200 bg-[#FAF8F5] p-5 lg:col-span-4 flex flex-col justify-between min-h-[380px] lg:h-[380px] overflow-y-auto">
               <div>
                 <div className="flex items-center gap-2">
                   <span
-                    className="h-3 w-3 rounded-full shrink-0"
+                    className="h-3.5 w-3.5 rounded-full shrink-0 shadow-2xs"
                     style={{ backgroundColor: activeCategory.color }}
                   />
                   <h3 className="font-bold text-slate-900 text-sm">
@@ -527,11 +612,14 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
 
                 {/* Calculated Rupee Amount */}
                 <p className="mt-1 text-xs font-mono font-bold text-[#1A3D2F]">
-                  {formatInLakhCrore(activeCategory.exactAmountCr)} (BE {selectedMacroYear})
+                  {formatInLakhCrore(activeCategory.exactAmountCr)}{' '}
+                  <span className="text-[10px] text-slate-500 font-sans font-normal">
+                    (₹{activeCategory.exactAmountCr.toLocaleString('en-IN')} Cr · BE {selectedMacroYear})
+                  </span>
                 </p>
 
-                {/* Description */}
-                <p className="mt-3 text-xs leading-relaxed text-slate-600">
+                {/* Plain-Language Description */}
+                <p className="mt-3 text-xs leading-relaxed text-[#2C332E]">
                   {activeCategory.description}
                 </p>
 
@@ -552,9 +640,13 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
               </div>
 
               {/* Note callout for borrowings / financing */}
-              {activeCategory.categoryType === 'borrowing_liability' && (
+              {activeCategory.categoryType === 'borrowing_liability' ? (
                 <div className="mt-4 rounded-lg bg-amber-100/70 border border-amber-300 p-2.5 text-[11px] text-amber-900">
-                  <strong>Note:</strong> Borrowings are financing, not revenue.
+                  <strong>Note:</strong> Borrowings are financing, not revenue. Market borrowings create future debt repayment obligations.
+                </div>
+              ) : (
+                <div className="mt-4 rounded-lg bg-slate-100/70 border border-slate-200 p-2 text-[10px] text-slate-500">
+                  Denominator: ₹{currentRupeeData.macroTotals.totalBudgetOutlayCr.toLocaleString('en-IN')} Cr Total Outlay
                 </div>
               )}
             </div>
@@ -562,23 +654,19 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
         </div>
 
         {/* ========================================================= */}
-        {/* SECTION 4 — CAPITAL EXPENDITURE TREND (3)                 */}
+        {/* SECTION 4 — CAPITAL EXPENDITURE TREND                     */}
+        {/* Clean Editorial Heading & Expanded Height (340px SVG)     */}
         {/* ========================================================= */}
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs sm:p-7">
           {/* Header & Controls */}
           <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-            <div className="flex items-center gap-3">
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#181A19] text-xs font-bold text-white shrink-0">
-                3
-              </span>
-              <div>
-                <h2 className="font-serif text-lg font-bold text-slate-900 sm:text-xl">
-                  How Has Government Investment Changed?
-                </h2>
-                <p className="text-xs text-slate-500">
-                  {currentCapexConfig.title}
-                </p>
-              </div>
+            <div>
+              <h2 className="font-serif text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
+                How Has Government Investment Changed?
+              </h2>
+              <p className="mt-0.5 text-xs text-[#5C645E]">
+                {currentCapexConfig.title}
+              </p>
             </div>
 
             {/* Selectors: Metric & Horizon */}
@@ -588,9 +676,9 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 onChange={(e) => setCapexMetric(e.target.value as 'expenditure' | 'outlay' | 'effective')}
                 className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-semibold text-slate-700 focus:outline-hidden cursor-pointer"
               >
-                <option value="expenditure">Capital Expenditure</option>
-                <option value="outlay">Capital Outlay</option>
-                <option value="effective">Effective Capex</option>
+                <option value="expenditure">Capital Expenditure (Total)</option>
+                <option value="outlay">Capital Outlay (Direct Assets)</option>
+                <option value="effective">Effective Capex (incl. Grants)</option>
               </select>
 
               <select
@@ -604,63 +692,63 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
             </div>
           </div>
 
-          {/* Grouped Vertical Bar Chart (Reference D) */}
+          {/* Grouped Vertical Bar Chart (Reference D) — Increased Height to 340px */}
           <div className="mt-6 overflow-x-auto">
-            <div className="min-w-[560px]">
+            <div className="min-w-[620px]">
               <svg
-                viewBox="0 0 680 260"
-                className="w-full h-64 select-none"
+                viewBox="0 0 760 340"
+                className="w-full h-80 sm:h-96 select-none"
                 role="img"
                 aria-label="Capital Expenditure Grouped Bar Chart"
               >
                 {/* Y-axis grid lines (0, 5, 10, 15) */}
                 {[0, 5, 10, 15].map((val) => {
-                  const y = 210 - (val / 15) * 170;
+                  const y = 270 - (val / 15) * 230;
                   return (
                     <g key={val}>
                       <line
-                        x1="45"
+                        x1="55"
                         y1={y}
-                        x2="655"
+                        x2="735"
                         y2={y}
                         stroke="#E2E8F0"
-                        strokeDasharray={val === 0 ? 'none' : '2 2'}
+                        strokeDasharray={val === 0 ? 'none' : '3 3'}
                         strokeWidth={val === 0 ? 1.5 : 1}
                       />
                       <text
-                        x="38"
-                        y={y + 3.5}
+                        x="46"
+                        y={y + 4}
                         textAnchor="end"
-                        fill="#64748B"
-                        style={{ fontSize: '10px', fontFamily: 'monospace' }}
+                        fill="#4A524D"
+                        style={{ fontSize: '11px', fontFamily: 'monospace', fontWeight: 600 }}
                       >
-                        {val}
+                        ₹{val}L
                       </text>
                     </g>
                   );
                 })}
 
-                {/* 5 Year Groups */}
+                {/* Year Clusters */}
                 {capexDisplayData.map((item, yearIdx) => {
                   const totalSlots = capexDisplayData.length;
-                  const slotWidth = (655 - 45) / totalSlots;
-                  const slotX = 45 + yearIdx * slotWidth;
-                  const barWidth = 20;
-                  const barGap = 3;
-                  const clusterWidth = 3 * barWidth + 2 * barGap; // 66px
+                  const slotWidth = (735 - 55) / totalSlots;
+                  const slotX = 55 + yearIdx * slotWidth;
+                  const barWidth = 24;
+                  const barGap = 4;
+                  const clusterWidth = 3 * barWidth + 2 * barGap; // 80px
                   const startX = slotX + (slotWidth - clusterWidth) / 2;
 
                   // Actual Bar
-                  const actualHeight = item.actual !== null ? (item.actual / 15) * 170 : 0;
-                  const actualY = 210 - actualHeight;
+                  const actualHeight = item.actual !== null ? (item.actual / 15) * 230 : 0;
+                  const actualY = 270 - actualHeight;
 
                   // BE Bar
-                  const beHeight = (item.be / 15) * 170;
-                  const beY = 210 - beHeight;
+                  const beHeight = (item.be / 15) * 230;
+                  const beY = 270 - beHeight;
 
                   // RE Bar
-                  const reHeight = (item.re / 15) * 170;
-                  const reY = 210 - reHeight;
+                  const reHeight = (item.re / 15) * 230;
+                  const reY = 270 - reHeight;
 
                   return (
                     <g key={item.year}>
@@ -673,7 +761,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                               year: item.year,
                               series: 'actual',
                               value: item.actual,
-                              note: 'Audited Finance Accounts (CGA / CAG)',
+                              note: 'Audited cash disbursements recorded through CGA Finance Accounts.',
                             })
                           }
                           onMouseLeave={() => setHoveredBar(null)}
@@ -684,37 +772,52 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                             width={barWidth}
                             height={actualHeight}
                             fill="#1A3D2F"
-                            rx="2"
+                            rx="3"
                           />
                           <text
                             x={startX + barWidth / 2}
-                            y={actualY - 4}
+                            y={actualY - 6}
                             textAnchor="middle"
                             fill="#1A3D2F"
-                            style={{ fontSize: '9px', fontWeight: 800, fontFamily: 'monospace' }}
+                            style={{ fontSize: '10px', fontWeight: 800, fontFamily: 'monospace' }}
                           >
                             {item.actual.toFixed(1)}
                           </text>
                         </g>
                       ) : (
-                        <g>
-                          <line
-                            x1={startX + 3}
-                            y1={208}
-                            x2={startX + barWidth - 3}
-                            y2={208}
-                            stroke="#94A3B8"
-                            strokeWidth="2"
-                            strokeDasharray="2 2"
+                        /* Clearly Distinguish Unavailable / Pending Data from Zero */
+                        <g
+                          className="cursor-pointer"
+                          onMouseEnter={() =>
+                            setHoveredBar({
+                              year: item.year,
+                              series: 'actual',
+                              value: null,
+                              note: item.note,
+                            })
+                          }
+                          onMouseLeave={() => setHoveredBar(null)}
+                        >
+                          {/* Dashed placeholder container distinguishing pending audit from zero */}
+                          <rect
+                            x={startX}
+                            y={270 - 150}
+                            width={barWidth}
+                            height={150}
+                            fill="#F1EFEA"
+                            stroke="#D5CFBF"
+                            strokeWidth="1.5"
+                            strokeDasharray="3 3"
+                            rx="3"
                           />
                           <text
                             x={startX + barWidth / 2}
-                            y={200}
+                            y={270 - 156}
                             textAnchor="middle"
-                            fill="#94A3B8"
+                            fill="#B45309"
                             style={{ fontSize: '9px', fontWeight: 700 }}
                           >
-                            —
+                            Prov.*
                           </text>
                         </g>
                       )}
@@ -727,7 +830,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                             year: item.year,
                             series: 'be',
                             value: item.be,
-                            note: 'Budget Estimate approved by Parliament at start of year.',
+                            note: 'Budget Estimate ceiling approved by Parliament in annual Appropriation Act.',
                           })
                         }
                         onMouseLeave={() => setHoveredBar(null)}
@@ -738,14 +841,14 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                           width={barWidth}
                           height={beHeight}
                           fill="#527863"
-                          rx="2"
+                          rx="3"
                         />
                         <text
                           x={startX + barWidth + barGap + barWidth / 2}
-                          y={beY - 4}
+                          y={beY - 6}
                           textAnchor="middle"
                           fill="#527863"
-                          style={{ fontSize: '9px', fontWeight: 800, fontFamily: 'monospace' }}
+                          style={{ fontSize: '10px', fontWeight: 800, fontFamily: 'monospace' }}
                         >
                           {item.be.toFixed(1)}
                         </text>
@@ -759,7 +862,7 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                             year: item.year,
                             series: 're',
                             value: item.re,
-                            note: 'Revised Estimate presented mid-year.',
+                            note: 'Revised Estimate presented mid-year reflecting ground execution pace.',
                           })
                         }
                         onMouseLeave={() => setHoveredBar(null)}
@@ -770,26 +873,26 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                           width={barWidth}
                           height={reHeight}
                           fill="#B45309"
-                          rx="2"
+                          rx="3"
                         />
                         <text
                           x={startX + 2 * (barWidth + barGap) + barWidth / 2}
-                          y={reY - 4}
+                          y={reY - 6}
                           textAnchor="middle"
                           fill="#B45309"
-                          style={{ fontSize: '9px', fontWeight: 800, fontFamily: 'monospace' }}
+                          style={{ fontSize: '10px', fontWeight: 800, fontFamily: 'monospace' }}
                         >
                           {item.re.toFixed(1)}
                         </text>
                       </g>
 
-                      {/* X-axis Year Label */}
+                      {/* X-axis Year Label (Larger font for readability) */}
                       <text
                         x={slotX + slotWidth / 2}
-                        y={228}
+                        y={296}
                         textAnchor="middle"
                         fill="#181A19"
-                        style={{ fontSize: '11px', fontWeight: 700 }}
+                        style={{ fontSize: '12px', fontWeight: 700 }}
                       >
                         {item.year}
                       </text>
@@ -800,41 +903,46 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
             </div>
           </div>
 
-          {/* Legend Matching Reference: Actual, BE, RE, Not Available */}
-          <div className="mt-3 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-3 text-xs">
+          {/* Legend Directly Below Chart (Reference D) */}
+          <div className="mt-2 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-3 text-xs">
             <div className="flex flex-wrap items-center gap-4">
               <div className="flex items-center gap-1.5">
                 <span className="h-3 w-3 rounded-xs bg-[#1A3D2F]" />
-                <span className="font-semibold text-slate-700">Actual</span>
+                <span className="font-semibold text-slate-800">Actual Outflow</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="h-3 w-3 rounded-xs bg-[#527863]" />
-                <span className="font-semibold text-slate-700">Budget Estimate (BE)</span>
+                <span className="font-semibold text-slate-800">Budget Estimate (BE)</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="h-3 w-3 rounded-xs bg-[#B45309]" />
-                <span className="font-semibold text-slate-700">Revised Estimate (RE)</span>
+                <span className="font-semibold text-slate-800">Revised Estimate (RE)</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="font-mono text-slate-400 font-bold">---</span>
-                <span className="font-semibold text-slate-500">Not available</span>
+                <span className="inline-block h-3 w-3 rounded-xs border border-dashed border-[#B45309] bg-[#F1EFEA]" />
+                <span className="font-semibold text-slate-600">Pending CAG Audit (Prov. CGA)</span>
               </div>
             </div>
 
-            {/* Hover Tooltip / Status Display */}
+            {/* Informative Hover Details Display */}
             {hoveredBar && (
-              <div className="text-[11px] text-slate-700 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200">
+              <div className="text-[11px] text-slate-700 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 shadow-2xs">
                 <strong className="text-slate-900">{hoveredBar.year}</strong> ·{' '}
-                <span className="capitalize">{hoveredBar.series}</span>:{' '}
-                <strong className="text-[#1A3D2F]">₹{hoveredBar.value} Lakh Cr</strong> ({hoveredBar.note})
+                <span className="capitalize font-semibold">{hoveredBar.series === 'be' ? 'Budget Estimate' : hoveredBar.series === 're' ? 'Revised Estimate' : 'Actual'}</span>:{' '}
+                {hoveredBar.value !== null ? (
+                  <strong className="text-[#1A3D2F] font-mono font-bold">₹{hoveredBar.value} Lakh Cr</strong>
+                ) : (
+                  <span className="text-[#B45309] font-bold">Pending CAG Audit</span>
+                )}{' '}
+                <span className="text-slate-500 font-sans">({hoveredBar.note})</span>
               </div>
             )}
           </div>
 
           {/* Footer Subtext and View Full Historical Data Link */}
-          <div className="mt-3 flex flex-col justify-between gap-2 sm:flex-row sm:items-center text-xs text-slate-500">
+          <div className="mt-3 flex flex-col justify-between gap-2 sm:flex-row sm:items-center text-xs text-[#5C645E]">
             <p>
-              Figures are for Capital Expenditure as per Union Budget and CGA accounts. FY 2024–25 actuals are provisional and subject to change.
+              {currentCapexConfig.denominatorNote}
             </p>
             <button
               onClick={() => navigate('/public-money/explorer')}
@@ -847,21 +955,29 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
         </div>
 
         {/* ========================================================= */}
-        {/* SECTION 5 — BUDGET-TO-AUDIT PROCESS (4)                   */}
+        {/* SECTION 5 — BUDGET-TO-AUDIT PROCESS                       */}
+        {/* Keeps Numbering ONLY in the 5 Process Steps (1-5)         */}
         {/* ========================================================= */}
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs sm:p-7">
-          <div className="flex items-center gap-3">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#181A19] text-xs font-bold text-white shrink-0">
-              4
-            </span>
+          <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
             <div>
-              <h2 className="font-serif text-lg font-bold text-slate-900 sm:text-xl">
+              <h2 className="font-serif text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
                 From Budget to Audit: How Public Money Moves
               </h2>
+              <p className="mt-0.5 text-xs text-[#5C645E]">
+                The five-stage constitutional lifecycle of Indian public finance under Articles 112 to 151
+              </p>
             </div>
+            <button
+              onClick={() => navigate('/public-money/explained')}
+              className="inline-flex items-center gap-1 text-xs font-bold text-[#1A3D2F] hover:underline cursor-pointer self-start sm:self-auto"
+            >
+              <span>Learn more about the budget process</span>
+              <ArrowRight size={13} strokeWidth={2} />
+            </button>
           </div>
 
-          {/* 5 Connected Steps (Reference E) */}
+          {/* 5 Connected Steps with Step Numbering (1 to 5) */}
           <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-5 items-start">
             {/* Step 1 */}
             <div className="rounded-xl border border-slate-200/80 bg-[#FAF8F5] p-3.5 relative">
@@ -869,8 +985,8 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 1
               </span>
               <h3 className="font-bold text-xs text-slate-900">Revenue Inflow</h3>
-              <p className="mt-1 text-[11px] text-slate-600 leading-relaxed">
-                Taxes and non-tax receipts are collected by the government.
+              <p className="mt-1 text-[11px] text-[#2C332E] leading-relaxed">
+                Taxes and non-tax receipts are collected by the government into the Consolidated Fund.
               </p>
             </div>
 
@@ -880,8 +996,8 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 2
               </span>
               <h3 className="font-bold text-xs text-slate-900">Budget Estimate (BE)</h3>
-              <p className="mt-1 text-[11px] text-slate-600 leading-relaxed">
-                Government presents its proposed revenues and expenditure.
+              <p className="mt-1 text-[11px] text-[#2C332E] leading-relaxed">
+                Government presents its proposed revenues and expenditure ceiling for parliamentary approval.
               </p>
             </div>
 
@@ -891,8 +1007,8 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 3
               </span>
               <h3 className="font-bold text-xs text-slate-900">Revised Estimate (RE)</h3>
-              <p className="mt-1 text-[11px] text-slate-600 leading-relaxed">
-                Figures are updated during the year based on actual trends.
+              <p className="mt-1 text-[11px] text-[#2C332E] leading-relaxed">
+                Figures are recalibrated mid-year based on monsoon pace, ground execution, and tax trends.
               </p>
             </div>
 
@@ -902,8 +1018,8 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 4
               </span>
               <h3 className="font-bold text-xs text-slate-900">Actual Accounts</h3>
-              <p className="mt-1 text-[11px] text-slate-600 leading-relaxed">
-                Final figures for what the government actually collected and spent.
+              <p className="mt-1 text-[11px] text-[#2C332E] leading-relaxed">
+                Final cash accounting recorded by ministries through the Controller General of Accounts (CGA).
               </p>
             </div>
 
@@ -913,38 +1029,26 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 5
               </span>
               <h3 className="font-bold text-xs text-slate-900">CAG Audit</h3>
-              <p className="mt-1 text-[11px] text-slate-600 leading-relaxed">
-                Independent audit examines government accounts and compliance.
+              <p className="mt-1 text-[11px] text-[#2C332E] leading-relaxed">
+                Independent constitutional audit under Article 151 examines accounting compliance and legal regularity.
               </p>
             </div>
-          </div>
-
-          {/* Link at bottom right */}
-          <div className="mt-4 flex justify-end">
-            <button
-              onClick={() => navigate('/public-money/explained')}
-              className="inline-flex items-center gap-1 text-xs font-bold text-[#1A3D2F] hover:underline cursor-pointer"
-            >
-              <span>Learn more about the budget process</span>
-              <ArrowRight size={13} strokeWidth={2} />
-            </button>
           </div>
         </div>
 
         {/* ========================================================= */}
-        {/* SECTION 6 — KEY REVENUE SOURCES PREVIEW (5)               */}
+        {/* SECTION 6 — KEY REVENUE SOURCES PREVIEW                   */}
+        {/* Clean Editorial Heading & Prominent Financial Amounts     */}
         {/* ========================================================= */}
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs sm:p-7">
           <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-            <div className="flex items-center gap-3">
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#181A19] text-xs font-bold text-white shrink-0">
-                5
-              </span>
-              <div>
-                <h2 className="font-serif text-lg font-bold text-slate-900 sm:text-xl">
-                  Key Revenue Sources (FY 2024–25 BE)
-                </h2>
-              </div>
+            <div>
+              <h2 className="font-serif text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
+                Key Revenue Sources (FY 2024–25 BE)
+              </h2>
+              <p className="mt-0.5 text-xs text-[#5C645E]">
+                Major tax and non-tax receipts · Denominator: ₹48.21 Lakh Cr Total Budget Outlay
+              </p>
             </div>
 
             <button
@@ -956,98 +1060,121 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
             </button>
           </div>
 
-          {/* 4 Compact Cards (Reference F) */}
-          <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {/* 4 Clickable Revenue Cards with Prominent Financial Amounts */}
+          <div className="mt-5 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
             {/* Card 1: GST */}
             <div
               onClick={() => navigate('/public-money/explorer')}
-              className="rounded-xl border border-slate-200 bg-[#FAF8F5] p-3.5 flex items-center justify-between hover:border-slate-300 hover:shadow-xs transition cursor-pointer"
+              className="group rounded-xl border border-slate-200 bg-[#FAF8F5] p-4 flex flex-col justify-between hover:border-[#1A3D2F] hover:shadow-xs transition cursor-pointer"
             >
-              <div className="flex items-center gap-3 overflow-hidden pr-2">
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white border border-slate-200 text-[#1A3D2F] shrink-0 font-bold text-xs">
-                  %
-                </span>
-                <div className="truncate">
-                  <p className="font-bold text-xs text-slate-900 truncate">Goods and Services Tax (GST)</p>
-                  <p className="text-sm font-extrabold font-serif text-slate-900 mt-0.5">₹10.68 Lakh Cr</p>
-                  <p className="text-[10px] text-slate-500">19% of total receipts</p>
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-md bg-white border border-slate-200 text-[#1A3D2F] font-bold text-xs">
+                    %
+                  </span>
+                  <span className="rounded-md bg-[#1A3D2F]/10 px-2 py-0.5 text-[11px] font-bold text-[#1A3D2F]">
+                    19% of Outlay
+                  </span>
                 </div>
+                <h3 className="font-bold text-xs text-slate-900 mt-2.5">Goods and Services Tax (GST)</h3>
+                <p className="text-2xl font-black font-serif text-slate-900 mt-1">₹10.68 Lakh Cr</p>
+                <p className="text-[11px] font-mono text-slate-500">₹10,67,650 Cr (Central GST + Cess)</p>
               </div>
-              <ArrowRight size={14} className="text-slate-400 shrink-0" />
+              <div className="mt-3 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[10px] text-slate-500">
+                <span>Receipt Budget Statement 1</span>
+                <ArrowRight size={13} className="text-[#1A3D2F] group-hover:translate-x-1 transition-transform" />
+              </div>
             </div>
 
             {/* Card 2: Corporation Tax */}
             <div
               onClick={() => navigate('/public-money/explorer')}
-              className="rounded-xl border border-slate-200 bg-[#FAF8F5] p-3.5 flex items-center justify-between hover:border-slate-300 hover:shadow-xs transition cursor-pointer"
+              className="group rounded-xl border border-slate-200 bg-[#FAF8F5] p-4 flex flex-col justify-between hover:border-[#1A3D2F] hover:shadow-xs transition cursor-pointer"
             >
-              <div className="flex items-center gap-3 overflow-hidden pr-2">
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white border border-slate-200 text-[#1A3D2F] shrink-0">
-                  <Building2 size={16} />
-                </span>
-                <div className="truncate">
-                  <p className="font-bold text-xs text-slate-900 truncate">Corporation Tax</p>
-                  <p className="text-sm font-extrabold font-serif text-slate-900 mt-0.5">₹10.43 Lakh Cr</p>
-                  <p className="text-[10px] text-slate-500">17% of total receipts</p>
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-md bg-white border border-slate-200 text-[#1A3D2F]">
+                    <Building2 size={15} />
+                  </span>
+                  <span className="rounded-md bg-[#1A3D2F]/10 px-2 py-0.5 text-[11px] font-bold text-[#1A3D2F]">
+                    17% of Outlay
+                  </span>
                 </div>
+                <h3 className="font-bold text-xs text-slate-900 mt-2.5">Corporation Tax</h3>
+                <p className="text-2xl font-black font-serif text-slate-900 mt-1">₹10.43 Lakh Cr</p>
+                <p className="text-[11px] font-mono text-slate-500">₹10,42,830 Cr (Corporate Profits Tax)</p>
               </div>
-              <ArrowRight size={14} className="text-slate-400 shrink-0" />
+              <div className="mt-3 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[10px] text-slate-500">
+                <span>Direct Taxes Annexure 1</span>
+                <ArrowRight size={13} className="text-[#1A3D2F] group-hover:translate-x-1 transition-transform" />
+              </div>
             </div>
 
             {/* Card 3: Non-Tax Revenue */}
             <div
               onClick={() => navigate('/public-money/explorer')}
-              className="rounded-xl border border-slate-200 bg-[#FAF8F5] p-3.5 flex items-center justify-between hover:border-slate-300 hover:shadow-xs transition cursor-pointer"
+              className="group rounded-xl border border-slate-200 bg-[#FAF8F5] p-4 flex flex-col justify-between hover:border-[#1A3D2F] hover:shadow-xs transition cursor-pointer"
             >
-              <div className="flex items-center gap-3 overflow-hidden pr-2">
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white border border-slate-200 text-[#1A3D2F] shrink-0">
-                  <Receipt size={16} />
-                </span>
-                <div className="truncate">
-                  <p className="font-bold text-xs text-slate-900 truncate">Non-Tax Revenue</p>
-                  <p className="text-sm font-extrabold font-serif text-slate-900 mt-0.5">₹5.46 Lakh Cr</p>
-                  <p className="text-[10px] text-slate-500">9% of total receipts</p>
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-md bg-white border border-slate-200 text-[#1A3D2F]">
+                    <Receipt size={15} />
+                  </span>
+                  <span className="rounded-md bg-[#1A3D2F]/10 px-2 py-0.5 text-[11px] font-bold text-[#1A3D2F]">
+                    9% of Outlay
+                  </span>
                 </div>
+                <h3 className="font-bold text-xs text-slate-900 mt-2.5">Non-Tax Revenue</h3>
+                <p className="text-2xl font-black font-serif text-slate-900 mt-1">₹5.46 Lakh Cr</p>
+                <p className="text-[11px] font-mono text-slate-500">₹5,45,701 Cr (incl. RBI ₹2.11L Cr)</p>
               </div>
-              <ArrowRight size={14} className="text-slate-400 shrink-0" />
+              <div className="mt-3 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[10px] text-slate-500">
+                <span>Dividends & Profits Statement 2</span>
+                <ArrowRight size={13} className="text-[#1A3D2F] group-hover:translate-x-1 transition-transform" />
+              </div>
             </div>
 
             {/* Card 4: Customs & Excise */}
             <div
               onClick={() => navigate('/public-money/explorer')}
-              className="rounded-xl border border-slate-200 bg-[#FAF8F5] p-3.5 flex items-center justify-between hover:border-slate-300 hover:shadow-xs transition cursor-pointer"
+              className="group rounded-xl border border-slate-200 bg-[#FAF8F5] p-4 flex flex-col justify-between hover:border-[#1A3D2F] hover:shadow-xs transition cursor-pointer"
             >
-              <div className="flex items-center gap-3 overflow-hidden pr-2">
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white border border-slate-200 text-[#1A3D2F] shrink-0">
-                  <Coins size={16} />
-                </span>
-                <div className="truncate">
-                  <p className="font-bold text-xs text-slate-900 truncate">Customs & Excise Duties</p>
-                  <p className="text-sm font-extrabold font-serif text-slate-900 mt-0.5">₹4.34 Lakh Cr</p>
-                  <p className="text-[10px] text-slate-500">9% of total receipts</p>
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-md bg-white border border-slate-200 text-[#1A3D2F]">
+                    <Coins size={15} />
+                  </span>
+                  <span className="rounded-md bg-[#1A3D2F]/10 px-2 py-0.5 text-[11px] font-bold text-[#1A3D2F]">
+                    9% of Outlay
+                  </span>
                 </div>
+                <h3 className="font-bold text-xs text-slate-900 mt-2.5">Customs & Excise Duties</h3>
+                <p className="text-2xl font-black font-serif text-slate-900 mt-1">₹4.34 Lakh Cr</p>
+                <p className="text-[11px] font-mono text-slate-500">Customs ₹1.93L Cr + Excise ₹2.41L Cr</p>
               </div>
-              <ArrowRight size={14} className="text-slate-400 shrink-0" />
+              <div className="mt-3 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[10px] text-slate-500">
+                <span>Combined Indirect Duties</span>
+                <ArrowRight size={13} className="text-[#1A3D2F] group-hover:translate-x-1 transition-transform" />
+              </div>
             </div>
           </div>
         </div>
 
         {/* ========================================================= */}
-        {/* SECTION 7 — EXPLORE MORE NAVIGATION CARDS (6)             */}
+        {/* SECTION 7 — EXPLORE MORE NAVIGATION CARDS                 */}
+        {/* Clean Editorial Heading & Fully Clickable Destination Hub */}
         {/* ========================================================= */}
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs sm:p-7">
-          <div className="flex items-center gap-3">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#181A19] text-xs font-bold text-white shrink-0">
-              6
-            </span>
-            <div>
-              <h2 className="font-serif text-lg font-bold text-slate-900 sm:text-xl">
-                Explore More
-              </h2>
-            </div>
+          <div>
+            <h2 className="font-serif text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
+              Explore More
+            </h2>
+            <p className="mt-0.5 text-xs text-[#5C645E]">
+              Deep-dive resources for citizen researchers, RTI activists, and public finance analysts
+            </p>
           </div>
 
-          {/* 3 Prominent Cards (Reference G) */}
+          {/* 3 Prominent Fully Clickable Cards */}
           <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
             {/* Card 1: Financial Data Explorer */}
             <div
@@ -1061,12 +1188,12 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 <h3 className="mt-3 font-serif font-bold text-base text-slate-900">
                   Financial Data Explorer
                 </h3>
-                <p className="mt-1 text-xs text-slate-600 leading-relaxed">
-                  Search and explore detailed revenue, expenditure and audit records across 10 accountability pillars.
+                <p className="mt-1 text-xs text-[#4A524D] leading-relaxed">
+                  Search and filter all primary public finance records across 10 accountability pillars: inspect Ministry Demands for Grants, compare BE vs RE vs audited CGA actuals, and review verified citations.
                 </p>
               </div>
               <div className="mt-4 flex items-center gap-1 text-xs font-bold text-[#1A3D2F]">
-                <span>Open Explorer</span>
+                <span>Open Financial Explorer</span>
                 <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
@@ -1083,12 +1210,12 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 <h3 className="mt-3 font-serif font-bold text-base text-slate-900">
                   Budget & Expenditure Explained
                 </h3>
-                <p className="mt-1 text-xs text-slate-600 leading-relaxed">
-                  Understand key concepts, classifications (BE, RE, Actuals, Capex vs Outlay), and the budget cycle.
+                <p className="mt-1 text-xs text-[#4A524D] leading-relaxed">
+                  Plain-language guides to public finance: understand how legislative BE ceilings differ from cash outflows, why Capital Outlay is distinct from Capex, and what CAG audits verify.
                 </p>
               </div>
               <div className="mt-4 flex items-center gap-1 text-xs font-bold text-[#1A3D2F]">
-                <span>Read Primer</span>
+                <span>Read Educational Primer</span>
                 <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
@@ -1105,12 +1232,12 @@ export function PublicMoneyPage({ initialSection }: PublicMoneyPageProps) {
                 <h3 className="mt-3 font-serif font-bold text-base text-slate-900">
                   Citizen Accountability Toolkit
                 </h3>
-                <p className="mt-1 text-xs text-slate-600 leading-relaxed">
-                  Learn how to track public spending, inspect panchayat works, and access official audit information.
+                <p className="mt-1 text-xs text-[#4A524D] leading-relaxed">
+                  Practical tools to audit public money: learn how to inspect panchayat works on e-GramSwaraj, track central DBT transfers on PFMS, access CAG reports, and file RTI requests.
                 </p>
               </div>
               <div className="mt-4 flex items-center gap-1 text-xs font-bold text-[#1A3D2F]">
-                <span>View Toolkit</span>
+                <span>View Accountability Toolkit</span>
                 <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
