@@ -1,5 +1,6 @@
 import { useRoute } from '@/lib/router';
 import { Navbar, Footer } from '@/components/Nav';
+import { Analytics } from '@vercel/analytics/react';
 import { HomePage } from '@/pages/HomePage';
 import { AboutPage } from '@/pages/AboutPage';
 import { PartiesPage } from '@/pages/PartiesPage';
@@ -96,6 +97,7 @@ function App() {
       <Navbar />
       <main className="flex-1">{page}</main>
       <Footer />
+      <Analytics />
     </div>
   );
 }
